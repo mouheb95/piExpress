@@ -79,3 +79,10 @@ exports.login = async function (req, res){
       res.send('Username or password incorrect');
   }
 }
+
+exports.logout = async function (req, res) {
+    const { token } = req.body;
+    refreshTokens = refreshTokens.filter(token => t !== token);
+
+    res.send("Logout successful");
+});
