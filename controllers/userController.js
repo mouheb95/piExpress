@@ -85,4 +85,4 @@ exports.logout = async function (req, res) {
     refreshTokens = refreshTokens.filter(token => t !== token);
 
     res.send("Logout successful");
-});
+}
