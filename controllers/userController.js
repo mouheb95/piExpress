@@ -15,7 +15,7 @@ const getHashedPassword = (password) => {
 
 exports.create_user = async function (req, res) {
     const { email, firstName, lastName, password, confirmPassword } = req.body;
-
+        console.log(req.body)
       // Check if the password and confirm password fields match
   if (password === confirmPassword) {
 
@@ -57,6 +57,7 @@ exports.create_user = async function (req, res) {
     }
 };
 
+
 exports.login = async function (req, res){
     // Read username and password from request body
     var { email, password } = req.body;
@@ -80,9 +81,5 @@ exports.login = async function (req, res){
   }
 }
 
-exports.logout = async function (req, res) {
-    const { token } = req.body;
-    refreshTokens = refreshTokens.filter(token => t !== token);
 
-    res.send("Logout successful");
-}
+
