@@ -27,8 +27,8 @@ exports.create_user = async function (req, res) {
       .lean()
       .exec()
      ) {
-
-        res.send('User already registered.');
+        res.status(203).send('User already registered.').end()
+        //res.send('User already registered.');
         
     } else {
 
@@ -47,13 +47,13 @@ exports.create_user = async function (req, res) {
                 // @ts-ignore
                 return next(err);
             }
-            res.send('User Created successfully')
+            res.status(200).end()
         })
     }
 
     } else {
-        res.send('Password does not match.')
-        
+        res.status(203).end()
+        //res.send('psw mismatch.');
     }
 };
 
@@ -71,13 +71,18 @@ exports.login = async function (req, res){
 
       refreshTokens.push(refreshToken);
 
-      res.json({
+
+      
+      res.status(200).cookie('token', accessToken, { httpOnly: true }).json({
           accessToken,
           refreshToken
-      });
+      }).end();
+    //res.status(200).end()
+      
       
   } else {
-      res.send('Username or password incorrect');
+    res.status(203).send('Username or password incorrect').end()
+      //res.send('Username or password incorrect');
   }
 }
 
