@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose');
 const carpoolingSchema = require('./carpooling.model');
-const extend = require('mongoose-schema-extend');
+//const extend = require('mongoose-schema-extend');
 
 const Schema = mongoose.Schema;
 const daily_carpooling = carpoolingSchema.extend({

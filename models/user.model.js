@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-var carpoolingSchema = require('./carpooling.model')
+//var carpoolingSchema = require('./carpooling.model')
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -33,12 +33,13 @@ const userSchema = new Schema({
     required: true,
     trim: true}, description:String,  type:String }],
   vehicle: [{type:String, brand:String, option:String, nbre_places:Number, description:String}],
-  carpooling: [carpoolingSchema]
+  //carpooling: [carpoolingSchema]
 
 }, {
   timestamps: true,
 });
 
-const user = mongoose.model('user', userSchema);
+// Export the model
+module.exports = mongoose.model('User', userSchema);
 
-module.exports = user;
+//export const User = mongoose.model('User', UserSchema);
