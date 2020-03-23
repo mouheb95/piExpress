@@ -2,18 +2,32 @@ var express = require('express');
 var router = express.Router();
 const controllers = require('../controllers/adminController');
 
-/* GET Ones listing. */
+/* users routes */
 
 router
-.route('/')
-.get(controllers.getAll)
-.post(controllers.createOne)
+.route('/users')
+.get(controllers.getAllUser)
+.post(controllers.createOneUser)
 
-// /api/item/:id
 router
-.route('/:id')
-.get(controllers.getOne)
-.put(controllers.updateOne)
-.delete(controllers.removeOne)
+.route('/users/:id')
+.get(controllers.getOneUser)
+.put(controllers.updateOneUser)
+.delete(controllers.removeOneUser)
+
+
+/* carpooling routes */
+
+router
+.route('/carpooling')
+.get(controllers.getAllCarPooling)
+.post(controllers.createOneCarPooling)
+
+router
+.route('/carpooling/:id')
+.get(controllers.getOneCarPooling)
+.put(controllers.updateOneCarPooling)
+.delete(controllers.removeOneCarPooling)
+
 
 module.exports = router;

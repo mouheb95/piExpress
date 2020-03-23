@@ -43,8 +43,8 @@ app.get('/home', function(req, res){
 })
 
 
-app.get('/checkToken', authenticateJWT, function(req, res) {
-  let x = res.sendStatus(200);
+app.post('/checkToken', authenticateJWT, function(req, res) {
+  res.sendStatus(200);
 });
 
 

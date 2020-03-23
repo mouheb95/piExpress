@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
+
 export default function withAuth(ComponentToProtect) {
   return class extends Component {
     constructor(props) {
@@ -12,11 +13,14 @@ export default function withAuth(ComponentToProtect) {
     }
 
     componentDidMount() {
-      fetch('/checkToken')
+      fetch('/checkToken', {
+        method: 'POST',
+        body: localStorage.getItem("token"),
+      })
         .then(res => {
           console.log(res)
           if (res.status === 200) {
-            
+
             this.setState({ loading: false });
           } else {
             const error = new Error(res.error);
