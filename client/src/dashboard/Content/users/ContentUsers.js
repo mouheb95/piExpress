@@ -64,11 +64,11 @@ export default class Content extends Component {
         {objs.map(station => (
 
           <tr>
-            <td >{station.email}</td>
-            <td >{station.firstName}</td>
-            <td >{station.lastName}</td>
-            <td >{station.password}</td>
-            <td >{station.role}</td>
+            <td key={station.email} >{station.email}</td>
+            <td key={station.firstName} >{station.firstName}</td>
+            <td key={station.lastName} >{station.lastName}</td>
+            <td key={station.password} >{station.password}</td>
+            <td key={station.role} >{station.role}</td>
             <td>
               <div className="btn-group">
                 <button 
@@ -117,13 +117,7 @@ export default class Content extends Component {
                       </thead>
 
                       <tbody>
-                        <tr>
-                          <td>Other browsers</td>
-                          <td>All others</td>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>U</td>
-                        </tr>
+
                         <Data objs={objs} />
 
                       </tbody>

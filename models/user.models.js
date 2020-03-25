@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 //var carpoolingSchema = require('./carpooling.model')
 const Schema = mongoose.Schema;
 
-const objectSchema = new Schema({
-  object: {
+const claimSchema = new Schema({
+  title: {
     type: String,
     required: true,
     trim: true
@@ -11,13 +11,27 @@ const objectSchema = new Schema({
   description: String,
   type: String
 });
+
 const vehiculeSchema = new Schema({
   type: String,
   brand: String,
   option: String,
   nbre_places: Number,
-  description: String
+  description: String,
+  Carphoto: [String],
 });
+
+const scoreSchema = new Schema({
+  Score: {
+    trust: Number,
+    operations: Number,
+    time: Number,
+    faults: Number,
+    rating: Number,
+    claim: Number,
+    final: Number,
+  }
+})
 const userSchema = new Schema({
   firstname: {
     type: String,
@@ -39,14 +53,16 @@ const userSchema = new Schema({
   country: { type: String },
   birthdate: { type: Date },
   picture: { type: String },
-  isSmoker: { type: Number },
-  isConnected: { type: Number },
-  phone: { type: Number },
-  isMotorizedl: { type: Number },
-  function: { type: String },
-  claim: [objectSchema],
+  isSmoker: { type: Boolean },
+  isConnected: { type: Boolean },
+  phone: { type: String, minlength:8, maxlength:8 },
+  isMotorizedl: { type: Boolean },
+  function: { type: String }, // fech ya3mel fi 7yatou 
+  claim: [claimSchema],
   vehicle: [vehiculeSchema],
-  //carpooling: [carpoolingSchema] usless
+  score: scoreSchema,
+  Identitynumber: String,
+  Identitypic: String,
 
 },
   {
@@ -57,4 +73,4 @@ const userSchema = new Schema({
 const User = mongoose.model('User', userSchema);
 
 
-module.exports =  User;
+module.exports = User;

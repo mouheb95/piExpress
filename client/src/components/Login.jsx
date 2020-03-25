@@ -17,6 +17,7 @@ export default class Login extends React.Component {
         }
     }
 
+    
     handleChange = event => {
         this.setState({ [event.target.name]: event.target.value });
     };
@@ -28,7 +29,7 @@ export default class Login extends React.Component {
             email: this.state.email,
             password: this.state.password
         };
-
+        
         axios.post(`users/login`, user)
             .then(async res => {
                 if (res.status === 200) {

@@ -4,44 +4,90 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const userSchema = require('./user.models').schema;
 
+
 const insuranceSchema = new Schema({
+  buyingprice: Number,
+  realprice: Number,
+  age: Number,
+  billphoto: String,
+  type: Number,
+  proposedtopay: Number,
+  insuranceprice: Number,
+  contract: String,
+  etat: {
     type: String,
-    price: Number
-  });
-  const parcelSchema = new Schema({
+    enum: ['accepted', 'rejected']
+  }  
+});
+
+const parcelSchema = new Schema({
+  photos: [String],
+  categorie: String,
+  weight: Number,
+  dimension: Number,
+  quantity: Number,
+  insurance: [insuranceSchema]
+});
+
+const appointmentSchema = new Schema({
+  user: userSchema,
+  date: Date,
+  code1: String,
+  code2: String
+});
+
+const commentsSchema = new Schema({
+  description: String,
+  author: userSchema,
+  rating: { type: Number, default: 0 },
+}, {
+  timestamps: true
+});
+const carpoolingSchema = new Schema({
+  price: Number,
+  daily: Boolean,
+  fromDate: {
+    type: Date,
+    min: '2019-09-28',
+    max: '2050-05-23'
+  },
+  toDate: {
+    type: Date,
+    min: '2019-09-28',
+    max: '2050-05-23'
+  },
+  people_parcel_Carpooling: {
     type: String,
-    weight: Number,
-    dimension: Number,
-    quantity: Number
-  });
-  
-  const carpoolingSchema = new Schema({
-    date: {
-      type: Date, default: Date(),
-    },
-    trage: {
-      from: String,
-      passage: String,
-      to: String,
-      insurance: [insuranceSchema]
-    },
-    parcel: [parcelSchema]
-    ,
-    comments: [
-      {
-        description: String
-      }
-    ],
-    user: [userSchema]
-  
-  }, {
-    timestamps: true
-  });
-  
-  
-  
-  // Export the model
- 
-  const Carpooling = mongoose.model('carpooling', carpoolingSchema);
-  
-  module.exports =  Carpooling;
+    enum: ['People', 'Parcel'],
+  },
+  offre_demand_Carpooling: {
+    type: String,
+    enum: ['Offer', 'Demand'],
+  },
+  disponibility: Number,
+  etat: {
+    type: String,
+    enum: ['Full', 'Published', 'Cancled', 'Progress'],
+  },
+  title: String,
+  description: String,
+  appointment: [appointmentSchema],
+  trage: {
+    from: String,
+    to: String,
+  },
+  parcel: [parcelSchema]
+  ,
+  comments: [commentsSchema],
+  author: userSchema,
+  clients: [userSchema],
+
+}, {
+  timestamps: true
+});
+
+// Export the model
+
+const Carpooling = mongoose.model('carpooling', carpoolingSchema);
+
+module.exports = Carpooling;

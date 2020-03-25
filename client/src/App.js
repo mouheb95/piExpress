@@ -31,36 +31,6 @@ class App extends Component {
 }
 export default App;
 
-// import React from 'react';
-// import './App.css';
-// import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
-// import Login from "./components/Login";
-// import Register from "./components/Register";
-// import DashBoard from './dashboard/Dashboard';
-// function App() {
-//   return (<Router>
-//     <div className="App">
-//       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
-        
-//       </nav>
-
-//       <div className="auth-wrapper">
-//         <div className="auth-inner">
-//           <Switch>
-            
-//             <Route path="/register" component={DashBoard} />
-//           </Switch>
-//         </div>
-//       </div>
-//     </div>
-//     </Router>
-//   );
-// }
-
-// export default App;
-
-
 
 
 

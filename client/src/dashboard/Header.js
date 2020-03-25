@@ -63,9 +63,9 @@ export default class Header extends Component {
           {/* Logo */}
           <a href="index2.html" className="logo">
             {/* mini logo for sidebar mini 50x50 pixels */}
-            <span className="logo-mini"><b>A</b>LT</span>
+            <span className="logo-mini"><b>Car</b>P</span>
             {/* logo for regular state and mobile devices */}
-            <span className="logo-lg"><b>Admin</b>LTE</span>
+            <span className="logo-lg"><b>Car</b>Pooling</span>
           </a>
           {/* Header Navbar: style can be found in header.less */}
           <nav className="navbar navbar-static-top">
@@ -106,7 +106,7 @@ export default class Header extends Component {
                               <img src="dist/img/user3-128x128.jpg" className="img-circle" alt="user" />
                             </div>
                             <h4>
-                              AdminLTE Design Team
+                              CarPooling Design Team
                         <small><i className="fa fa-clock-o" /> 2 hours</small>
                             </h4>
                             <p>Why not buy a new awesome theme?</p>
@@ -272,13 +272,13 @@ export default class Header extends Component {
                 {/* User Account: style can be found in dropdown.less */}
                 <li className="dropdown user user-menu">
                   <a href="fake_link" className="dropdown-toggle" data-toggle="dropdown">
-                    <img src="dist/img/user2-160x160.jpg" className="user-image" alt="user" />
+                    <img src="dist/img/user2-160x160.jpg" className="user-image" alt="user" /> {/* img here */}
                     <span className="hidden-xs">{this.state.user}</span>
                   </a>
                   <ul className="dropdown-menu">
                     {/* user */}
                     <li className="user-header">
-                      <img src="dist/img/user2-160x160.jpg" className="img-circle" alt="user" />
+                      <img src="dist/img/user2-160x160.jpg" className="img-circle" alt="user" />  {/* img here */}
                       <p>
                         {this.state.user} - {this.state.role}
                         <small> <Moment toNow>{this.state.createdAt}</Moment> </small>
@@ -319,7 +319,6 @@ export default class Header extends Component {
           </nav>
         </header>
       </div>
-
     )
   }
 }
