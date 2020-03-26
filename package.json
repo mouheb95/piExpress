@@ -6,7 +6,7 @@
     "client": "cd client && yarn start",
     "server": "nodemon app.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
-    "start": "node ./bin/www"
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "antd": "^4.0.3",

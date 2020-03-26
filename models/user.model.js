@@ -46,7 +46,10 @@ const userSchema = new Schema({
     minlength: 2
   },
   email: { type: String, required: false, unique: false },
-  role: { type: String },
+  role: {
+    type: String,
+    enum: ['Driver', 'Passenger']
+  },
   password: { type: String, required: false, minlength: 3 },
   linkFB: { type: String },
   address: { type: String },

@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 //var carpoolingSchema = require('./carpooling.model')
 const Schema = mongoose.Schema;
-const userSchema = require('./user.models').schema;
+const userSchema = require('./user.model').schema;
 
 
 const insuranceSchema = new Schema({

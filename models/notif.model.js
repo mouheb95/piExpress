@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const user = require('./user.models').schema;
+const user = require('./user.model').schema;
 
 const notificationSchema = new Schema({
   sender: user,

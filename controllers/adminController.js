@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const User = require('../models/user.models');
+const User = require('../models/user.model');
 const Carpoolinig = require('../models/carpooling.model')
 
 const getHashedPassword = (password) => {
