@@ -24,4 +24,15 @@ router
 .get(controllers.userCar)
 
 
+router
+.route('/comment/:id')
+.get(controllers.getCommentsbyPost)
+.post(controllers.createOneComment)
+.put(controllers.updateComment)
+
+
+router
+.route('/comment/:id/:idComment')
+.delete(controllers.removeComment)
+
 module.exports = router;

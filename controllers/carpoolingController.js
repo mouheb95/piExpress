@@ -60,35 +60,33 @@ exports.createOneCarPooling = async function (req, res) {
         .where('trage').equals(doc.trage)
         .lean()
         .exec()
-        
+
 
       res.status(200).json({ data: docc })
 
       /** lazem ikoun minimum 3 nafess el condition heka */
-      if( docc.length >3)
-      {
-     
+      if (docc.length > 3) {
+
 
         /* 3al post heda chnab3thou l'kol wa7ed 3mal poste d'offre */
-      docc.forEach(element => 
-        {
+        docc.forEach(element => {
           const notif = {
             subject: "Suggestion",
             content: "someaone have tthe same tragee u always went",
             reciver: element.author
           };
-        
+
           const docNotif = Notification.create({ ...notif })
           res.status(201).json({ data: docNotif })
         }
-        
+
         );
 
       }
 
     }
 
-    else{
+    else {
 
       return res.status(201).json({ message: "posts public succeffully " }).end()
 
@@ -180,4 +178,93 @@ exports.userCar = async function (req, res) {
     console.error(e)
     res.status(400).end()
   }
+}
+
+
+
+
+exports.createOneComment = async function (req, res) {
+  const addComment = await Carpoolinig
+    .findOneAndUpdate(
+      {
+        _id: req.params.id
+      },
+      req.body,
+      { new: true }
+    )
+    .lean()
+    .exec()
+  if (!addComment) {
+    return res.status(400).end()
+  }
+
+  res.status(200).json({ data: addComment })
+
+  console.log(req.body)
+}
+
+exports.getCommentsbyPost = async function (req, res) {
+  try {
+    const doc = await Carpoolinig
+      .findOne({ _id: req.params.id })
+      .lean()
+      .exec()
+
+    if (!doc) {
+      return res.status(400).json({ message: "the car pooling is probably deleted " }).end()
+    }
+
+    res.status(200).json({ data: doc.comments })
+  } catch (e) {
+    console.error(e)
+    res.status(400).end()
+  }
+}
+
+
+exports.updateComment = async function (req, res) {
+  /////// no control for the existance of the user
+  try {
+
+    const addComm = await Carpoolinig
+      .findOne({ _id: req.params.id })
+
+    const Comment = { 
+      description: req.body.description,
+      author: req.body.author
+    };
+
+    addComm.comments.push( Comment )
+    
+
+    // updatedComm.comments.push({...req.body});
+
+    addComm.save(function (err) {
+      if (err) return handleError(err)
+      console.log('Success!');
+    })
+
+    if (!addComm) {
+      return res.status(400).end()
+    }
+
+    res.status(200).json({ data: addComm })
+  } catch (e) {
+    console.error(e)
+    res.status(400).end()
+  }
+}
+
+
+exports.removeComment = async function (req, res) {
+
+// controle saisie
+
+      Carpoolinig.findOneAndUpdate(
+        {_id: req.params.id }, 
+        {$pull: {comments: {_id: req.params.idComment}}},
+        function(err, data){
+           if(err) return err;
+           res.send({data:data});
+    });
 }
