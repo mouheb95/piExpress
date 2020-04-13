@@ -42,6 +42,8 @@ app.use('/admin', adminRouter );
 app.use('/carpooling', carpoolingRouter );
 app.use('/insurance', insuranceRouter );
 
+app.use('/claim', claimRouter);
+>>>>>>> e7741d16bfdca9274bc5a59eca3a6810bbd3f33c
 
 app.get('/home', function(req, res){
   //res.send('welcome to your great home')
