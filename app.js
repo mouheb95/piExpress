@@ -21,6 +21,8 @@ var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
 var carpoolingRouter = require('./routes/carpooling');
 var insuranceRouter = require('./routes/insurance');
+var claimRouter = require('./routes/claim');
+>>>>>>> e7741d16bfdca9274bc5a59eca3a6810bbd3f33c
 
 var app = express();
 
