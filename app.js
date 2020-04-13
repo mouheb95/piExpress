@@ -40,6 +40,8 @@ app.use('/users', usersRouter);
 app.use('/', indexRouter);
 app.use('/admin', adminRouter );
 app.use('/carpooling', carpoolingRouter );
+app.use('/insurance', insuranceRouter );
+
 
 app.get('/home', function(req, res){
   //res.send('welcome to your great home')
