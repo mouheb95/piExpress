@@ -20,11 +20,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
 var carpoolingRouter = require('./routes/carpooling');
-<<<<<<< HEAD
 var insuranceRouter = require('./routes/insurance');
-=======
 var claimRouter = require('./routes/claim');
->>>>>>> e7741d16bfdca9274bc5a59eca3a6810bbd3f33c
 
 var app = express();
 
@@ -44,12 +41,9 @@ app.use('/users', usersRouter);
 app.use('/', indexRouter);
 app.use('/admin', adminRouter );
 app.use('/carpooling', carpoolingRouter );
-<<<<<<< HEAD
 app.use('/insurance', insuranceRouter );
 
-=======
 app.use('/claim', claimRouter);
->>>>>>> e7741d16bfdca9274bc5a59eca3a6810bbd3f33c
 
 app.get('/home', function(req, res){
   //res.send('welcome to your great home')

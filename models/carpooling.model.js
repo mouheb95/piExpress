@@ -15,8 +15,12 @@ const parcelSchema = new Schema({
 });
 
 const appointmentSchema = new Schema({
-  user: userSchema,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+},
   date: Date,
+  place: String,
   code1: String,
   code2: String
 });

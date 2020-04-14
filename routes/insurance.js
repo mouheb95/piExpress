@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const controllers = require('../controllers/insuranceController');
+const controllers1 = require('../controllers/appointmentController');
 
 
 router
@@ -34,6 +35,21 @@ router
 router
 .route('/totreat')
 .get(controllers.getInsurancetotreat)
+
+router
+.route('/appoint/:id')
+.post(controllers1.addAppointment)
+.get(controllers1.getAppointments)
+
+router
+.route('/oneappoint/:idap/:idus')
+.get(controllers1.getOneppointment)
+.post(controllers1.validercode)
+
+router
+.route('/suponeappoint/:id/:idap')
+.delete(controllers1.suppappointment)
+.put(controllers1.updateAppointment)
 
 
 module.exports = router;
