@@ -14,6 +14,10 @@ import Services from './components/Services';
 import Portfolio from './components/Portfolio';
 import Blog from './components/Blog';
 import Contact from './components/Contact';
+import { Claim } from './components/Claim';
+import AllClaim from './components/AllClaim';
+
+
 
 class App extends Component {
   render() {
@@ -29,10 +33,13 @@ class App extends Component {
             <Route path="/dashboard" component={DashBoard} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
+            <Route path="/claim" component={Claim} />
+            <Route path='/all' component={AllClaim} />
              
             <Route exact path='/' component={Home} />
             <Route path='/about' component={About} />
             <Route path='/services' component={Services} />
+            
             <Route path='/portfolio' component={Portfolio} />
             <Route path='/blog' component={Blog} />
             <Route Path='/contact' component={Contact} />

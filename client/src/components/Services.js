@@ -14,8 +14,21 @@ export class Services extends Component {
   </div>
   <div className="services">
     <div className="container">
-      <h3>Company Services</h3>
+      <h3>Services</h3>
       <hr />
+      <div className="center">
+                       
+                    </div>
+
+                    <div className="row contact-wrap">
+                        <div className="status alert alert-success" style={{display: 'none'}} />
+                        <div className="col-md-6 col-md-offset-3">
+                        <div id="sendmessage">Your message has been sent. Thank you!</div>
+                        <div id="errormessage" />
+                        
+                        </div>
+                    </div>
+                    <br></br>
       <div className="col-md-6">
         <img src="images/4.jpg" className="img-responsive" />
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus interdum erat libero, pulvinar tincidunt leo consectetur eget. Curabitur lacinia pellentesque libero, pulvinar tincidunt leo consectetur eget. Curabitur lacinia pellentesque libero,
