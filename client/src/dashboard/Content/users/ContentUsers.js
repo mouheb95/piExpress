@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import User from './User'
+import '../../style.css'
 
 export default class Content extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ export default class Content extends Component {
       table_header: Array().fill(null),
       user: null,
     }
-    
+
   }
 
   componentDidMount() {
@@ -64,15 +65,16 @@ export default class Content extends Component {
         {objs.map(station => (
 
           <tr>
-            <td key={station.email} >{station.email}</td>
+            <td key={station.email} >{station.email}</td>          
+            <td key={station.password} >{station.password}</td>
             <td key={station.firstName} >{station.firstName}</td>
             <td key={station.lastName} >{station.lastName}</td>
-            <td key={station.password} >{station.password}</td>
             <td key={station.role} >{station.role}</td>
             <td>
               <div className="btn-group">
-                <button 
-                type="button" value={this.state.user = station._id} onClick={this.deleteRow.bind(this, station)}  className="btn btn-danger dropdown-toggle">Action</button>
+                {/* <button 
+                type="button" value={this.state.user = station._id} onClick={this.deleteRow.bind(this, station)}  className="btn btn-danger dropdown-toggle">Action</button> */}
+                <a href="/dashboard/users/1" className="btn btn-info dropdown-toggle" >edit</a>
               </div>
             </td>
           </tr>
@@ -102,8 +104,11 @@ export default class Content extends Component {
 
                 {/* /.box */}
                 <div className="box">
-                  <div className="box-header">
+                  <div className="box-header xx">
                     <h3 className="box-title">Clients Data Table</h3>
+                    <div className="btn-group ">
+                   <a href="/dashboard/users/1" className="btn btn-success dropdown-toggle" >Create client</a>
+                </div>
                   </div>
                   {/* /.box-header */}
                   <div className="box-body">

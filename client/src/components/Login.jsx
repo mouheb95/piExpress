@@ -10,10 +10,13 @@ export default class Login extends React.Component {
             redirect: false,
             email: '',
             password: '',
-        };
+        };  
         console.log(this.state.isLogin)
-        if (this.state.isLogin !== true) { 
-            this.state.redirect = true
+        if (this.state.isLogin !== true ) { 
+            if(localStorage.getItem("email") === null){
+                this.state.redirect = true
+            }
+            
         }
     }
 
