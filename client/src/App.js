@@ -5,6 +5,7 @@ import { Link, Route, Switch, BrowserRouter } from 'react-router-dom';
 import Login from "./components/Login";
 import Register from "./components/Register";
 import DashBoard from './dashboard/Dashboard';
+import Home from './template/home';
 import withAuth from './tools/withAuth';
 
 class App extends Component {
@@ -21,6 +22,7 @@ class App extends Component {
     <BrowserRouter>
         <Switch>
         <Route path="/dashboard" component={DashBoard} />
+        <Route exact path="/" component={Home} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
         </Switch>
