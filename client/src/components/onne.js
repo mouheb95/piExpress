@@ -1,75 +1,29 @@
 import React from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
-//import TableRow from './TableRow';
-
-
-
-export  default class AllClaim extends React.Component {
-
- 
-
-
-constructor(props){
-  super(props);
-  console.log("gg")
-  this.state = { claim: Array().fill(),doc: {},
-    response: {}};
+export default class Onne extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+          claim: {}
+        };
+      }
     
- 
-    this.componentDidMount = this.componentDidMount.bind(this);
-}
-componentDidMount() {
-  
-
-
-  //console.log(localStorage.getItem("claim"))
-  axios.get('http://localhost:5000/claim/get')
-        .then(response => {
-          this.setState({ claim: response.data });
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-  
-       
-      
-
-        
-
-}
-
+      componentDidMount() {
+        axios.get('/claim/get/'+this.props.match.params.id)
+          .then(res => {
+            this.setState({ claim: res.data ,
+              object: res.data.object, });
+            console.log(this.state.claim.data);
+          });
+      }
+    
+    
+     
   render() {
-    const objs = this.state.claim
-
-    const Data = ({ objs }) => (
-      <>
-
-        {objs.map(ob => (
-
-          <tr>
-            <td key={ob.description} >{ob.description}</td>
-            
-            <td>
-              <div className="btn-group">
-                <button 
-                type="button"  className="btn btn-danger dropdown-toggle">Action</button>
-              </div>
-            </td>
-          </tr>
-        ))}
-      </>
-    );
-   /* const Data = ({ claim }) => (
-      
-
-      {claim.map(station => (
-
-      
-          <td >{station.date}</td>))});*/
+    const { claim } = this.state;
     return (
-      
       <div>
   <div id="breadcrumb">
     <div className="container">
@@ -83,42 +37,24 @@ componentDidMount() {
     <div className="container">
     <ul className="portfolio-filter text-center">
               
-              <li><a className="btn btn-default" href="/claim" data-filter=".wordpress">Send Claim</a></li>
+              <li><a className="btn btn-default" href="#" data-filter=".wordpress">my complaints</a></li>
             </ul>
-      <h3>Complaints</h3>
+      <h3>Send Claim</h3>
       <hr />
       <div className="center">
                         <h2>HAVE YOU HAD A PROBLEM?</h2>
-                        <p>file your complaint with our service dfgh</p>
-                       <p>dfgfhy</p> 
+                        <p>file your complaint with our service</p>
+                       {this.state.claim.object}
                     </div>
 
-                    <div>
-          <h3 align="center">Business List</h3>
-         
-          <table className="table table-striped" style={{ marginTop: 20 }}>
-            <thead>
-              <tr>
-                <th>Person</th>
-                <th>Business</th>
-                <th>GST Number</th>
-              
-              </tr>
-            </thead>
-            <tbody>
-                   
-            <Data objs={objs} />  
-                
-              
-                     
-            </tbody>
-          </table>
-        </div>
+                    <div className="row contact-wrap">
+                        <div className="status alert alert-success" style={{display: 'none'}} />
+                        <div className="col-md-6 col-md-offset-3">
+                        <div id="sendmessage">Your message has been sent. Thank you!</div>
+                        <div id="errormessage" />
                         
-                    <ul>
-                      <li>fghjk</li>
-                    </ul>
-                       
+                        </div>
+                    </div>
                     <br></br>
       <div className="col-md-6">
         
@@ -171,4 +107,5 @@ componentDidMount() {
     )
   }
 }
+
 
