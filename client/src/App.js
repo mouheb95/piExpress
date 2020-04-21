@@ -20,7 +20,7 @@ import Test from "./components/Test";
 import Child from './components/Child';
 import Claimm from './components/Claimm';
 import one from "./components/one";
-import Onne from './components/onne';
+import Onne from "./components/Onne";
 
 
 
@@ -41,7 +41,7 @@ class App extends Component {
             <Route path="/claim" component={Claim} />
             <Route path="/all" component={AllClaim} />
             <Route path="/test" component={Test} />
-            
+            <Route   path="/onne/:id" component={Onne} />
             <Route path="/liste" component={Child} />
 
             
@@ -53,7 +53,7 @@ class App extends Component {
             <Route path='/blog' component={Blog} />
             <Route Path='/contact' component={Contact} />
             <Route   path="/one/:id" component={one} />
-            <Route   path="/onne/:id" component={Onne} />
+           
           
           </Switch>
           </div>
@@ -64,8 +64,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-
-
-

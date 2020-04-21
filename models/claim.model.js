@@ -7,6 +7,7 @@ const claimSchema = new Schema({
     
     object: String,
     description: String,
+    comment: String,
     type:{
         type: String,
         enum: ['probleme', 'suggestion','autres']},
@@ -19,6 +20,6 @@ const claimSchema = new Schema({
      
   });
 
-  const claim = mongoose.model('claim', claimSchema);
+  const Claim = mongoose.model('claim', claimSchema);
   
-module.exports = claim;
+module.exports = Claim;

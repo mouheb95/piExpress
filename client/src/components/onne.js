@@ -22,7 +22,7 @@ export default class Onne extends React.Component {
     
      
   render() {
-    const { claim } = this.state;
+    const claim  = this.state;
     return (
       <div>
   <div id="breadcrumb">
@@ -44,7 +44,8 @@ export default class Onne extends React.Component {
       <div className="center">
                         <h2>HAVE YOU HAD A PROBLEM?</h2>
                         <p>file your complaint with our service</p>
-                       {this.state.claim.object}
+                             <div> {claim.object}</div>
+                             <input type="text" className="form-control" name="object"  placeholder={this.state.object}  data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject"  value={this.state.object} />
                     </div>
 
                     <div className="row contact-wrap">

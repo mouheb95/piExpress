@@ -25,7 +25,7 @@ componentDidMount() {
 
 
   //console.log(localStorage.getItem("claim"))
-  axios.get('http://localhost:5000/claim/get')
+  axios.get('/claim/get')
         .then(response => {
           this.setState({ claim: response.data });
         })
@@ -88,9 +88,9 @@ componentDidMount() {
       <h3>Complaints</h3>
       <hr />
       <div className="center">
-                        <h2>HAVE YOU HAD A PROBLEM?</h2>
-                        <p>file your complaint with our service dfgh</p>
-                       <p>dfgfhy</p> 
+                        <h2>My claimts </h2>
+                        
+                       
                     </div>
 
                     <div>
@@ -99,9 +99,9 @@ componentDidMount() {
           <table className="table table-striped" style={{ marginTop: 20 }}>
             <thead>
               <tr>
-                <th>Person</th>
-                <th>Business</th>
-                <th>GST Number</th>
+                <th>Object</th>
+                <th>Description</th>
+               
               
               </tr>
             </thead>
