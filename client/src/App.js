@@ -6,9 +6,9 @@ import {BrowserRouter as Router, HashRouter, Route, Switch} from 'react-router-d
 import Login from "./components/Login";
 import Register from "./components/Register";
 import DashBoard from './dashboard/Dashboard';
+import Home from './template/home';
 import withAuth from './tools/withAuth';
 import Navbar from './components/Navbar';
-import Home from './components/Home';
 import About from './components/About';
 import Services from './components/Services';
 import Portfolio from './components/Portfolio';
@@ -34,7 +34,7 @@ class App extends Component {
         <Navbar />
         <div>
         
-          <switch>
+          <Switch>
             <Route path="/dashboard" component={DashBoard} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
@@ -54,7 +54,8 @@ class App extends Component {
             <Route Path='/contact' component={Contact} />
             <Route   path="/one/:id" component={one} />
             <Route   path="/onne/:id" component={Onne} />
-          </switch>
+          
+          </Switch>
           </div>
         </Router>
       </div>

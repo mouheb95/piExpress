@@ -4,9 +4,9 @@ const accessTokenSecret = 'youraccesstokensecret';
 
 const authenticateJWT = (req, res, next) => {
     const authHeader = req.body.token ||
-        req.query.token ||
-        req.headers.authorization ||
-        "bearer "+req.cookies.token ;
+    req.query.token ||
+    req.headers.authorization ||
+    "bearer "+req.cookies.token ;  ////////////////// mnin yjib fil tokenn
         
     const token = authHeader.split(' ')[1];
 
