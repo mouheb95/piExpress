@@ -92,7 +92,80 @@ exports.updateClaim = async function (req, res) {
     res.status(400).end()
   }
 }
+// voir etat
 
+exports.findEtat = async function (req, res) {
+  try {
+    const doc = await Claim
+      .find()
+      .where('etat').equals('pending')
+      .lean()
+      .exec()
+
+    if (!doc) {
+      return res.status(400).json({ message: "the claim pooling is probably deleted " }).end()
+    }
+
+    res.status(200).json({ data: doc })
+  } catch (e) {
+    console.error(e)
+    res.status(400).end()
+  }
+}
+
+// 
+exports.accept = async function (req, res) {
+
+  try { 
+
+    Claim.updateOne(
+      { _id: req.params.id },
+      {
+        $set: { "etat": "accepted" },
+      }
+   )
+    
+    Claim.findOneAndUpdate(
+      { _id: req.params.id },
+      req.body,
+      {
+        $set: { "etat": "treated" },
+       
+      },
+      
+      
+   )
+      .lean()
+      .exec()
+    res.status(200).json({ message: "accepted" })
+  } catch (e) {
+    console.error(e)
+    res.status(400).end()
+  }
+
+}
+//ref
+exports.refu = async function (req, res) {
+
+  try { 
+    
+    Claim.updateOne(
+      { _id: req.params.id },
+      {
+        $set: { "etat": "rejected" },
+      },
+  
+        req.body
+      
+   )
+      .lean()
+      .exec()
+    res.status(200).json({ message: "refused" })
+  } catch (e) {
+    console.error(e)
+    res.status(400).end()
+  }
+}
 // cancel claim
 
 exports.cancelClaim = async function (req, res) {

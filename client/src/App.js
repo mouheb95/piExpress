@@ -21,6 +21,11 @@ import Blog from './components/Blog';
 import Contact from './components/Contact';
 import { Claim } from './components/Claim';
 import AllClaim from './components/AllClaim';
+import Test from "./components/Test";
+import Child from './components/Child';
+import Claimm from './components/Claimm';
+import one from "./components/one";
+import Onne from "./components/Onne";
 
 class App extends Component {
   render() {
@@ -45,6 +50,12 @@ class App extends Component {
             <Route path='/getapp/:idap' component={GetApp} />
 
 
+            <Route path="/all" component={AllClaim} />
+            <Route path="/test" component={Test} />
+            <Route   path="/onne/:id" component={Onne} />
+            <Route path="/liste" component={Child} />
+
+            
             <Route exact path='/' component={Home} />
             <Route path='/about' component={About} />
             <Route path='/services' component={Services} />
@@ -52,6 +63,9 @@ class App extends Component {
             <Route path='/portfolio' component={Portfolio} />
             <Route path='/blog' component={Blog} />
             <Route Path='/contact' component={Contact} />
+            <Route   path="/one/:id" component={one} />
+           
+          
           </Switch>
           </div>
         </Router>
@@ -61,8 +75,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-
-
-
