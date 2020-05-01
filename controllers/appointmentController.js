@@ -34,7 +34,12 @@ exports.addAppointment = async function (req, res) {
         })
       .lean()
       .exec()
-        res.status(201).json({ data: result })
+      const doc = await Carpoolinig
+        .findOne({ _id: req.params.id })
+        .lean()
+        .exec()
+        res.status(201).json({ data: doc.appointment.pop() })
+        //res.status(201).json({ data: result })
   
     } catch (e) {
       console.error(e)
@@ -132,12 +137,12 @@ exports.addAppointment = async function (req, res) {
         if(req.params.idus==doc.author._id){
      if(req.body.code==doc.appointment[0].code2)
         {res.status(200).json({message: "true"})}
-        else{res.status(400).json({message: "false"})}
+        else{res.status(200).json({message: "false"})}
       }
       if(req.params.idus==doc.appointment[0].user){
         if(req.body.code==doc.appointment[0].code1)
            {res.status(200).json({message: "true"})}
-           else{res.status(400).json({message: "false"})}
+           else{res.status(200).json({message: "false"})}
          }
 
       } catch (e) {
