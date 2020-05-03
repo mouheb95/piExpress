@@ -9,6 +9,7 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
+    "apify": "^0.20.3",
     "body-parser": "^1.19.0",
     "concurrently": "^5.1.0",
     "cookie-parser": "~1.4.4",
@@ -26,5 +27,4 @@
     "react-data-table-component": "^6.3.1",
     "styled-components": "^5.0.1"
   }
-
 }

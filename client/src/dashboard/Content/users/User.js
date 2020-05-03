@@ -4,30 +4,51 @@ export default class User extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: {
-                "_id": "5e75fa7644832232952cba36",
-                "email": "student1@esprit.tn",
-                "firstname": "user",
-                "lastname": "esprit",
-                "password": "pmWkWSBCL51Bfkhn79xPuKBKHz//H6B+mY6G9/eieuM=",
-                "role": "admin",
-                "createdAt": "2020-03-18T21:26:34.404Z",
-                "updatedAt": "2020-03-18T21:26:34.404Z",
-                "claim": [],
-                "vehicle": [],
-            }
+                "email": localStorage.getItem("consultedUser") ? JSON.parse(localStorage.getItem("consultedUser")).email:null,
+                "firstname": localStorage.getItem("consultedUser") ? JSON.parse(localStorage.getItem("consultedUser")).firstname:null,
+                "lastname": localStorage.getItem("consultedUser") ? JSON.parse(localStorage.getItem("consultedUser")).lastname:null,
+                "password": localStorage.getItem("consultedUser") ? JSON.parse(localStorage.getItem("consultedUser")).password:null,
+                "confirmPassword":null, 
+                "role": localStorage.getItem("consultedUser") && JSON.parse(localStorage.getItem("consultedUser")).role
+                 ? JSON.parse(localStorage.getItem("consultedUser")).role: "client",
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this)
     }
     handleChange = event => {
-        this.setState({ [event.target.event]: event.target.value });
+        const {name, value} = event.target
+        this.setState({ [name]: value });
+        console.log("chang",this.state.user )
     };
     handleSubmit = event => {
         event.preventDefault();
-      console.log(this.state.user.role)
+//      console.log("hello",this.state.user)
+      const {email, password, role, firstname, lastname} = this.state;
 
-        }
+      const user = {
+        "email": email,
+        "firstname": firstname,
+        "lastname": lastname,
+        "password": password,
+        "confirmPassword": password ,
+      }
+      const user_undefined = JSON.parse(localStorage.getItem("consultedUser"))
+      
+      if( user_undefined === null ){
+        axios.post("http://localhost:5000/admin/users",user).then(({ data }) => {
+        }).catch(function (error) {
+          console.log("Error****:", error);
+        });
+      } else {
+        const _id = JSON.parse(localStorage.getItem("consultedUser"))._id
+        axios.put("http://localhost:5000/admin/users/"+_id, user).then(({ data }) => {
+        }).catch(function (error) {
+          console.log("Error****:", error);
+        });
+      }
+      
+      }
+       
 
     render() {
         return (
@@ -37,7 +58,7 @@ export default class User extends Component {
                         <div className="col-md-8 ">
                             <div className="box box-primary ">
                                 <div className="box-header with-border">
-                                    <h3 className="box-title">Quick Example</h3>
+                                    <h3 className="box-title">User</h3>
                                 </div>
                                 {/* /.box-header */}
                                 {/* form start */}
@@ -45,19 +66,23 @@ export default class User extends Component {
                                     <div className="box-body">
                                         <div className="form-group">
                                             <label htmlFor="Email">Email address</label>
-                                            <input disabled type="email" className="form-control" name="email" value={this.state.user.email} />
+                                            <input  type="email" className="form-control" name="email" value={this.state.email} onChange={this.handleChange} />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="First name">First Name</label>
-                                            <input disabled type="text" className="form-control" name="firstname" value={this.state.user.firstname} />
+                                            <input  type="text" className="form-control" name="firstname" value={this.state.firstname} onChange={this.handleChange} />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="Last name">Last Name</label>
-                                            <input disabled type="text" className="form-control" name="lastname" value={this.state.user.lastname} />
+                                            <input  type="text" className="form-control" name="lastname" value={this.state.lastname} onChange={this.handleChange} />
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="Password">Password</label>
+                                            <input type="text" className="form-control" name="password" value={this.state.password} onChange={this.handleChange} />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="Role">Role</label>
-                                            <input type="text" className="form-control" name="role" value={this.state.user.role} onChange={this.handleChange} />
+                                            <input type="text" className="form-control" name="role" value={this.state.role} onChange={this.handleChange} />
                                         </div>
                                     </div>
                                     {/* /.box-body */}

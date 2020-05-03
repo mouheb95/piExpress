@@ -21,7 +21,7 @@ import Child from './components/Child';
 import Claimm from './components/Claimm';
 import one from "./components/one";
 import Onne from "./components/Onne";
-
+import Posts from "./components/Posts";
 
 
 class App extends Component {
@@ -43,6 +43,7 @@ class App extends Component {
             <Route path="/test" component={Test} />
             <Route   path="/onne/:id" component={Onne} />
             <Route path="/liste" component={Child} />
+            <Route exact path="/posts" component={Posts} />
 
             
             <Route exact path='/' component={Home} />

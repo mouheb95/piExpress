@@ -2,14 +2,11 @@ const crypto = require('crypto');
 const User = require('../models/user.model');
 const Claim = require('../models/claim.model')
 
-
-
 const getHashedPassword = (password) => {
   const sha256 = crypto.createHash('sha256');
   const hash = sha256.update(password).digest('base64');
   return hash;
 }
-
 
 // consult your claim
 exports.getclaim = async function (req, res) {

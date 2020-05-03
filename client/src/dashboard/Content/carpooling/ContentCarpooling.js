@@ -42,6 +42,16 @@ console.log(this.state.doc)
     return body;
   }
 
+  addCarpooling = () => {
+    localStorage.removeItem("consultedCarpooling")
+    window.location.href = "carpooling/"+undefined;
+  }
+
+  showCarpooling =  (carpooling) => {
+    console.log('this is:', carpooling);
+    localStorage.setItem("consultedCarpooling", JSON.stringify(carpooling));
+    window.location.href = "carpooling/"+carpooling._id;
+  }  
 
   render() {
 
@@ -50,15 +60,24 @@ console.log(this.state.doc)
     const Data = ({ objs }) => (
       <>
 
-        {objs.map(station => (
+        {objs.map((carpooling, index) => (
 
           <tr>
-            <td >{station.date}</td>
-            <td >{station.trage.passage}</td>
-            <td key={station.parcel.type}>{station.parcel.type}</td>
-            <td >{station.comments.description}</td>
-            <td >{station.user.username}</td>
-            <td key={station.createdAt}>{station.createdAt}</td>
+            <td key={index}></td>
+            <td >{carpooling.date}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+           {/*  <td >{carpooling.trage.passage}</td>
+            <td key={carpooling.parcel.type}>{carpooling.parcel.type}</td>
+            <td >{carpooling.comments.description}</td>
+            <td >{carpooling.user.username}</td> */}
+            <td key={carpooling.createdAt}>{carpooling.createdAt}</td>
+            <td>
+            <div className="btn-group">
+               <a  onClick={() => this.showCarpooling(carpooling)} className="btn btn-info dropdown-toggle" >edit</a>
+              </div>
+            </td>
           </tr>
         ))}
       </>
@@ -86,27 +105,24 @@ console.log(this.state.doc)
 
                 {/* /.box */}
                 <div className="box">
-                  <div className="box-header">
+                  <div className="box-header xx">
                     <h3 className="box-title">Clients Data Table</h3>
+                    <div className="btn-group ">
+                    <a onClick={()=> this.addCarpooling()} className="btn btn-success dropdown-toggle" >Create carpooling</a>
+                    </div>
                   </div>
                   {/* /.box-header */}
                   <div className="box-body">
                     <table id="example1" className="table table-bordered table-striped">
                       <thead>
+                     
+                      </thead>
+
+                      <tbody>
                       <tr>
                           {this.state.table_header.map((value) => {
                             return (<th> {value} </th>)
                           })}
-                        </tr>
-                      </thead>
-
-                      <tbody>
-                        <tr>
-                          <td>Other browsers</td>
-                          <td>All others</td>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>U</td>
                         </tr>
                         <Data objs={objs} />
 
