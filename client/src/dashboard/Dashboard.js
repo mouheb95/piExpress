@@ -7,6 +7,7 @@ import Footer from './Footer'
 import UserContent from './Content/users/ContentUsers';
 import CarpoolingContent from './Content/carpooling/ContentCarpooling'
 
+
 export default class Dashboard extends Component {
     constructor(props) {
         super(props)
@@ -32,6 +33,7 @@ export default class Dashboard extends Component {
                     <Switch>
                     <Route exact path="/users" component={UserContent} />
                     <Route exact path="/carpooling" component={CarpoolingContent} />
+                   
                     </Switch>
                     </BrowserRouter>
                     <Footer />

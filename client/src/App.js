@@ -19,13 +19,13 @@ import Services from './components/Services';
 import Portfolio from './components/Portfolio';
 import Blog from './components/Blog';
 import Contact from './components/Contact';
-import { Claim } from './components/Claim';
-import AllClaim from './components/AllClaim';
-import Test from "./components/Test";
-import Child from './components/Child';
-import Claimm from './components/Claimm';
-import one from "./components/one";
-import Onne from "./components/Onne";
+import { Claim } from './components/Claim/Claim';
+import AllClaim from './components/Claim/AllClaim';
+import Test from "./components/Claim/Test";
+//import Child from './dashboard/Content/claim/Child';
+//import Claimm from './components/Claim/Claimm';
+import one from "./components/Claim/one";
+import Onne from "./components/Claim/Onne";
 
 class App extends Component {
   render() {
@@ -52,8 +52,8 @@ class App extends Component {
 
             <Route path="/all" component={AllClaim} />
             <Route path="/test" component={Test} />
-            <Route   path="/onne/:id" component={Onne} />
-            <Route path="/liste" component={Child} />
+      
+           
 
             
             <Route exact path='/' component={Home} />
