@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { browserHistory } from 'history';
-import User from './User'
+// User from './User'
 import '../../style.css'
 
 export default class Content extends Component {
