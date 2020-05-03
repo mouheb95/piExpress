@@ -5,6 +5,11 @@ import {BrowserRouter as Router, HashRouter, Route, Switch} from 'react-router-d
 
 import Login from "./components/Login";
 import Register from "./components/Register";
+import AddInsurance from "./components/Insurance/AddInsurance";
+import GetInsurance from "./components/Insurance/GetInsurance";
+import EditInsurance from "./components/Insurance/EditInsurance";
+import AddApp from "./components/Insurance/AddApp";
+import GetApp from "./components/Insurance/GetApp";
 import DashBoard from './dashboard/Dashboard';
 import Home from './template/home';
 import withAuth from './tools/withAuth';
@@ -39,6 +44,14 @@ class App extends Component {
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <Route path="/claim" component={Claim} />
+            <Route path='/all' component={AllClaim} />
+            <Route path='/addins' component={AddInsurance} />
+            <Route path='/getins/:id' component={GetInsurance} />
+            <Route path='/editins/:id' component={EditInsurance} />
+            <Route path='/addapp' component={AddApp} />
+            <Route path='/getapp/:idap' component={GetApp} />
+
+
             <Route path="/all" component={AllClaim} />
             <Route path="/test" component={Test} />
             <Route   path="/onne/:id" component={Onne} />
