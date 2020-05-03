@@ -29,12 +29,16 @@ import Onne from "./components/Claim/Onne";
 
 class App extends Component {
   render() {
+    const current_url  = window.location.href ;
+    let is_dashboard = current_url.split("dashboard")[1];
+
     return (
       <div>
        
 
         <Router>
-        <Navbar />
+          {is_dashboard === undefined ? <Navbar /> : null}
+        
         <div>
         
           <Switch>
@@ -54,6 +58,9 @@ class App extends Component {
             <Route path="/test" component={Test} />
       
            
+            <Route   path="/onne/:id" component={Onne} />
+            <Route path="/liste" component={Child} />
+            <Route exact path="/posts" component={Posts} />
 
             
             <Route exact path='/' component={Home} />

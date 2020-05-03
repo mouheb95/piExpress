@@ -18,8 +18,8 @@ body {
 	font-size:14px;
 	font-weight:300;
 	line-height:1.6em;
-	color:#000;
-	background-color:#fff;
+	/*color:#fff;
+	background-color:#fff;*/
 	overflow-x:hidden;
 }
 
@@ -1220,7 +1220,7 @@ ul.sidebar-gallery {
 }
 
 a.scrollup{
-    color:#fff;
+  color:#fff;
 	height:40px;
 	width:40px;
 	font-size:12px;
