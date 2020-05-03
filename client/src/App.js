@@ -31,12 +31,16 @@ import Posts from "./components/Posts";
 
 class App extends Component {
   render() {
+    const current_url  = window.location.href ;
+    let is_dashboard = current_url.split("dashboard")[1];
+
     return (
       <div>
        
 
         <Router>
-        <Navbar />
+          {is_dashboard === undefined ? <Navbar /> : null}
+        
         <div>
         
           <Switch>
