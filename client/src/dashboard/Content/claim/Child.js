@@ -67,12 +67,15 @@ export default class Child extends Component {
         {objs.map(promise => (
 
           <tr>
-            <td key={promise._id} >{promise._id}</td>
-            <td value={this.state.claim = promise.description} >{this.deleteRow.bind(this, promise)}</td>
+            <td key={promise.object} >{promise.object}</td>
+            <td key={promise.description} >{promise.description}</td>
+            <td key={promise.type} >{promise.type}</td>
+            <td key={promise.etat} >{promise.etat}</td>
+           
             <td>
               <div className="btn-group">
                 <button 
-                type="button" value={this.state.claim = promise.description} onClick={this.deleteRow.bind(this, promise)}  className="btn btn-danger dropdown-toggle">Action</button>
+                type="button" value={this.state.claim = promise._id} onClick={this.deleteRow.bind(this, promise)}  className="btn btn-danger dropdown-toggle">Action</button>
               </div>
             </td>
           </tr>
@@ -87,12 +90,12 @@ export default class Child extends Component {
           {/* Content Header (Page header) */}
           <section className="content-header">
             <h1>
-              Data Tables
+              Complaints Tables
             </h1>
             <ol className="breadcrumb">
               <li><a href="fake_link"><i className="fa fa-dashboard" /> Home</a></li>
               <li><a href="fake_link">Tables</a></li>
-              <li className="active">Users table</li>
+              <li className="active">Complaints table</li>
             </ol>
           </section>
           {/* Main content */}
@@ -103,7 +106,7 @@ export default class Child extends Component {
                 {/* /.box */}
                 <div className="box">
                   <div className="box-header">
-                    <h3 className="box-title">Clients Data Table</h3>
+                    <h3 className="box-title">Complaints  Table</h3>
                   </div>
                   {/* /.box-header */}
                   <div className="box-body">

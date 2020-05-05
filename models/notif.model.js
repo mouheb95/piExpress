@@ -6,7 +6,8 @@ const notificationSchema = new Schema({
   sender: user,
   reciver: user,
   subject: String,
-  content: String
+  content: String,
+  seen: Boolean
 }, {
   timestamps: true
 } )
