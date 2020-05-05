@@ -39,7 +39,7 @@ const appointmentSchema = new Schema({
 const commentsSchema = new Schema({
   description: String,
   author: userSchema,
-  rating: { type: Number, default: 0 },
+  rating: String
 }, {
   timestamps: true
 });

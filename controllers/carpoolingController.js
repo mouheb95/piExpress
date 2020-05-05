@@ -2,6 +2,12 @@ const crypto = require('crypto');
 const User = require('../models/user.model');
 const Carpoolinig = require('../models/carpooling.model')
 const Notification = require('../models/notif.model')
+var express = require('express');
+var router = express.Router();
+const multer = require('multer');
+
+
+
 
 
 const getHashedPassword = (password) => {
@@ -9,6 +15,7 @@ const getHashedPassword = (password) => {
   const hash = sha256.update(password).digest('base64');
   return hash;
 }
+
 
 exports.getOneCarPooling = async function (req, res) {
   try {
@@ -29,32 +36,61 @@ exports.getOneCarPooling = async function (req, res) {
 }
 
 exports.getAllCarPooling = async function (req, res) {
-  try {
-    const docs = await Carpoolinig
-      .find({})
-      .lean()
-      .exec()
-
-    res.status(200).json({ data: docs })
-  } catch (e) {
-    console.error(e)
-    res.status(400).end()
-  }
+  Carpoolinig.find()
+  .then(exercises => res.json(exercises))
+  .catch(err => res.status(400).json('Error: ' + err));
 }
 
-exports.createOneCarPooling = async function (req, res) {
+
+
+const storage = multer.diskStorage({
+  destination: (req, file, callBack) => {
+      callBack(null, 'uploads')
+  },
+  filename: (req, file, callBack) => {
+      callBack(null, `FunOfHeuristic_${file.originalname}`)
+  }
+})
+
+const upload = multer({ storage: storage })
+
+router.post('/file', upload.single('file'), (req, res, next) => {
+  const file = req.file;
+  console.log(file.filename);
+  if (!file) {
+    const error = new Error('No File')
+    error.httpStatusCode = 400
+    return next(error)
+  }
+    res.send(file);
+})
+exports.createOneCarPooling = async function  (req, res) {
 
 
   try {
 
     //créer un post 
+    const carpool = new Carpoolinig;
+   /*  if (req.body.from) carpool.trage.from = req.body.from;
+    
+    if (req.body.to) carpool.trage.to = req.body.to;
+    carpool.title = req.body.title;
+    carpool.daily = req.body.daily;
+    carpool.date = req.body.date;
+    carpool.price = req.body.price;
+    carpool.people_parcel_Carpooling = req.body.people_parcel_Carpooling;
+    carpool.offre_demand_Carpooling = req.body.offre_demand_Carpooling;
+    carpool.etat = req.body.etat; */
+    //carpool.author.email = req.body.author.email;
     const doc = await Carpoolinig.create({ ...req.body })
+    //const doc = await Carpoolinig(carpool).save();
+    console.log(carpool)
     //res.status(201).json({ data: doc })
 
 
     //******* recherche tt les postes qui 'ils ont  post d'offre */
     if (doc.offre_demand_Carpooling.toString() === "Demand") {
-      const docc = await Carpoolinig
+      const docc =  Carpoolinig
         .find()
         .where('offre_demand_Carpooling').equals('Offer')
         .where('trage').equals(doc.trage)
