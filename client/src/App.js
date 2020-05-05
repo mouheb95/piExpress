@@ -24,8 +24,6 @@ import AllClaim from './components/AllClaim';
 import Test from "./components/Test";
 import Child from './components/Child';
 import Claimm from './components/Claimm';
-import one from "./components/one";
-import Onne from "./components/Onne";
 
 class App extends Component {
   render() {
@@ -52,7 +50,6 @@ class App extends Component {
 
             <Route path="/all" component={AllClaim} />
             <Route path="/test" component={Test} />
-            <Route   path="/onne/:id" component={Onne} />
             <Route path="/liste" component={Child} />
 
             
@@ -63,7 +60,6 @@ class App extends Component {
             <Route path='/portfolio' component={Portfolio} />
             <Route path='/blog' component={Blog} />
             <Route Path='/contact' component={Contact} />
-            <Route   path="/one/:id" component={one} />
            
           
           </Switch>

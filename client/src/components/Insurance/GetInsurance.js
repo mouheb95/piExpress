@@ -133,7 +133,8 @@ export default class GetInsurance extends React.Component {
                   My Insurance
                 </h3>
               </div>
-              <div >
+              <div style={{display: 'flex'}} >
+                <div>
                   <table style={{border: '1px solid black', margin: '10px', fontSize: '120%', borderSpacing: '10px'}}>
                       <tr>
                         <th>Buying Price  :</th>
@@ -154,7 +155,6 @@ export default class GetInsurance extends React.Component {
                         <td>{this.state.etat}</td>
                       </tr>
                     </table>
-                                  </div>
                                   <table>
                                     <tr>
                                     <td> <div className="col-xs-4">
@@ -173,12 +173,18 @@ export default class GetInsurance extends React.Component {
       </div></td>                               
       <td><div className="col-xs-4">
       {this.state.show3==true &&(    <button onClick={this.paiment} className="btn btn-primary btn-block btn-flat">Pay</button>
-                              )}  </div></td>                                      <td> <img src="../images/ins.png" className="img-responsive" style={{width:'20%', paddingLeft:'50px'}} /> </td>
+                              )}  </div></td>                                      
                                     </tr>
                                   </table>
              
             </div>
-            
+            <div>
+            <img src="../images/ins.png" className="img-responsive" style={{width:'70%', paddingLeft:'30px'}} />
+            </div>
+            </div>
+             
+            </div>
+
 
           </div>
         );
