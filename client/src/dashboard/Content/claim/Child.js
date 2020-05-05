@@ -1,20 +1,26 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
-export default class ContentCarpooling extends Component {
+
+export default class Child extends Component {
   constructor(props) {
     super(props);
     this.state = {
       doc: Array().fill(null),
       table_header: Array().fill(null),
+      claim:null
+      
+ 
     }
+    
   }
-  
+
   componentDidMount() {
     this.callApi()
       .then(res => this.setState({ response: res.express }))
       .catch(err => console.log(err));
 
-
+      console.log(this.callApi());
     const script = document.createElement("script");
     script.src = `js/content.js`;
     script.async = true;
@@ -22,60 +28,54 @@ export default class ContentCarpooling extends Component {
   }
 
   callApi = async () => {
-    const response = await fetch('/admin/carpooling');
+    const response = await fetch('/claim/get/');
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     this.setState({ doc: body.data })
 
-console.log(this.state.doc)
+
     for (let index = 0; index < this.state.doc.length; index++) {
       this.setState({
-        table_header: Object.keys(this.state.doc[index]),
+        table_header: Object.keys(this.state.doc[index]).slice(1, 7),
       })
       break
     }
     this.setState({
-      table_header: this.state.table_header.slice(1,this.state.table_header.length-2)
+      table_header: this.state.table_header.slice(0, this.state.table_header.length - 1)
     })
-    console.log(this.state.table_header)
-
+    this.state.table_header.push("Action");
     return body;
+
   }
 
-  addCarpooling = () => {
-    localStorage.removeItem("consultedCarpooling")
-    window.location.href = "carpooling/"+undefined;
-  }
+  
 
-  showCarpooling =  (carpooling) => {
-    console.log('this is:', carpooling);
-    localStorage.setItem("consultedCarpooling", JSON.stringify(carpooling));
-    window.location.href = "carpooling/"+carpooling._id;
+  deleteRow() {
+    console.log('this is:', this.state.claim);
+
   }  
 
   render() {
 
+    
     const objs = this.state.doc
 
+    console.log(this.objs);
     const Data = ({ objs }) => (
       <>
 
-        {objs.map((carpooling, index) => (
+        {objs.map(promise => (
 
           <tr>
-            <td key={index}></td>
-            <td >{carpooling.date}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-           {/*  <td >{carpooling.trage.passage}</td>
-            <td key={carpooling.parcel.type}>{carpooling.parcel.type}</td>
-            <td >{carpooling.comments.description}</td>
-            <td >{carpooling.user.username}</td> */}
-            <td key={carpooling.createdAt}>{carpooling.createdAt}</td>
+            <td key={promise.object} >{promise.object}</td>
+            <td key={promise.description} >{promise.description}</td>
+            <td key={promise.type} >{promise.type}</td>
+            <td key={promise.etat} >{promise.etat}</td>
+           
             <td>
-            <div className="btn-group">
-               <a  onClick={() => this.showCarpooling(carpooling)} className="btn btn-info dropdown-toggle" >edit</a>
+              <div className="btn-group">
+                <button 
+                type="button" value={this.state.claim = promise._id} onClick={this.deleteRow.bind(this, promise)}  className="btn btn-danger dropdown-toggle">Action</button>
               </div>
             </td>
           </tr>
@@ -90,12 +90,12 @@ console.log(this.state.doc)
           {/* Content Header (Page header) */}
           <section className="content-header">
             <h1>
-              Data Tables
+              Complaints Tables
             </h1>
             <ol className="breadcrumb">
               <li><a href="fake_link"><i className="fa fa-dashboard" /> Home</a></li>
               <li><a href="fake_link">Tables</a></li>
-              <li className="active">Users table</li>
+              <li className="active">Complaints table</li>
             </ol>
           </section>
           {/* Main content */}
@@ -105,25 +105,22 @@ console.log(this.state.doc)
 
                 {/* /.box */}
                 <div className="box">
-                  <div className="box-header xx">
-                    <h3 className="box-title">Clients Data Table</h3>
-                    <div className="btn-group ">
-                    <a onClick={()=> this.addCarpooling()} className="btn btn-success dropdown-toggle" >Create carpooling</a>
-                    </div>
+                  <div className="box-header">
+                    <h3 className="box-title">Complaints  Table</h3>
                   </div>
                   {/* /.box-header */}
                   <div className="box-body">
                     <table id="example1" className="table table-bordered table-striped">
                       <thead>
-                     
-                      </thead>
-
-                      <tbody>
-                      <tr>
+                        <tr>
                           {this.state.table_header.map((value) => {
                             return (<th> {value} </th>)
                           })}
                         </tr>
+                      </thead>
+
+                      <tbody>
+
                         <Data objs={objs} />
 
                       </tbody>

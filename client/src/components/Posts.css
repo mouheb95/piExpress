@@ -1,0 +1,31 @@
+.suggest-list {
+    text-align: center;
+    margin-top: 150px;
+
+}
+.suggest-item {
+background-color: antiquewhite;
+margin-left: 15%;
+margin-bottom: 2%;
+padding-top: 1%;
+height: 100px;
+width: 70%;
+font-weight: bold;
+}
+
+.suggest-input {
+    width: 100%;
+    border-radius: 5px;
+}
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+.suggest-button {
+    border-radius: 4px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: none;
+    transition: transform 80ms ease-in;	
+    align-items: center !important;
+}

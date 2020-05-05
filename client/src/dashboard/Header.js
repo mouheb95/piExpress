@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Moment from 'react-moment';
+//import Moment from 'react-moment';
 import { Link, Redirect } from 'react-router-dom';
 
 
@@ -281,7 +281,7 @@ export default class Header extends Component {
                       <img src="dist/img/user2-160x160.jpg" className="img-circle" alt="user" />  {/* img here */}
                       <p>
                         {this.state.user} - {this.state.role}
-                        <small> <Moment toNow>{this.state.createdAt}</Moment> </small>
+                        {/* <small> <Moment toNow>{this.state.createdAt}</Moment> </small> */}
                       </p>
                     </li>
                     {/* Menu Body */}

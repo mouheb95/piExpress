@@ -18,14 +18,15 @@ let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
-
+var scrapingRouter = require('./routes/scraping');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
 var carpoolingRouter = require('./routes/carpooling');
+var insuranceRouter = require('./routes/insurance');
+var claimRouter = require('./routes/claim');
 
 var app = express();
-
 
 
 // view engine setup
@@ -42,6 +43,10 @@ app.use('/users', usersRouter);
 app.use('/', indexRouter);
 app.use('/admin', adminRouter );
 app.use('/carpooling', carpoolingRouter );
+app.use('/insurance', insuranceRouter );
+app.use('/scraping', scrapingRouter );
+
+app.use('/claim', claimRouter);
 
 app.get('/home', function(req, res){
   //res.send('welcome to your great home')

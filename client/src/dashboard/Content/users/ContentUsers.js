@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import User from './User'
+import '../../style.css'
 
 export default class Content extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ export default class Content extends Component {
       table_header: Array().fill(null),
       user: null,
     }
-    
+
   }
 
   componentDidMount() {
@@ -46,33 +47,37 @@ export default class Content extends Component {
 
   }
 
-  
+  addClient = () => {
+    localStorage.removeItem("consultedUser")
+    window.location.href = "users/" + undefined;
+  }
 
-  deleteRow() {
-    console.log('this is:', this.state.user);
-
-  }  
+  showUser = (user) => {
+    console.log('this is:', user);
+    localStorage.setItem("consultedUser", JSON.stringify(user));
+    window.location.href = "users/" + user._id;
+  }
 
   render() {
 
-    
+
     const objs = this.state.doc
 
     const Data = ({ objs }) => (
       <>
 
-        {objs.map(station => (
+        {objs.map((user, index) => (
 
           <tr>
-            <td key={station.email} >{station.email}</td>
-            <td key={station.firstName} >{station.firstName}</td>
-            <td key={station.lastName} >{station.lastName}</td>
-            <td key={station.password} >{station.password}</td>
-            <td key={station.role} >{station.role}</td>
+            <td key={index}></td>
+            <td key={user.email} >{user.email}</td>
+            <td key={user.password} >{user.password}</td>
+            <td key={user.firstName} >{user.firstName}</td>
+            <td key={user.lastName} >{user.lastName}</td>
+            <td key={user.role} >{user.role}</td>
             <td>
               <div className="btn-group">
-                <button 
-                type="button" value={this.state.user = station._id} onClick={this.deleteRow.bind(this, station)}  className="btn btn-danger dropdown-toggle">Action</button>
+                <a onClick={() => this.showUser(user)} className="btn btn-info dropdown-toggle" >edit</a>
               </div>
             </td>
           </tr>
@@ -102,8 +107,11 @@ export default class Content extends Component {
 
                 {/* /.box */}
                 <div className="box">
-                  <div className="box-header">
+                  <div className="box-header xx">
                     <h3 className="box-title">Clients Data Table</h3>
+                    <div className="btn-group ">
+                      <a onClick={() => this.addClient()} className="btn btn-success dropdown-toggle" >Create client</a>
+                    </div>
                   </div>
                   {/* /.box-header */}
                   <div className="box-body">

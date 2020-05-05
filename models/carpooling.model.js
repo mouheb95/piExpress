@@ -5,33 +5,22 @@ const Schema = mongoose.Schema;
 const userSchema = require('./user.model').schema;
 
 
-const insuranceSchema = new Schema({
-  buyingprice: Number,
-  realprice: Number,
-  age: Number,
-  billphoto: String,
-  type: Number,
-  proposedtopay: Number,
-  insuranceprice: Number,
-  contract: String,
-  etat: {
-    type: String,
-    enum: ['accepted', 'rejected']
-  }  
-});
-
 const parcelSchema = new Schema({
-  photos: [String],
+  photos: String,
   categorie: String,
   weight: Number,
   dimension: Number,
   quantity: Number,
-  insurance: [insuranceSchema]
+ // insurance: [insuranceSchema]
 });
 
 const appointmentSchema = new Schema({
-  user: userSchema,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+},
   date: Date,
+  place: String,
   code1: String,
   code2: String
 });
@@ -76,10 +65,11 @@ const carpoolingSchema = new Schema({
     from: String,
     to: String,
   },
-  parcel: [parcelSchema]
+  parcel: parcelSchema
   ,
   comments: [commentsSchema],
   author: userSchema,
+  
   clients: [userSchema],
 
 }, {

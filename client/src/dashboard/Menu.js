@@ -5,6 +5,11 @@ import { Link, Route, Switch, Router } from 'react-router-dom';
 
 import User from './Content/users/User';
 import Carpooling from './Content/carpooling/Carpooling';
+import Insurances from './Content/insurance/Insurance';
+import Insurance from './Content/insurance/Ins';
+import Insurancesn from './Content/insurance/nInsurance';
+import Child from './Content/claim/Child';
+import Onne from '../components/Claim/Onne';
 
 export default class Menu extends Component {
   constructor(props) {
@@ -90,6 +95,15 @@ export default class Menu extends Component {
                   </li>
                   <li>
                     <Link to="/dashboard/carpooling">Carpooling</Link>
+                  </li>
+                  <li>
+                    <Link to="/dashboard/insurance">New Insurances</Link>
+                  </li>
+                  <li>
+                    <Link to="/dashboard/ninsurance">Insurances</Link>
+                  </li>
+                  <li>
+                    <Link to="/dashboard/claims">Complaints</Link>
                   </li>
                 </ul>
               </li>
@@ -267,6 +281,21 @@ export default class Menu extends Component {
           </Route>
           <Route exact path="/dashboard/carpooling/:id">
             <Carpooling />
+          </Route>
+          <Route exact path="/dashboard/insurance">
+            <Insurances/>
+          </Route>
+          <Route exact path="/dashboard/ninsurance">
+            <Insurancesn/>
+          </Route>
+          <Route exact path="/dashboard/ins/:id">
+            <Insurance />
+          </Route>
+          <Route exact path="/dashboard/claims">
+            <Child/>
+          </Route>
+          <Route exact path="/dashboard/onne/:id">
+            <Onne />
           </Route>
         </Switch>
 
