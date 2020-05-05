@@ -80,7 +80,7 @@ export class AddComments extends React.Component {
 
 
         this.props.history.push('/carpoolingList');
-        axios.put(`http://localhost:3000/carpooling/comment/`+this.props.match.params.id, carpooling)
+        axios.put(`carpooling/comment/`+this.props.match.params.id, carpooling)
     }
     render() {
         return (
