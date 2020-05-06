@@ -9,6 +9,7 @@ import Insurances from './Content/insurance/Insurance';
 import Insurance from './Content/insurance/Ins';
 import Insurancesn from './Content/insurance/nInsurance';
 import Child from './Content/claim/Child';
+import Claim from './Content/claim/Claim';
 import Onne from '../components/Claim/Onne';
 
 export default class Menu extends Component {
@@ -294,8 +295,8 @@ export default class Menu extends Component {
           <Route exact path="/dashboard/claims">
             <Child/>
           </Route>
-          <Route exact path="/dashboard/onne/:id">
-            <Onne />
+          <Route exact path="/dashboard/claims/:id">
+            <Claim />
           </Route>
         </Switch>
 

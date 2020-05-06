@@ -48,7 +48,11 @@ export default class Child extends Component {
 
   }
 
-  
+  showUser = (claim) => {
+    console.log('this is:', claim);
+    localStorage.setItem("consultedUser", JSON.stringify(claim));
+    window.location.href = "claims/" + claim._id;
+  }
 
   deleteRow() {
     console.log('this is:', this.state.claim);
@@ -71,10 +75,15 @@ export default class Child extends Component {
             <td key={promise.description} >{promise.description}</td>
             <td key={promise.type} >{promise.type}</td>
             <td key={promise.etat} >{promise.etat}</td>
-           
+            <td>
+              <div className="btn-group">
+                <a onClick={() => this.showUser(promise)} className="btn btn-info dropdown-toggle" >See</a>
+              </div>
+            </td>
             <td>
               <div className="btn-group">
                 <button 
+                
                 type="button" value={this.state.claim = promise._id} onClick={this.deleteRow.bind(this, promise)}  className="btn btn-danger dropdown-toggle">Action</button>
               </div>
             </td>
