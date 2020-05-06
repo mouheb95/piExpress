@@ -19,13 +19,19 @@ import Services from './components/Services';
 import Portfolio from './components/Portfolio';
 import Blog from './components/Blog';
 import Contact from './components/Contact';
-import { Claim } from './components/Claim';
-import AllClaim from './components/AllClaim';
-import Test from "./components/Test";
-import Child from './components/Child';
-import Claimm from './components/Claimm';
-import one from "./components/one";
-import Onne from "./components/Onne";
+import AddCarpooling from './components/Carpooling Crud/addCarpooling'
+import CarpoolingList from './components/Carpooling Crud/carpoolingList'
+import EditCarpooling from './components/Carpooling Crud/editCarrpooling'
+import AddComment from './components/Carpooling Crud/addComment'
+import ListComments from './components/Carpooling Crud/ListComments'
+
+
+import { Claim } from './components/Claim/Claim';
+import AllClaim from './components/Claim/AllClaim';
+import Test from "./components/Claim/Test";
+//import Child from './dashboard/Content/claim/Child';
+//import Claimm from './components/Claim/Claimm';
+import Onne from "./components/Claim/Onne";
 import Posts from "./components/Posts";
 
 class App extends Component {
@@ -57,19 +63,26 @@ class App extends Component {
 
             <Route path="/all" component={AllClaim} />
             <Route path="/test" component={Test} />
+      
+           
             <Route   path="/onne/:id" component={Onne} />
-            <Route path="/liste" component={Child} />
+           
             <Route exact path="/posts" component={Posts} />
 
             
             <Route exact path='/' component={Home} />
+            <Route path='/addCarpooling' component={AddCarpooling} />
+            <Route path='/carpoolingList' component={CarpoolingList} />
+            <Route path='/editCarpooling/:id' component={EditCarpooling} />
+            <Route path='/addComment/:id' component={AddComment} />
+            <Route path='/listComments/:id' component={ListComments} />
+
             <Route path='/about' component={About} />
             <Route path='/services' component={Services} />
             
             <Route path='/portfolio' component={Portfolio} />
             <Route path='/blog' component={Blog} />
             <Route Path='/contact' component={Contact} />
-            <Route   path="/one/:id" component={one} />
            
           
           </Switch>

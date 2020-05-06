@@ -8,6 +8,9 @@ import Carpooling from './Content/carpooling/Carpooling';
 import Insurances from './Content/insurance/Insurance';
 import Insurance from './Content/insurance/Ins';
 import Insurancesn from './Content/insurance/nInsurance';
+import Child from './Content/claim/Child';
+import Claim from './Content/claim/Claim';
+import Onne from '../components/Claim/Onne';
 
 export default class Menu extends Component {
   constructor(props) {
@@ -99,6 +102,9 @@ export default class Menu extends Component {
                   </li>
                   <li>
                     <Link to="/dashboard/ninsurance">Insurances</Link>
+                  </li>
+                  <li>
+                    <Link to="/dashboard/claims">Complaints</Link>
                   </li>
                 </ul>
               </li>
@@ -285,6 +291,12 @@ export default class Menu extends Component {
           </Route>
           <Route exact path="/dashboard/ins/:id">
             <Insurance />
+          </Route>
+          <Route exact path="/dashboard/claims">
+            <Child/>
+          </Route>
+          <Route exact path="/dashboard/claims/:id">
+            <Claim />
           </Route>
         </Switch>
 

@@ -6,28 +6,82 @@ import CurrencyInput from 'react-currency-input';
 
 
 
-export class Contact extends React.Component {
+export class AddComments extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            doc:null,
+          
+           
+                description:'',
+                author:'',
+                rating:'',
+                
+            
+
+           
         }
 
     }
 
-
-
     componentDidMount() {
+        this.state.user = localStorage.getItem("user");
+        this.state.user_id = localStorage.getItem("user").split("\"")[3];
+        this.state.user_email = localStorage.getItem("user").split("\"")[7];
+        console.log(this.state.user)
+        console.log(this.state.user_email)
+
+        this.callApi()
+        .then(res => this.setState({ response: res.express }))
+        .catch(err => console.log(err));
+
 
     }
+
+
+    callApi = async () => {
+        const response = await fetch('/carpooling/car/'+this.props.match.params.id);
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+      
+      }
+
+
     handleChange = event => {
         this.setState({ [event.target.name]: event.target.value });
     };
 
+   
+    handleSubmit = event => {
+        event.preventDefault();
+
+        
 
 
 
+        const carpooling = {
+           
+            
+                description: this.state.description,
+                author:{
+                    _id:this.state.user_id ,
+                    email:this.state.user_email
+                   
+                },
+                rating: this.state.rating,
+               
+
+            
+           
+
+        };
+
+        console.log(carpooling)
 
 
+        this.props.history.push('/carpoolingList');
+        axios.put(`carpooling/comment/`+this.props.match.params.id, carpooling)
+    }
     render() {
         return (
             <div>
@@ -39,9 +93,9 @@ export class Contact extends React.Component {
                         </div>
                     </div>
                 </div>
-                 <div className="map">
+                {/* <div className="map">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d22864.11283411948!2d-73.96468908098944!3d40.630720240038435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew+York%2C+NY%2C+USA!5e0!3m2!1sen!2sbg!4v1540447494452" width="100%" height={380} frameBorder={0} style={{ border: 0 }} allowFullScreen />
-                </div >
+                </div */}>
                 <section id="contact-page">
                     <div className="container">
                         <div className="center">
@@ -54,18 +108,34 @@ export class Contact extends React.Component {
                                 <div id="sendmessage">Your message has been sent. Thank you!</div>
                                 <div id="errormessage" />
 
+                               
 
-                                <div className="form-group">
-                                    <input className="form-control" name="from" id="from" placeholder="email" data-msg="Please enter a valid email"
-                                         />
+                                        <form onSubmit={this.handleSubmit} action method="post" role="form" className="contactForm">
+                                            <br></br>
 
-                                </div>
-                                <div className="form-group">
-                                    <textarea className="form-control" name="from" id="from" placeholder="text" data-msg="Please enter a valid email"
-                                         />
+                                            
 
-                                </div>
+                                            <div className="form-group">
+                                                <textarea name="description" value={this.state.name} onChange={this.handleChange} placeholder="Your text" className="form-control" rows="5" cols="30" />
+                                            </div>
 
+                                            <div className="form-group">
+                                                <input type="number" name="rating" className="form-control" id="rating" placeholder="rate this post" 
+                                                    value={this.state.name} onChange={this.handleChange} />
+                                               
+                                            </div>
+
+                                            <div className="text-center">
+                                            
+
+                                                <button type="submit" name="submit" className="btn btn-primary btn-lg" required="required">  Submit Message </button>
+                                            </div>
+
+
+                                        </form>
+
+
+                                      
 
                             </div>
                         </div>
@@ -114,4 +184,4 @@ export class Contact extends React.Component {
 }
 
 
-export default Contact
+export default AddComments
