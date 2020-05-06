@@ -3,30 +3,213 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 
+const Carpooling = props => (
+    <tr>
+        <td>{props.carpooling.title}</td>
+        <td>{props.carpooling.daily}</td>
+        <td>{props.carpooling.people_parcel_Carpooling}</td>
+        <td>{props.carpooling.offre_demand_Carpooling}</td>
+        <td>{props.carpooling.date}</td>
+        <td>
+            <Link to={"/edit/" + props.carpooling._id}>edit</Link> | <a href="#" onClick={() => { props.deleteCarpooling(props.carpooling._id) }}>delete</a>
+        </td>
 
-export class Blog extends Component {
+    </tr>
+
+
+)
+
+export class CarppolingList extends Component {
 
     constructor(props) {
         super(props);
+
+        
+
+        this.deleteCarpooling = this.deleteCarpooling.bind(this)
+
+        this.state = { carpoolings: Array().fill(null),
+            author:{
+                firstname:'',
+                email:''
+            },
+
+            
+             };
+
+
              
 
     }
 
 
     componentDidMount() {
-        
+        axios.get('carpooling/car')
+            .then(response => {
+               this.setState({ carpoolings: response.data })
+               console.log(response.data)
+            })
+            .catch((error) => {
+                console.log(error);
+            })
 
+            this.state.user = localStorage.getItem("user");
+            this.state.user_id = localStorage.getItem("user").split("\"")[3];
+            console.log(this.state.user_id)
+            
+
+
+
+            this.callApi()
+      .then(res => this.setState({ response: res.express }))
+      .catch(err => console.log(err));
+            
+    
+
+   
     }
 
    
+    callApi = async () => {
+        const response = await fetch('users/searchAuthorById/'+this.state.user_id);
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        this.setState({
+            author: body.data,
+                       
+          })
+      
     
+        console.log(this.state.author.email)
+        return body;
+    
+      }
+
+
+    deleteCarpooling(id) {
+        axios.delete('carpooling/car/' + id)
+            .then(response => { console.log(response.data) });
+
+        this.setState({
+            carpoolings: this.state.carpoolings.filter(el => el._id !== id)
+        })
+    }
+
+
+    editCarpooling(id) {
+        axios.put('carpooling/car/' + id)
+            .then(response => { console.log(response.data) });
+
+        this.setState({
+            carpoolings: this.state.carpoolings.filter(el => el._id !== id)
+        })
+    }
+
     
 
-  
+    carpoolingList() {
+        return this.state.carpoolings.map(currentcarpooling => {
+            return <Carpooling carpooling={currentcarpooling} deleteCarpooling={this.deleteCarpooling} key={currentcarpooling._id} />;
+
+        })
+    }
+
     render() {
 
         
 
+        for (let index = 0; index < this.state.carpoolings.length; index++) {
+            //console.log(this.state.carpoolings[index].author)
+
+
+        }
+        
+
+
+        const objs = this.state.carpoolings
+        const condition = objs.offre_demand_Carpooling === 'Offer';
+        
+        const Data = ({ objs }) => (
+            <>
+
+                {objs.map((carpooling, index) => (
+                    <div key={index}> 
+                        
+
+                        {carpooling.offre_demand_Carpooling !== 'Deman' ?
+
+                            <section id="blog" className="container">
+                                <h4 key={carpooling.title} > {carpooling.title}</h4>
+                                <div className="blog">
+                                    <div className="row">
+
+                                        <div style={{ float: 'right' }}>
+
+                                            <div style={{ backgroundColor:  carpooling.offre_demand_Carpooling === 'Demand' ? "red" : "green" }}>
+                                                <h4 key={carpooling.offre_demand_Carpooling} > {carpooling.offre_demand_Carpooling}</h4>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-8">
+                                            <div key={index} className="suggest-item">
+
+
+
+                                                <div className="blog-item">
+                                                    <div className="row">
+
+                                                        <div className="col-xs-12 col-sm-4">
+                                                            <div className="entry-meta">
+                                                                <span id="publish_date" key={carpooling.date} > {carpooling.date}</span>
+                                                                {carpooling !== null && carpooling.author !== undefined ?
+                                                                    <span><i className="fa fa-user" /> <a href="#" key={carpooling.author.email} > {carpooling.author.email}</a></span>
+                                                                    : null
+                                                                }
+
+
+                                                                <span><i className="fa fa-comment" />
+                                                                <Link  to={"/listComments/" + carpooling._id}>Consult comment  </Link>
+                                                                 <a href="#"key={carpooling.comments} > {carpooling.comments.length} Comments</a></span>
+                                                                <span><i className="fa fa-heart" /><a href="#" key={carpooling.price} >Price:  {carpooling.price} dt</a></span>
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-xs-12 col-sm-8 blog-content">
+
+                                                            {/* <a href="#"><img className="img-responsive img-blog" src="images/blog/blog1.jpg" width="100%" alt="" /></a> */}
+                                                            {/* <h4> { this.carpoolingList() }</h4> */}
+                                                            {carpooling !== null && carpooling.trage !== undefined ?
+                                                                <div>
+                                                                    <p key={carpooling.trage.from} > From : {carpooling.trage.from}</p>
+                                                                    <p key={carpooling.trage.to} > To : {carpooling.trage.to}</p>
+                                                                    
+                                                                </div>  
+                                                                : null 
+                                                                }
+                                                            <p key={carpooling.description} > Description : <br></br>{carpooling.description}</p>
+                                                            <p key={carpooling.createdAt} > Created at :{carpooling.createdAt}</p>
+                                                            <a onClick={() => this.deleteCarpooling(carpooling._id)} className="btn btn-primary readmore">Delete </a>
+                                                            <Link className="btn btn-primary readmore" to={"/addComment/" + carpooling._id}>Add comment  </Link>
+                                                            <Link className="btn btn-primary readmore" to={"/editCarpooling/" + carpooling._id}>edit <i className="fa fa-angle-right" /> </Link>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div></div></div></section>
+                            : null
+                        }
+                    </div>
+                ))}
+            </>
+        );
+
+        if (objs !== null) {
+            return (
+                <div className="suggest-list">
+
+                    <Data objs={objs} />
+                </div>
+            )
+        } else {
             return (
 
 
@@ -229,5 +412,5 @@ export class Blog extends Component {
             )
         }
     }
-
-export default Blog
+}
+export default CarppolingList
