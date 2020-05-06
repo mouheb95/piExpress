@@ -28,7 +28,6 @@ import one from "./components/one";
 import Onne from "./components/Onne";
 import Posts from "./components/Posts";
 
-
 class App extends Component {
   render() {
     const current_url  = window.location.href ;
