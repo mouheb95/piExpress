@@ -29,7 +29,7 @@ export class Navbar extends Component {
                 <li role="presentation"><Link className='active' exact to='/'>Home</Link></li>
                 <li role="presentation"><Link   to='/about'>About Us</Link></li>
                 <li role="presentation"><Link   to='/services'>Services</Link></li>
-                <li role="presentation"><Link   to='/portfolio'>Portfolio</Link></li>
+                <li role="presentation"><Link   to='/claimslist'>Claim</Link></li>
                 <li role="presentation"><Link    to='/carpoolingList'>Carpoolings </Link></li>
                 <li role="presentation"><Link exact  to='/addCarpooling'> Add Carpooling</Link></li>
               </ul>
