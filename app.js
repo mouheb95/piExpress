@@ -45,6 +45,7 @@ app.use('/admin', adminRouter );
 app.use('/carpooling', carpoolingRouter );
 app.use('/insurance', insuranceRouter );
 app.use('/scraping', scrapingRouter );
+app.use('/uploads',express.static('uploads'))
 
 app.use('/claim', claimRouter);
 

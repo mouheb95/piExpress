@@ -14,7 +14,12 @@ export  class Claim extends React.Component {
 }
 
 componentDidMount() {
-  console.log(localStorage.getItem("claim"))
+  console.log(localStorage.getItem("claim"));
+  this.state.user = localStorage.getItem("user");
+  this.state.user_id = localStorage.getItem("user").split("\"")[3];
+  this.state.user_email = localStorage.getItem("user").split("\"")[7];
+  console.log(this.state.user)
+  console.log(this.state.user_email)
 
 }
 constructor(props){
@@ -39,7 +44,12 @@ handleSubmit = event => {
       object: this.state.object,
       description: this.state.description,
       type: this.state.type,
-      etat: this.state.etat
+      etat: this.state.etat,
+      author:{
+        _id:this.state.user_id ,
+        email:this.state.user_email
+       
+    },
       
       
   };
@@ -75,8 +85,7 @@ handleSubmit = event => {
   <div className="services">
     <div className="container">
     <ul className="portfolio-filter text-center">
-              
-              <li><a className="btn btn-default" href="#" data-filter=".wordpress">my complaints</a></li>
+              <li><a className="btn btn-default" href="http://localhost:3000/claimslist" data-filter=".wordpress">my complaints</a></li>
             </ul>
       <h3>Send Claim</h3>
       <hr />
@@ -93,11 +102,11 @@ handleSubmit = event => {
                         <form  onSubmit={this.handleSubmit}>
                             
                             <div className="form-group">
-                            <input type="text" className="form-control" name="object"  placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject"  value={this.state.object} onChange={this.handleChange}/>
+                            <input type="text" className="form-control" name="object"  placeholder="Object" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject"  value={this.state.object} onChange={this.handleChange}/>
                             <div className="validation" />
                             </div>
                             <div className="form-group">
-                            <textarea className="form-control" name="description" rows={5} data-rule="required" data-msg="Please write something for us" placeholder="Message" value={this.state.description} onChange={this.handleChange}/>
+                            <textarea className="form-control" name="description" rows={5} data-rule="required" data-msg="Please write something for us" placeholder="Description" value={this.state.description} onChange={this.handleChange}/>
                             <div className="validation" />
                             </div>
                             <select value={this.state.type} onChange={this.handleChange}>            

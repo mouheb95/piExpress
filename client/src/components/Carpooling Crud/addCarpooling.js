@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router';
+
 import DatePicker from 'react-date-picker';
 import CurrencyInput from 'react-currency-input';
 
@@ -30,17 +32,19 @@ export class AddCarpooling extends React.Component {
             description: '',
             fromDate: new Date(),
             toDate: new Date(),
-            parcel:{
-                categorie:'',
-                weight:'',
-                dimension:'',
-                quantity:''
-            }
+            parcel: {
+                categorie: '',
+                weight: '',
+                dimension: '',
+                quantity: ''
+            },
+            redirectToNewPage: false
 
             //author: '',
         }
 
     }
+
 
     operationDemand() {
         this.setState({
@@ -127,17 +131,17 @@ export class AddCarpooling extends React.Component {
             description: this.state.description,
             fromDate: this.state.fromDate,
             toDate: this.state.toDate,
-            parcel:{
+            parcel: {
                 categorie: categorie,
                 weight: weight,
                 dimension: dimension,
                 quantity: quantity
 
             },
-            author:{
-                _id:this.state.user_id ,
-                email:this.state.user_email
-               
+            author: {
+                _id: this.state.user_id,
+                email: this.state.user_email
+
             },
 
             // author: this.state.author 
@@ -146,9 +150,26 @@ export class AddCarpooling extends React.Component {
         console.log(carpooling)
 
         axios.post(`carpooling/car`, carpooling)
+        .then(async res => {
+          //  console.log(res.data.data._id)
+            if (res.status === 200) {
+                console.log(res.data.data)
+               this.props.history.push("/parcelPict/"+res.data.data)
+               this.setState({ redirectToNewPage: true })
+            } else {
+                console.log(' none ')
+            }
+        })
+       
 
     }
     render() {
+
+        if (this.state.redirectToNewPage) {
+            return (
+            <Redirect to="/parcelPict"/>
+            )
+          }
         return (
             <div>
                 <div id="breadcrumb">
@@ -254,13 +275,13 @@ export class AddCarpooling extends React.Component {
                                                             <input type='text' className="form-control" name="categorie" id="categorie" placeholder="categorie"
                                                                 value={this.state.name} onChange={this.handleChange} />
 
-                                                                <input type='number' className="form-control" name="weight" id="weight" placeholder="weight"
+                                                            <input type='number' className="form-control" name="weight" id="weight" placeholder="weight"
                                                                 value={this.state.name} onChange={this.handleChange} />
 
-                                                                <input type='number' className="form-control" name="dimension" id="dimension" placeholder="dimension"
+                                                            <input type='number' className="form-control" name="dimension" id="dimension" placeholder="dimension"
                                                                 value={this.state.name} onChange={this.handleChange} />
 
-                                                                <input type='number' className="form-control" name="quantity" id="quantity" placeholder="quantity"
+                                                            <input type='number' className="form-control" name="quantity" id="quantity" placeholder="quantity"
                                                                 value={this.state.name} onChange={this.handleChange} />
 
 
@@ -296,14 +317,17 @@ export class AddCarpooling extends React.Component {
 
                                             </div>
 
-
-
-
-
                                             <div className="text-center">
-                                                <button type="submit" name="submit" className="btn btn-primary btn-lg" required="required">Submit Message</button>
+                                               
+                                                <button type="submit" name="submit" className="btn btn-primary btn-lg" required="required">   Submit Message </button>
+                                                
                                             </div>
+
+
+
+
                                         </form>
+
 
 
 
@@ -388,13 +412,13 @@ export class AddCarpooling extends React.Component {
                                                             <input type='text' className="form-control" name="categorie" id="categorie" placeholder="categorie"
                                                                 value={this.state.name} onChange={this.handleChange} />
 
-                                                                <input type='number' className="form-control" name="weight" id="weight" placeholder="weight"
+                                                            <input type='number' className="form-control" name="weight" id="weight" placeholder="weight"
                                                                 value={this.state.name} onChange={this.handleChange} />
 
-                                                                <input type='number' className="form-control" name="dimension" id="dimension" placeholder="dimension"
+                                                            <input type='number' className="form-control" name="dimension" id="dimension" placeholder="dimension"
                                                                 value={this.state.name} onChange={this.handleChange} />
 
-                                                                <input type='number' className="form-control" name="quantity" id="quantity" placeholder="quantity"
+                                                            <input type='number' className="form-control" name="quantity" id="quantity" placeholder="quantity"
                                                                 value={this.state.name} onChange={this.handleChange} />
 
 

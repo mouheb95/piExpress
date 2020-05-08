@@ -24,6 +24,10 @@ import CarpoolingList from './components/Carpooling Crud/carpoolingList'
 import EditCarpooling from './components/Carpooling Crud/editCarrpooling'
 import AddComment from './components/Carpooling Crud/addComment'
 import ListComments from './components/Carpooling Crud/ListComments'
+import CarpoolingDetails from './components/Carpooling Crud/carpoolingDetails'
+import ParcelPict from './components/Carpooling Crud/parcelPict'
+
+
 
 
 import { Claim } from './components/Claim/Claim';
@@ -33,6 +37,7 @@ import Test from "./components/Claim/Test";
 //import Claimm from './components/Claim/Claimm';
 import Onne from "./components/Claim/Onne";
 import Posts from "./components/Posts";
+import { ClaimsList } from './components/Claim/claimsList';
 
 class App extends Component {
   render() {
@@ -59,6 +64,7 @@ class App extends Component {
             <Route path='/editins/:id' component={EditInsurance} />
             <Route path='/addapp' component={AddApp} />
             <Route path='/getapp/:idap' component={GetApp} />
+            <Route path='/claimsList' component={ClaimsList} />
 
 
             <Route path="/all" component={AllClaim} />
@@ -76,6 +82,10 @@ class App extends Component {
             <Route path='/editCarpooling/:id' component={EditCarpooling} />
             <Route path='/addComment/:id' component={AddComment} />
             <Route path='/listComments/:id' component={ListComments} />
+            <Route path='/carpoolingDetails/:id' component={CarpoolingDetails} />
+            <Route path='/parcelPict/:id' component={ParcelPict} />
+
+
 
             <Route path='/about' component={About} />
             <Route path='/services' component={Services} />

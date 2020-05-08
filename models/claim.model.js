@@ -16,7 +16,7 @@ const claimSchema = new Schema({
     etat: {
       type: String,
       enum: ['treated', 'pending']} ,
-    sender:userSchema,
+    author:userSchema,
      
   });
 

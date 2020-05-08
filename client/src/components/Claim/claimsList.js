@@ -1,22 +1,17 @@
-import React, { Component, useState } from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Pagination from './pagination';
-import Popup from "reactjs-popup";
 
 
-
-
-
-const Carpooling = props => (
+const Claim = props => (
     <tr>
-        <td>{props.carpooling.title}</td>
-        <td>{props.carpooling.daily}</td>
-        <td>{props.carpooling.people_parcel_Carpooling}</td>
-        <td>{props.carpooling.offre_demand_Carpooling}</td>
-        <td>{props.carpooling.date}</td>
+        <td>{props.claim.object}</td>
+        <td>{props.claim.description}</td>
+        <td>{props.claim.etat}</td>
+        <td>{props.claim.type}</td>
+        
         <td>
-            <Link to={"/edit/" + props.carpooling._id}>edit</Link> | <a href="#" onClick={() => { props.deleteCarpooling(props.carpooling._id) }}>delete</a>
+            <Link to={"/edit/" + props.claim._id}>edit</Link> | <a href="#" onClick={() => { props.deleteCarpooling(props.claim._id) }}>delete</a>
         </td>
 
     </tr>
@@ -24,115 +19,71 @@ const Carpooling = props => (
 
 )
 
-export class CarppolingList extends Component {
+export class ClaimsList extends Component {
 
     constructor(props) {
         super(props);
 
-
+        
 
         this.deleteCarpooling = this.deleteCarpooling.bind(this)
 
-        this.state = {
-            isLogin: localStorage.getItem("token") === null,
-            carpoolings: Array().fill(null),
-            author: {
-                firstname: '',
-                email: ''
-            },
-            loading: false,
-            currentPage: 0,
-            postsPerPage: 100,
-
-            notification: {
-                subject: '',
-                content: '',
-                reciver: { email: '' },
-                sender: { email: '' },
-                post: { title: '' }
+        this.state = { claims: Array().fill(null),
+            author:{
+                firstname:'',
+                email:''
             },
 
-            notifications: []
-
-        };
-
+            
+             };
 
 
+             
 
     }
-
-
 
 
     componentDidMount() {
-        axios.get('carpooling/car')
-            .then(response => {
-                this.setState({ carpoolings: response.data })
-                console.log(response.data)
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        
 
-        this.state.user = localStorage.getItem("user");
-        this.state.user_id = localStorage.getItem("user").split("\"")[3];
-        this.state.user_email = localStorage.getItem("user").split("\"")[7];
+            this.state.user = localStorage.getItem("user");
+            this.state.user_id = localStorage.getItem("user").split("\"")[3];
+            console.log(this.state.user_id)
+            
 
 
 
-        this.callApi()
-            .then(res => this.setState({ response: res.express }))
-            .catch(err => console.log(err));
+            this.callApi()
+      .then(res => this.setState({ response: res.express }))
+      .catch(err => console.log(err));
+            
+    
 
-
-
-        this.callApi2()
-            .then(res => this.setState({ response: res.express }))
-            .catch(err => console.log(err));
-
-
-        axios.get('carpooling/notification/5e7b8867148bfa40989888dd')
-            .then(response => {
-                this.setState({ notifications: response.data.data })
-                console.log(response.data)
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-
-
+   
     }
 
-
+   
     callApi = async () => {
-        const response = await fetch('users/searchAuthorById/' + this.state.user_id);
+        const response = await fetch('/claim/get/');
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
+        this.setState({ claims: body.data })
+    
+    
+        for (let index = 0; index < this.state.claims.length; index++) {
+          this.setState({
+            table_header: Object.keys(this.state.claims[index]).slice(1, 7),
+          })
+          break
+        }
         this.setState({
-            author: body.data,
-
+          table_header: this.state.table_header.slice(0, this.state.table_header.length - 1)
         })
-
-
-        console.log(this.state.author.email)
+        this.state.table_header.push("Action");
         return body;
-
-    }
-
-    callApi2 = async () => {
-        const response = await fetch('carpooling/notification/5e7b8867148bfa40989888dd');
-        const body = await response.json();
-        if (response.status !== 200) throw Error(body.message);
-        this.setState({
-            notification: body.data,
-
-        })
-
-
-        console.log(this.state.notification)
-        return body;
-
-    }
+    
+      }
+    
 
 
     deleteCarpooling(id) {
@@ -154,170 +105,88 @@ export class CarppolingList extends Component {
         })
     }
 
-
-    deleteNotif(id) {
-        axios.delete('carpooling/notification/' + id)
-            .then(response => { console.log(response.data) });
-
-        this.setState({
-            notifications: this.state.notifications.filter(el => el._id !== id)
-        })
-    }
-
-
-
-
+    
 
     carpoolingList() {
-        return this.state.carpoolings.map(currentcarpooling => {
-            return <Carpooling carpooling={currentcarpooling} deleteCarpooling={this.deleteCarpooling} key={currentcarpooling._id} />;
+        return this.state.claims.map(currentcarpooling => {
+            return <Claim claim={currentcarpooling} deleteCarpooling={this.deleteCarpooling} key={currentcarpooling._id} />;
 
         })
     }
 
     render() {
 
+        
+
+        for (let index = 0; index < this.state.claims.length; index++) {
+            //console.log(this.state.carpoolings[index].author)
 
 
-        const currentPage = this.state.currentPage;
-        const postsPerPage = this.state.postsPerPage;
-        const loading = this.state.loading;
+        }
+        
 
 
-
-        // Get current posts
-        const indexOfLastPost = currentPage * postsPerPage;
-        const indexOfFirstPost = indexOfLastPost - postsPerPage;
-        const currentPosts = this.state.carpoolings.slice(indexOfFirstPost, indexOfLastPost);
-
-
-
-
-        // Change page
-        const paginate = pageNumber => this.setState({ pageNumber });
-
-
-
-        const objs = this.state.carpoolings;
-
-
-        const objsN = this.state.notifications;
-        const DataN = ({ objsN }) => (
-            <>
-
-
-
-                <Popup trigger={<button href="#" class="notification">  <span>Suggestions</span>
-                    <span class="badge"> {this.state.notifications.length} </span></button>} position="right center">
-
-                    <div className="border border-success">
-                        {objsN.map((notif, index) => (
-
-                            <div  key={index}>
-
-                                <br></br> <br></br>
-
-
-
-                                <div className="rayen">
-                                    
-                                    <p key={notif.subject} > {notif.subject}</p>
-                                    <p key={notif.content} > {notif.content}</p>
-                                    
-                                    <p key={notif.sender.email} > {notif.sender.email}</p>
-
-                                    
-                                    <a onClick={() => this.deleteNotif(notif._id)} className="btn btn-danger readmore">Delete </a>
-                                    <Link className="btn btn-warning readmore" to={"/carpoolingDetails/" + notif.post._id}>Details </Link>
-
-
-                                </div>
-
-
-                            </div>
-                        ))}
-                    </div>
-                </Popup>
-            </>
-        );
-
-
+        const objs = this.state.claims
+        const condition = objs.offre_demand_Carpooling === 'Offer';
+        
         const Data = ({ objs }) => (
             <>
 
-                {objs.map((carpooling, index) => (
+                {objs.map((claim, index) => (
+                    <div key={index}> 
+                        
 
-                    <div key={index}>
-
-                        <br></br> <br></br>
-
-                        {carpooling.offre_demand_Carpooling !== 'Deman' ?
+                        {claim.type !== 'autres' ?
 
                             <section id="blog" className="container">
-                                <h4 key={carpooling.title} > {carpooling.title}</h4>
+                                <h4 key={claim.object} > {claim.object}</h4>
                                 <div className="blog">
                                     <div className="row">
 
                                         <div style={{ float: 'right' }}>
 
-                                            <div style={{ backgroundColor: carpooling.offre_demand_Carpooling === 'Demand' ? "red" : "green" }}>
-                                                <h4 key={carpooling.offre_demand_Carpooling} > {carpooling.offre_demand_Carpooling}</h4>
-                                            </div>
+                                           
                                         </div>
-                                        <div className="col-md-10">
-                                            <div key={index} className="container-fluid p-3 my-3 border well well-lg" >
+                                        <div className="col-md-8">
+                                            <div key={index} className="suggest-item">
 
 
 
-                                                <div className="blog-item" >
+                                                <div className="blog-item">
                                                     <div className="row">
 
-                                                        <div className="col-xs-12 col-sm-4" >
-                                                            <div className="entry-meta" >
-                                                                <span id="publish_date" key={carpooling.date} > {carpooling.date}</span>
-                                                                {carpooling !== null && carpooling.author !== undefined ?
-                                                                    <span style={{ backgroundColor: '#C0C0C0', color: 'red' }}><i className="fa fa-user" /> <a href="#" style={{ color: 'black' }} key={carpooling.author.email} > {carpooling.author.email}</a></span>
+                                                        <div className="col-xs-12 col-sm-4">
+                                                            <div className="entry-meta">
+                                                               
+                                                                {claim !== null && claim.author !== undefined ?
+                                                                    <span><i className="fa fa-user" /> <a href="#" key={claim.author.email} > {claim.author.email}</a></span>
                                                                     : null
                                                                 }
 
 
-                                                                <span style={{ backgroundColor: '#C0C0C0', color: 'red' }}><i className="fa fa-comment" />
-                                                                    <Link style={{ color: 'black' }} to={"/listComments/" + carpooling._id}>Consult comment  </Link>
-                                                                    <a style={{ color: 'black' }} href="#" key={carpooling.comments} > {carpooling.comments.length} Comments</a></span>
-                                                                <span style={{ backgroundColor: '#C0C0C0', color: 'red' }}><i className="fa fa-heart" /><a href="#" style={{ color: 'black' }} key={carpooling.price} >Price:  {carpooling.price} dt</a></span>
+                                                                <span><i className="fa fa-cog fa-fw" />
+                                                                
+                                                                 <a href="#" key={claim.type} >type:  {claim.type} </a></span>
+                                                                <span><i className="fa fa-heart" /><a href="#" key={claim.etat} >etat:  {claim.etat} </a></span>
                                                             </div>
                                                         </div>
                                                         <div className="col-xs-12 col-sm-8 blog-content">
 
                                                             {/* <a href="#"><img className="img-responsive img-blog" src="images/blog/blog1.jpg" width="100%" alt="" /></a> */}
                                                             {/* <h4> { this.carpoolingList() }</h4> */}
-                                                            {carpooling !== null && carpooling.trage !== undefined ?
+                                                            {claim !== null ?
                                                                 <div>
-                                                                    <p key={carpooling.trage.from} > From : {carpooling.trage.from}</p>
-                                                                    <p key={carpooling.trage.to} > To : {carpooling.trage.to}</p>
-
-                                                                </div>
-                                                                : null
-                                                            }
-                                                            <p key={carpooling.description} > Description : <br></br>{carpooling.description}</p>
-                                                            <p key={carpooling.createdAt} > Created at :{carpooling.createdAt}</p>
-
-                                                            {
-
-                                                                carpooling !== null && carpooling.author !== undefined && carpooling.author.email === this.state.user_email ?
-                                                                    <a onClick={() => this.deleteCarpooling(carpooling._id)} className="btn btn-danger readmore">Delete </a>
-                                                                    : null
-                                                            }
-                                                            <Link className="btn btn-info readmore" to={"/addComment/" + carpooling._id}>Add comment  </Link>
-                                                            <Link className="btn btn-warning readmore" to={"/carpoolingDetails/" + carpooling._id}>Details </Link>
-                                                            {
-
-                                                                carpooling !== null && carpooling.author !== undefined && carpooling.author.email === this.state.user_email ?
-                                                                    <Link className="btn btn-info readmore" to={"/editCarpooling/" + carpooling._id}>edit <i className="fa fa-angle-right" /> </Link>
-                                                                    : null
-                                                            }
-
-                                                        </div>
+                                                                    <p key={claim.object} > Object : {claim.object}</p>
+                                                                
+                                                                    
+                                                                </div>  
+                                                                : null 
+                                                                }
+                                                            <p key={claim.description} > Description : {claim.description}</p>
+                                                           
+                                                            
+                                                          
+                                                           </div>
 
                                                     </div>
                                                 </div>
@@ -330,22 +199,18 @@ export class CarppolingList extends Component {
             </>
         );
 
-
         if (objs !== null) {
             return (
                 <div className="suggest-list">
-
-                    <DataN objsN={objsN} />
+    <ul className="portfolio-filter text-center">
+                         <li><a className="btn btn-default" href="#" data-filter=".wordpress">my complaints</a></li>
+            </ul>
+            <h2>Consult  your complaints</h2>
+           
+            <Link className="btn btn-warning readmore" to={"/claim/"}>Send New Claim <i className="fa fa-refresh fa-spin fa-1x fa-fw" /> </Link>
+      <hr />
                     <Data objs={objs} />
-                    <Pagination
-                        postsPerPage={postsPerPage}
-                        totalPosts={this.state.carpoolings.length}
-                        paginate={paginate}
-                    />
-
                 </div>
-
-
             )
         } else {
             return (
@@ -551,4 +416,4 @@ export class CarppolingList extends Component {
         }
     }
 }
-export default CarppolingList
+export default ClaimsList
