@@ -42,6 +42,11 @@ router
 .route('/comment/:id/:idComment')
 .delete(controllers.removeComment)
 
+router
+.route('/notification/:id')
+.get(controllers.getNotification)
+.delete(controllers.deleteNotif)
+
 
 
 
@@ -58,29 +63,24 @@ const storage = multer.diskStorage({
   
   const upload = multer({ storage: storage })
 
-  router.post('/file', upload.single('file'), (req, res, next) => {
+  router.put('/file/:id', upload.single('file'), async function (req, res, next) {
     const file = req.file;
-    console.log(file.filename);
+    console.log(req.file.path);
 
-    const carpool = new Carpoolinig({
-        title: req.body.title,
-        parcel:{
-            categorie:req.body.categorie,
-            photos:req.file.path
-        }
-    })
-    .save()
-    .then(res=>{
-        console.log(res);
-        res.status(201).json()
-    })
+    Carpoolinig.findOneAndUpdate({ _id: req.params.id },
+      { $set: { 'parcel.photos':req.file.path  } },{new:true}).then((docs)=>{
+          if(docs) {
+             resolve({success:true,data:docs});
+          } else {
+             reject({success:false,data:"no such user exist"});
+          }
+      }).catch((err)=>{
+         reject(err);
+      });
     
-    if (!file) {
-      const error = new Error('No File')
-      error.httpStatusCode = 400
-      return next(error)
-    }
-      res.send(file);
   })
+
+
+
 
 module.exports = router;

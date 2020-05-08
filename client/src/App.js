@@ -25,6 +25,8 @@ import EditCarpooling from './components/Carpooling Crud/editCarrpooling'
 import AddComment from './components/Carpooling Crud/addComment'
 import ListComments from './components/Carpooling Crud/ListComments'
 import CarpoolingDetails from './components/Carpooling Crud/carpoolingDetails'
+import ParcelPict from './components/Carpooling Crud/parcelPict'
+
 
 
 
@@ -79,6 +81,8 @@ class App extends Component {
             <Route path='/addComment/:id' component={AddComment} />
             <Route path='/listComments/:id' component={ListComments} />
             <Route path='/carpoolingDetails/:id' component={CarpoolingDetails} />
+            <Route path='/parcelPict/:id' component={ParcelPict} />
+
 
 
             <Route path='/about' component={About} />

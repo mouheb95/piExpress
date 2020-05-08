@@ -11,7 +11,7 @@ export class CarpoolingDetails extends React.Component {
         super(props);
         this.state = {
             doc: null,
-            id:'',
+            id: '',
             title: '',
             daily: false,
             trage: {
@@ -36,7 +36,8 @@ export class CarpoolingDetails extends React.Component {
                 categorie: '',
                 weight: '',
                 dimension: '',
-                quantity: ''
+                quantity: '',
+                photos:''
             },
 
             author: {
@@ -90,7 +91,8 @@ export class CarpoolingDetails extends React.Component {
                 categorie: body.data.parcel.categorie,
                 weight: body.data.parcel.weight,
                 dimension: body.data.parcel.dimension,
-                quantity: body.data.parcel.quantity
+                quantity: body.data.parcel.quantity,
+                photos:body.data.parcel.photos
 
             },
             author: {
@@ -98,7 +100,7 @@ export class CarpoolingDetails extends React.Component {
                 lastname: body.data.author.lastname,
                 email: body.data.author.email
             },
-            id:body.data._id
+            id: body.data._id
         })
         console.log(this.state.id)
     }
@@ -128,14 +130,14 @@ export class CarpoolingDetails extends React.Component {
                             {this.state.trage !== null && this.state.trage.from !== undefined ?
                                 <table style={{ width: "100%", border: '1px solid black' }}>
                                     <tr>
-                                        <th style={{  border: '1px solid black' }}>From</th>
-                                        <th style={{  border: '1px solid black' }}>To</th>
-                                       
+                                        <th style={{ border: '1px solid black' }}>From</th>
+                                        <th style={{ border: '1px solid black' }}>To</th>
+
                                     </tr>
                                     <tr>
-                                        <td style={{  border: '1px solid black', textAlign:'center'  }}>{this.state.trage.from}</td>
-                                        <td style={{  border: '1px solid black', textAlign:'center'  }}>{this.state.trage.to}</td>
-                                       
+                                        <td style={{ border: '1px solid black', textAlign: 'center' }}>{this.state.trage.from}</td>
+                                        <td style={{ border: '1px solid black', textAlign: 'center' }}>{this.state.trage.to}</td>
+
                                     </tr>
 
                                 </table>
@@ -148,58 +150,60 @@ export class CarpoolingDetails extends React.Component {
                             <p>Price :
                                <a href="#" > {this.state.price} dt</a>
                             </p>
-                            
+
 
                             {this.state.parcel !== null && this.state.parcel.categorie !== undefined ?
-                            <div> <h4>Parcel :</h4>
-                                <table style={{ width: "100%", border: '1px solid black' }}>
-                                    <tr>
-                                        <th style={{  border: '1px solid black' }}>Categorie</th>
-                                        <th style={{  border: '1px solid black' }}>Weight</th>
-                                        <th style={{  border: '1px solid black' }}>Dimension</th>
-                                        <th style={{  border: '1px solid black' }}>Quantity</th>
-                                    </tr>
-                                    <tr>
-                                        <td style={{  border: '1px solid black', textAlign:'center' }}>{this.state.parcel.categorie}</td>
-                                        <td style={{  border: '1px solid black', textAlign:'center'  }}>{this.state.parcel.weight}</td>
-                                        <td style={{  border: '1px solid black', textAlign:'center'  }}>{this.state.parcel.dimension}</td>
-                                        <td style={{  border: '1px solid black', textAlign:'center'  }}>{this.state.parcel.quantity}</td>
-                                    </tr>
+                                <div> <h4>Parcel :</h4>
+                                    <table style={{ width: "100%", border: '1px solid black' }}>
+                                        <tr>
+                                            <th style={{ border: '1px solid black' }}>Categorie</th>
+                                            <th style={{ border: '1px solid black' }}>Weight</th>
+                                            <th style={{ border: '1px solid black' }}>Dimension</th>
+                                            <th style={{ border: '1px solid black' }}>Quantity</th>
+                                        </tr>
+                                        <tr>
+                                            <td style={{ border: '1px solid black', textAlign: 'center' }}>{this.state.parcel.categorie}</td>
+                                            <td style={{ border: '1px solid black', textAlign: 'center' }}>{this.state.parcel.weight}</td>
+                                            <td style={{ border: '1px solid black', textAlign: 'center' }}>{this.state.parcel.dimension}</td>
+                                            <td style={{ border: '1px solid black', textAlign: 'center' }}>{this.state.parcel.quantity} </td>
+                                        </tr>
 
-                                </table>
+                                    </table>
+
+                                    <a href="#"> {this.state.parcel.photos} <img  src={require('../../../../uploads/FunOfHeuristic_awnha.PNG')} width="100%" alt="" /></a>
 
                                 </div>
                                 : null
                             }
 
-                                <br></br>
-                                <br></br>
+                            <br></br>
+                            <br></br>
 
-                            
+
 
                             {this.state.daily !== false ?
 
-                               <div>
-                                   <table style={{ width: "100%", border: '1px solid black' }}>
-                                    <tr >
-                                        <th style={{  border: '1px solid black' }}>From Date</th>
-                                        <th style={{  border: '1px solid black' }}>To Date</th>
-                                        
-                                    </tr>
-                                    {this.state.fromDate !== undefined  && this.state.toDate!== undefined ?
-                                    <tr >
-                                    
-                                        <td style={{   border: '1px solid black', textAlign:'center'  }}>{this.state.fromDate}</td>
-                                        <td style={{  border: '1px solid black', textAlign:'center'  }}>{this.state.toDate}</td>
-                                        
-                                        
-                                    </tr>
-                                    : null
-                                }
+                                <div>
+                                    <table style={{ width: "100%", border: '1px solid black' }}>
+                                        <tr >
+                                            <th style={{ border: '1px solid black' }}>From Date</th>
+                                            <th style={{ border: '1px solid black' }}>To Date</th>
 
-                                </table>
+                                        </tr>
+                                        {this.state.fromDate !== undefined && this.state.toDate !== undefined ?
+                                            <tr >
 
-                               </div>
+                                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{this.state.fromDate}</td>
+                                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{this.state.toDate}</td>
+
+
+                                            </tr>
+                                            : null
+                                        }
+
+                                    </table>
+
+                                </div>
 
                                 : null
                             }
@@ -215,17 +219,18 @@ export class CarpoolingDetails extends React.Component {
                             <div className="skill">
                                 <h2>Map</h2>
                                 <p>This is your trage</p>
-                               
-                              
-                               
-                               
-                                
+
+
+
+
+
                             </div>
                         </div>
                     </div>
-
-                    <Link className="btn btn-primary readmore" to={"/editCarpooling/" + this.state.id}>edit <i className="fa fa-angle-right" /> </Link>
-
+                    {this.state.author.email === this.state.user_email ?
+                        <Link className="btn btn-primary readmore" to={"/editCarpooling/" + this.state.id}>edit <i className="fa fa-angle-right" /> </Link>
+                        : null
+                    }
                 </div>
             </div>
 
