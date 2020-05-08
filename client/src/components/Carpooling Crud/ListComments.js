@@ -225,7 +225,7 @@ export class ListComments extends Component {
 
                                             <h4 key={comment.description} > {comment.description}</h4>
 
-                                            <div class="container-fluid p-3 my-3 border well well-lg">
+                                            <div className="container-fluid p-3 my-3 border well well-lg">
                                         
                                         <div className="row">
                                             <div className="col-sm-12">
