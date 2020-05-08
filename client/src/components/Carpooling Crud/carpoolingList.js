@@ -1,7 +1,9 @@
-import React, { Component,useState } from 'react'
+import React, { Component, useState } from 'react'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Pagination from './pagination';
+import Popup from "reactjs-popup";
+
 
 
 
@@ -32,6 +34,7 @@ export class CarppolingList extends Component {
         this.deleteCarpooling = this.deleteCarpooling.bind(this)
 
         this.state = {
+            isLogin: localStorage.getItem("token") === null,
             carpoolings: Array().fill(null),
             author: {
                 firstname: '',
@@ -40,8 +43,21 @@ export class CarppolingList extends Component {
             loading: false,
             currentPage: 0,
             postsPerPage: 100,
-                
+
+            notification: {
+                subject: '',
+                content: '',
+                reciver: { email: '' },
+                sender: { email: '' },
+                post: { title: '' }
+            },
+
+            notifications: []
+
         };
+
+
+
 
     }
 
@@ -60,8 +76,7 @@ export class CarppolingList extends Component {
 
         this.state.user = localStorage.getItem("user");
         this.state.user_id = localStorage.getItem("user").split("\"")[3];
-        console.log(this.state.user_id)
-
+        this.state.user_email = localStorage.getItem("user").split("\"")[7];
 
 
 
@@ -70,6 +85,20 @@ export class CarppolingList extends Component {
             .catch(err => console.log(err));
 
 
+
+        this.callApi2()
+            .then(res => this.setState({ response: res.express }))
+            .catch(err => console.log(err));
+
+
+        axios.get('carpooling/notification/5e7b8867148bfa40989888dd')
+            .then(response => {
+                this.setState({ notifications: response.data.data })
+                console.log(response.data)
+            })
+            .catch((error) => {
+                console.log(error);
+            })
 
 
     }
@@ -86,6 +115,21 @@ export class CarppolingList extends Component {
 
 
         console.log(this.state.author.email)
+        return body;
+
+    }
+
+    callApi2 = async () => {
+        const response = await fetch('carpooling/notification/5e7b8867148bfa40989888dd');
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        this.setState({
+            notification: body.data,
+
+        })
+
+
+        console.log(this.state.notification)
         return body;
 
     }
@@ -111,6 +155,18 @@ export class CarppolingList extends Component {
     }
 
 
+    deleteNotif(id) {
+        axios.delete('carpooling/notification/' + id)
+            .then(response => { console.log(response.data) });
+
+        this.setState({
+            notifications: this.state.notifications.filter(el => el._id !== id)
+        })
+    }
+
+
+
+
 
     carpoolingList() {
         return this.state.carpoolings.map(currentcarpooling => {
@@ -128,21 +184,63 @@ export class CarppolingList extends Component {
         const loading = this.state.loading;
 
 
-        
+
         // Get current posts
         const indexOfLastPost = currentPage * postsPerPage;
         const indexOfFirstPost = indexOfLastPost - postsPerPage;
         const currentPosts = this.state.carpoolings.slice(indexOfFirstPost, indexOfLastPost);
 
 
-  
+
 
         // Change page
-        const paginate = pageNumber => this.setState({pageNumber});
+        const paginate = pageNumber => this.setState({ pageNumber });
 
 
-        const objs = this.state.carpoolings
-        const condition = objs.offre_demand_Carpooling === 'Offer';
+
+        const objs = this.state.carpoolings;
+
+
+        const objsN = this.state.notifications;
+        const DataN = ({ objsN }) => (
+            <>
+
+
+
+                <Popup trigger={<button href="#" class="notification">  <span>Suggestions</span>
+                    <span class="badge"> {this.state.notifications.length} </span></button>} position="right center">
+
+                    <div className="border border-success">
+                        {objsN.map((notif, index) => (
+
+                            <div  key={index}>
+
+                                <br></br> <br></br>
+
+
+
+                                <div className="rayen">
+                                    
+                                    <p key={notif.subject} > {notif.subject}</p>
+                                    <p key={notif.content} > {notif.content}</p>
+                                    
+                                    <p key={notif.sender.email} > {notif.sender.email}</p>
+
+                                    
+                                    <a onClick={() => this.deleteNotif(notif._id)} className="btn btn-danger readmore">Delete </a>
+                                    <Link className="btn btn-warning readmore" to={"/carpoolingDetails/" + notif.post._id}>Details </Link>
+
+
+                                </div>
+
+
+                            </div>
+                        ))}
+                    </div>
+                </Popup>
+            </>
+        );
+
 
         const Data = ({ objs }) => (
             <>
@@ -203,10 +301,21 @@ export class CarppolingList extends Component {
                                                             }
                                                             <p key={carpooling.description} > Description : <br></br>{carpooling.description}</p>
                                                             <p key={carpooling.createdAt} > Created at :{carpooling.createdAt}</p>
-                                                            <a onClick={() => this.deleteCarpooling(carpooling._id)} className="btn btn-danger readmore">Delete </a>
+
+                                                            {
+
+                                                                carpooling !== null && carpooling.author !== undefined && carpooling.author.email === this.state.user_email ?
+                                                                    <a onClick={() => this.deleteCarpooling(carpooling._id)} className="btn btn-danger readmore">Delete </a>
+                                                                    : null
+                                                            }
                                                             <Link className="btn btn-info readmore" to={"/addComment/" + carpooling._id}>Add comment  </Link>
                                                             <Link className="btn btn-warning readmore" to={"/carpoolingDetails/" + carpooling._id}>Details </Link>
-                                                            <Link className="btn btn-info readmore" to={"/editCarpooling/" + carpooling._id}>edit <i className="fa fa-angle-right" /> </Link>
+                                                            {
+
+                                                                carpooling !== null && carpooling.author !== undefined && carpooling.author.email === this.state.user_email ?
+                                                                    <Link className="btn btn-info readmore" to={"/editCarpooling/" + carpooling._id}>edit <i className="fa fa-angle-right" /> </Link>
+                                                                    : null
+                                                            }
 
                                                         </div>
 
@@ -220,22 +329,23 @@ export class CarppolingList extends Component {
                 ))}
             </>
         );
-       
+
 
         if (objs !== null) {
             return (
                 <div className="suggest-list">
 
-                    <Data objs={objs,currentPosts} loading={loading} />
+                    <DataN objsN={objsN} />
+                    <Data objs={objs} />
                     <Pagination
-        postsPerPage={postsPerPage}
-        totalPosts={this.state.carpoolings.length}
-        paginate={paginate}
-      />
-                    
+                        postsPerPage={postsPerPage}
+                        totalPosts={this.state.carpoolings.length}
+                        paginate={paginate}
+                    />
+
                 </div>
 
-                
+
             )
         } else {
             return (
