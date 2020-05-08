@@ -40,10 +40,10 @@ export class ParcelPict extends React.Component {
      
         data.append('file', this.state.selectedFile)
 
-        console.log(this.props.match.params)
+        console.log(this.state.selectedFile)
         axios.put(`http://localhost:3000/carpooling/file/`+this.props.match.params.id, data)
             .then(res => {
-                console.log(res.statusText)
+                console.log(data)
                 this.setState({ redirectToNewPage: true })
             })
             

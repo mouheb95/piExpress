@@ -45,6 +45,8 @@ export class CarpoolingDetails extends React.Component {
                 lastname: '',
                 email: ''
             },
+
+            pict:''
         }
 
     }
@@ -100,9 +102,11 @@ export class CarpoolingDetails extends React.Component {
                 lastname: body.data.author.lastname,
                 email: body.data.author.email
             },
-            id: body.data._id
+            id: body.data._id,
+            pict:body.data.parcel.photos.split("\\")[1]
         })
-        console.log(this.state.id)
+        console.log(this.state.pict)
+        
     }
 
 
@@ -170,8 +174,8 @@ export class CarpoolingDetails extends React.Component {
 
                                     </table>
 
-{/*                                     <a href="#"> {this.state.parcel.photos} <img  src={require('../../../../uploads/FunOfHeuristic_awnha.PNG')} width="100%" alt="" /></a>
- */}
+                                    <a href="#">  <img className="img-responsive img-blog" src={`http://localhost:5000/uploads/${this.state.pict}`} width="100%" alt="" /></a>
+
                                 </div>
                                 : null
                             }
