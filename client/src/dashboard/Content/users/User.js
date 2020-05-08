@@ -18,8 +18,8 @@ export default class User extends Component {
     handleChange = event => {
         const {name, value} = event.target
         this.setState({ [name]: value });
-        console.log("chang",this.state.user )
     };
+    
     handleSubmit = event => {
         event.preventDefault();
 //      console.log("hello",this.state.user)

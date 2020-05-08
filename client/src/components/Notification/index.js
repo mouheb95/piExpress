@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import socketIOClient from "socket.io-client";
 import axios from 'axios';
-//const ENDPOINT = "http://127.0.0.1:4001";
-const ENDPOINT = "https://gatwayebusiness.expert-business-solutions.com/notifications/notifications";
+  const ENDPOINT = "http://127.0.0.1:4001";
+  //const ENDPOINT = "https://gatwayebusiness.expert-business-solutions.com/notifications/notifications";
 
 function Notification() {
   const [response, setResponse] = useState("");
@@ -16,8 +16,8 @@ function Notification() {
       setResponse(data);     
     });
     console.log("hello")
-    //axios.get('http://127.0.0.1:4001').then(({data}) => {
-    axios.get('https://gatwayebusiness.expert-business-solutions.com/notifications/notifications').then(({data}) => {
+    axios.get('http://127.0.0.1:4001').then(({data}) => {
+    //axios.get('https://gatwayebusiness.expert-business-solutions.com/notifications/notifications').then(({data}) => {
     console.log("data", data)
     })
 
@@ -28,12 +28,12 @@ function Notification() {
   if(response !== [] && response.length > 0 && user_id !== null && user_id === response[0].to){
     return (
       <div style={{
-        backgroundColor:"black",
+        backgroundColor:"cyan",
         color: "white",
-        width: "1000px",
+        width: "700px",
         height: "50px",
       }}>
-       <h1>you have a new {response[0].content} from {response[0].from} </h1>
+       <h1>New Post from {response[0].from} </h1>
       </div>
      )   
   } else {
