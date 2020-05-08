@@ -170,8 +170,8 @@ export class CarpoolingDetails extends React.Component {
 
                                     </table>
 
-                                    <a href="#"> {this.state.parcel.photos} <img  src={require('../../../../uploads/FunOfHeuristic_awnha.PNG')} width="100%" alt="" /></a>
-
+{/*                                     <a href="#"> {this.state.parcel.photos} <img  src={require('../../../../uploads/FunOfHeuristic_awnha.PNG')} width="100%" alt="" /></a>
+ */}
                                 </div>
                                 : null
                             }
