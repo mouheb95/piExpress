@@ -37,6 +37,7 @@ import Test from "./components/Claim/Test";
 //import Claimm from './components/Claim/Claimm';
 import Onne from "./components/Claim/Onne";
 import Posts from "./components/Posts";
+import { ClaimsList } from './components/Claim/claimsList';
 
 class App extends Component {
   render() {
@@ -63,6 +64,7 @@ class App extends Component {
             <Route path='/editins/:id' component={EditInsurance} />
             <Route path='/addapp' component={AddApp} />
             <Route path='/getapp/:idap' component={GetApp} />
+            <Route path='/claimsList' component={ClaimsList} />
 
 
             <Route path="/all" component={AllClaim} />
