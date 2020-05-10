@@ -126,7 +126,7 @@ exports.createOneCarPooling = async function (req, res) {
 
     else {
 
-      return res.status(201).json({data: doc}).end()
+      return res.status(201).json({ data: doc }).end()
 
     }
 
@@ -311,11 +311,11 @@ exports.removeComment = async function (req, res) {
 exports.getNotification = async function (req, res) {
   try {
     const doc = await Notification
-      .find({'reciver._id':  req.params.id })
+      .find({ 'reciver._id': req.params.id })
       .lean()
       .exec()
 
-      console.log("reciver")
+    console.log("reciver")
 
     if (!doc) {
       return res.status(400).json({ message: "the car pooling is probably deleted " }).end()
@@ -345,3 +345,80 @@ exports.deleteNotif = async function (req, res) {
     res.status(400).end()
   }
 }
+
+
+
+exports.searchByType = async function (req, res) {
+  try {
+
+
+    const doc = await Carpoolinig
+      //if (req.body.to) doc.trage.to = req.body.to
+      //if (req.body.from) doc.trage.from = req.body.from
+      .find({
+        $and:
+          [
+            { people_parcel_Carpooling: req.body.people_parcel_Carpooling },
+            { offre_demand_Carpooling: req.body.offre_demand_Carpooling }
+          ],
+
+        $or:
+          [
+            { 'trage.from': req.body.from },
+            { 'trage.to': req.body.to },
+            { 'author.email': req.body.email },
+            { price: req.body.price },
+            { date: req.body.date },
+            { disponibility: req.body.disponibility },
+            //{ 'author.vehicle.type': req.body.type }
+
+
+          ]
+      })
+      .lean()
+      .exec()
+    console.log(req.body)
+
+    if (!doc) {
+      return res.status(400).json({ message: "the car pooling is probably deleted " }).end()
+    }
+
+    res.status(200).json({ data: doc })
+  } catch (e) {
+    console.error(e)
+    res.status(400).end()
+  }
+}
+
+exports.sendInvite = async function (req, res) {
+  try {
+
+    const Client = await User
+      .findOne({ _id: req.params.idClient })
+      .lean()
+      .exec()
+
+
+    const car = await Carpoolinig
+      .findOneAndUpdate({ _id: req.params.id }, {
+        $push: {
+          'clients': Client
+        }
+      })
+      .lean()
+      .exec()
+
+
+     console.log(Client)
+
+    if (!car) {
+      return res.status(400).end()
+    }
+
+    res.status(200).json({ data: car })
+  } catch (e) {
+    console.error(e)
+    res.status(400).end()
+  }
+}
+

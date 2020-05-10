@@ -49,6 +49,8 @@
   top: 150px; 
   display: inline-block;
   border-radius: 2px;
+  font-family: "Sofia";
+  
 }
 
 .notification:hover {
@@ -65,9 +67,53 @@
   border-radius: 50%;
   background-color: red;
   color: white;
+
+  
 }
 
 .rayen {
   border-style: solid;
   border-color: #bbbbbb; /* grey */
+  
+}
+
+.pi{
+  border-bottom: 6px solid #808080	;
+  background-color: lightgrey;
+  font-family: "Sofia";
+}
+
+.sug{
+  font-family: "Sofia";
+  font-size: 22px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+
+
+.leaflet-container {
+  width: 80%;
+  height: 50vh;
+  position: absolute;
+  top: 150px;
+  right: 100px;
 }

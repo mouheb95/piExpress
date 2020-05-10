@@ -143,10 +143,10 @@ export class ListComments extends Component {
 
                     <section id="blog" className="container">
                         <div className="blog">
-                            <div className="row justify-content-md-center">
+                            <div >
 
                                
-                                <div className="col">
+                                <div >
 
 
 
@@ -158,25 +158,25 @@ export class ListComments extends Component {
 
 
 
-                                        <section id="blog" className="container">
+                                        <section >
                                             <h4 > {this.state.title}</h4>
-                                            <div className="blog">
+                                            <div >
                                                 
-                                                <div className="row ">
+                                                <div style={{ backgroundColor: '#FFDEAD'}} className="  container-fluid p-3 my-3 border well well-lg">
 
-                                                    <div >
+                                                    <div  >
 
                                                         <div >
                                                             <h4 > Type of carpooling: {this.state.offre_demand_Carpooling}</h4>
                                                         </div>
                                                     </div>
-                                                    <div className="col-md-8">
-                                                        <div className="suggest-item">
+                                                    <div >
+                                                        <div >
 
 
 
                                                             <div className="blog-item">
-                                                                <div className="row">
+                                                                <div >
 
                                                                     <div className="col-xs-12 col-sm-4">
                                                                         <div className="entry-meta">
@@ -185,16 +185,13 @@ export class ListComments extends Component {
 
 
 
-                                                                            <span><i className="fa fa-comment" />
+                                                                            <span style={{ backgroundColor: '#C0C0C0', color: 'red' }}>><i className="fa fa-comment" />
 
-                                                                                <a href="#" > {this.state.doc.comments.length}  Comments</a></span>
-                                                                            <span><i className="fa fa-heart" /><a href="#"  >Price:  {this.state.price} dt</a></span>
+                                                                                <a style={{ color: 'black' }} href="#" > {this.state.doc.comments.length}  Comments</a></span>
+                                                                            <span style={{ backgroundColor: '#C0C0C0', color: 'red' }}>><i className="fa fa-heart" /><a  style={{ color: 'black' }} href="#"  >Price:  {this.state.price} dt</a></span>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="col-xs-12 col-sm-8 blog-content">
-
-
-
+                                                                    <div>
                                                                         <p > Description : {this.state.description}</p>
                                                                         <p  > Created at :{this.state.doc.createdAt}</p>
                                                                     </div>

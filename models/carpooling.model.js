@@ -5,20 +5,22 @@ const Schema = mongoose.Schema;
 const userSchema = require('./user.model').schema;
 
 
+
+
 const parcelSchema = new Schema({
   photos: String,
   categorie: String,
   weight: Number,
   dimension: Number,
   quantity: Number,
- // insurance: [insuranceSchema]
+  // insurance: [insuranceSchema]
 });
 
 const appointmentSchema = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
-},
+  },
   date: Date,
   place: String,
   code1: String,
@@ -69,8 +71,10 @@ const carpoolingSchema = new Schema({
   ,
   comments: [commentsSchema],
   author: userSchema,
+
+  clients: 
+    [userSchema]
   
-  clients: [userSchema],
 
 }, {
   timestamps: true

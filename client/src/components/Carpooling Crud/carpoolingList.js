@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Pagination from './pagination';
 import Popup from "reactjs-popup";
+import { Redirect } from 'react-router';
+
 
 
 
@@ -34,15 +36,18 @@ export class CarppolingList extends Component {
         this.deleteCarpooling = this.deleteCarpooling.bind(this)
 
         this.state = {
+            redirectToNewPage: false,
+            resultatS: false,
             isLogin: localStorage.getItem("token") === null,
             carpoolings: Array().fill(null),
+            carpoolingsSearch: Array().fill(null),
             author: {
                 firstname: '',
                 email: ''
             },
             loading: false,
             currentPage: 0,
-            postsPerPage: 100,
+            postsPerPage: 10,
 
             notification: {
                 subject: '',
@@ -52,7 +57,23 @@ export class CarppolingList extends Component {
                 post: { title: '' }
             },
 
-            notifications: []
+            notifications: [],
+
+            advancedSearch: false,
+
+
+            trage: {
+
+                from: '',
+                to: ''
+            },
+
+            people_parcel_Carpooling: '',
+            offre_demand_Carpooling: '',
+            date: '',
+            price: '0.00',
+            disponibility: '',
+
 
         };
 
@@ -62,6 +83,10 @@ export class CarppolingList extends Component {
     }
 
 
+
+    handleChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
+    };
 
 
     componentDidMount() {
@@ -75,9 +100,10 @@ export class CarppolingList extends Component {
             })
 
         this.state.user = localStorage.getItem("user");
-        this.state.user_id = localStorage.getItem("user").split("\"")[3];
-        this.state.user_email = localStorage.getItem("user").split("\"")[7];
-
+        if (this.state.user !== null) {
+            this.state.user_id = localStorage.getItem("user").split("\"")[3];
+            this.state.user_email = localStorage.getItem("user").split("\"")[7];
+        }
 
 
         this.callApi()
@@ -91,7 +117,7 @@ export class CarppolingList extends Component {
             .catch(err => console.log(err));
 
 
-        axios.get('carpooling/notification/5e7b8867148bfa40989888dd')
+        axios.get('carpooling/notification/' + this.state.user_id)
             .then(response => {
                 this.setState({ notifications: response.data.data })
                 console.log(response.data)
@@ -101,8 +127,42 @@ export class CarppolingList extends Component {
             })
 
 
+
     }
 
+    myFunction() {
+
+        var input, filter, div, d , h4, h3, a, i, txtValue;
+        //input = document.getElementById("myInput");
+        filter = document.getElementById("myInput").value.toUpperCase();
+        div = document.getElementById("myDIV");
+
+       
+        d = div.querySelectorAll("#da");
+        
+        for (i = 0; i < d.length; i++) {
+            h4 = d[i].getElementsByTagName("h4")[0];
+            h3 = d[i].getElementsByTagName("h3")[0];
+          
+            console.log(h4)
+
+
+            txtValue = h4.textContent || h4.innerText || h3.textContent || h3.innerText;
+            console.log(txtValue)
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                d[i].style.display = "";
+            } else {
+                d[i].style.display = "none";
+            }
+        }
+
+    }
+
+    showAdvancedSearch() {
+        this.setState({
+            advancedSearch: !this.state.advancedSearch,
+        })
+    }
 
     callApi = async () => {
         const response = await fetch('users/searchAuthorById/' + this.state.user_id);
@@ -120,7 +180,7 @@ export class CarppolingList extends Component {
     }
 
     callApi2 = async () => {
-        const response = await fetch('carpooling/notification/5e7b8867148bfa40989888dd');
+        const response = await fetch('carpooling/notification/' + this.state.user_id);
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         this.setState({
@@ -175,7 +235,53 @@ export class CarppolingList extends Component {
         })
     }
 
+
+    handleSubmit = event => {
+        event.preventDefault();
+
+        const { from, to, email } = this.state; //object disctructor
+
+        const carpooling = {
+
+            trage: {
+                from: from,
+                to: to
+            },
+            people_parcel_Carpooling: this.state.people_parcel_Carpooling,
+            offre_demand_Carpooling: this.state.offre_demand_Carpooling,
+            date: this.state.date,
+            price: this.state.price,
+            disponibility: this.state.disponibility,
+            fromDate: this.state.fromDate,
+            toDate: this.state.toDate,
+            author: {
+                email: email
+
+            },
+
+        };
+
+        console.log(carpooling)
+
+        axios.post(`carpooling/searchByType`, carpooling)
+            .then(async res => {
+                //  console.log(res.data.data._id)
+                if (res.status === 200) {
+                    this.setState({ carpoolingsSearch: res.data.data, resultatS: true, advancedSearch: false })
+                    console.log(res.data)
+                } else {
+                    console.log(' none ')
+                }
+            })
+
+
+    }
+
+
+    
+
     render() {
+
 
 
 
@@ -213,20 +319,19 @@ export class CarppolingList extends Component {
                     <div className="border border-success">
                         {objsN.map((notif, index) => (
 
-                            <div  key={index}>
+                            <div key={index}>
 
                                 <br></br> <br></br>
 
 
 
                                 <div className="rayen">
-                                    
-                                    <p key={notif.subject} > {notif.subject}</p>
-                                    <p key={notif.content} > {notif.content}</p>
-                                    
-                                    <p key={notif.sender.email} > {notif.sender.email}</p>
 
-                                    
+                                    <p className="sug" key={notif.subject} > {notif.subject}</p>
+                                    <p className="pi" key={notif.content} > {notif.content}</p>
+
+
+
                                     <a onClick={() => this.deleteNotif(notif._id)} className="btn btn-danger readmore">Delete </a>
                                     <Link className="btn btn-warning readmore" to={"/carpoolingDetails/" + notif.post._id}>Details </Link>
 
@@ -242,12 +347,289 @@ export class CarppolingList extends Component {
         );
 
 
+
+
+
         const Data = ({ objs }) => (
             <>
 
+                <button type="button" onClick={() => this.showAdvancedSearch()} className="btn btn-outline-secondary">Advanced Search</button>
+
+                {this.state.advancedSearch ?
+
+                    <div  className="container">
+                        <div className="col-md-3">
+                            <div ></div>
+                        </div>
+                        <div className="col-md-6">
+
+                            <div className="container-fluid p-3 my-3 border well well-lg" style={{ backgroundColor: '#F0FFF0' }}>
+                                <form onSubmit={this.handleSubmit} role="form" className="form-inline">
+                                    <br></br>
+
+                                    <div className="form-group">
+
+                                        <label >Choose an :</label> &nbsp;&nbsp;
+
+
+                                    <select className="form-control" id="people_parcel_Carpooling" name="people_parcel_Carpooling" value={this.state.people_parcel_Carpooling} onChange={this.handleChange}>
+                                            <option >Option</option>
+                                            <option value="People">People</option>
+                                            <option value="Parcel">Parcel</option>
+
+                                        </select>
+                                    </div>
+
+                                    <br></br>
+                                    <div className="form-group">
+                                        <label >Choose an :</label>&nbsp;&nbsp;
+
+                                    <select className="form-control" id="offre_demand_Carpooling" name="offre_demand_Carpooling" value={this.state.offre_demand_Carpooling} onChange={this.handleChange}>
+                                            <option >Option</option>
+                                            <option value="Offer">Offer</option>
+                                            <option value="Demand">Demand</option>
+
+                                        </select>
+
+                                    </div>
+                                    <br></br>
+
+                                    <div className="form-group">
+                                        <input className="form-control" name="from" id="from" placeholder="Trage .. from"
+                                            value={this.state.from} onChange={this.handleChange} />
+
+                                    </div>
+                                    <div className="form-group" >
+                                        <input className="form-control" name="to" id="to" placeholder="trage ..to"
+                                            value={this.state.to} onChange={this.handleChange} />
+
+                                    </div>
+                                    <div className="form-group">
+                                        <input className="form-control" name="email" id="email" placeholder="username"
+                                            value={this.state.name} onChange={this.handleChange} />
+
+                                    </div>
+
+                                    <div className="form-group has-feedback">
+                                        <input className="form-control" value={this.state.date} onChange={this.handleChange} type="datetime-local" name="date" />
+                                        <span className="glyphicon glyphicon-user feedback" />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <input type="number" className="form-control" name="disponibility" id="disponibility" placeholder="places u need"
+                                            value={this.state.name} onChange={this.handleChange} />
+
+                                    </div>
+                                    <div className="form-group">
+                                        <input type="number" className="form-control" name="price" id="price" placeholder="price"
+                                            value={this.state.name} onChange={this.handleChange} />
+
+                                    </div>
+                                    <br></br>
+
+                                    <button className="btn btn-warning" type="submit" name="submit" required="required">   Search </button>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    : null
+
+                }
+
+
                 {objs.map((carpooling, index) => (
 
+                    <div id="da" key={index}>
+
+
+
+
+                        <br></br> <br></br>
+
+                        {carpooling.offre_demand_Carpooling !== 'Deman' ?
+
+                            <section id="blog" className="container">
+                                <div >
+                                    <h4 key={carpooling.title} >  {carpooling.title}</h4>
+                                </div>
+                                <div className="blog">
+                                    <div className="row">
+
+                                        <div style={{ float: 'right' }}>
+
+                                            <div style={{ backgroundColor: carpooling.offre_demand_Carpooling === 'Demand' ? "red" : "green" }}>
+                                                <h3 key={carpooling.offre_demand_Carpooling} >{carpooling.offre_demand_Carpooling}</h3>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-10">
+                                            <div key={index} className="container-fluid p-3 my-3 border well well-lg" >
+
+
+
+                                                <div className="blog-item" >
+                                                    <div className="row">
+
+                                                        <div className="col-xs-12 col-sm-4" >
+                                                            <div className="entry-meta" >
+                                                                <span id="publish_date" key={carpooling.date} > {carpooling.date}</span>
+                                                                {carpooling !== null && carpooling.author !== undefined ?
+                                                                    <span style={{ backgroundColor: '#C0C0C0', color: 'red' }}><i className="fa fa-user" /> <a href="#" style={{ color: 'black' }} key={carpooling.author.email} > {carpooling.author.email}</a></span>
+                                                                    : null
+                                                                }
+
+
+                                                                <span style={{ backgroundColor: '#C0C0C0', color: 'red' }}><i className="fa fa-comment" />
+                                                                    <Link style={{ color: 'black' }} to={"/listComments/" + carpooling._id}>Consult comment  </Link>
+                                                                    <a style={{ color: 'black' }} href="#" key={carpooling.comments} > {carpooling.comments.length} Comments</a></span>
+                                                                <span style={{ backgroundColor: '#C0C0C0', color: 'red' }}><i className="fa fa-heart" /><a href="#" style={{ color: 'black' }} key={carpooling.price} >Price:  {carpooling.price} dt</a></span>
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-xs-12 col-sm-8 blog-content">
+
+                                                            {/* <a href="#"><img className="img-responsive img-blog" src="images/blog/blog1.jpg" width="100%" alt="" /></a> */}
+                                                            {/* <h4> { this.carpoolingList() }</h4> */}
+                                                            {carpooling !== null && carpooling.trage !== undefined ?
+                                                                <div>
+                                                                    <p key={carpooling.trage.from} > From : {carpooling.trage.from}</p>
+                                                                    <p key={carpooling.trage.to} > To : {carpooling.trage.to}</p>
+
+                                                                </div>
+                                                                : null
+                                                            }
+                                                            <p key={carpooling.description} > Description : <br></br>{carpooling.description}</p>
+                                                            <p key={carpooling.createdAt} > Created at :{carpooling.createdAt}</p>
+
+                                                            {
+
+                                                                carpooling !== null && carpooling.author !== undefined && carpooling.author.email === this.state.user_email ?
+                                                                    <a onClick={() => this.deleteCarpooling(carpooling._id)} className="btn btn-danger readmore">Delete </a>
+                                                                    : null
+                                                            }
+                                                            <Link className="btn btn-info readmore" to={"/addComment/" + carpooling._id}>Add comment  </Link>
+                                                            <Link className="btn btn-warning readmore" to={"/carpoolingDetails/" + carpooling._id}>Details </Link>
+                                                            {
+
+                                                                carpooling !== null && carpooling.author !== undefined && carpooling.author.email === this.state.user_email ?
+                                                                    <Link className="btn btn-info readmore" to={"/editCarpooling/" + carpooling._id}>edit <i className="fa fa-angle-right" /> </Link>
+                                                                    : null
+                                                            }
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div></div></div></section>
+                            : null
+                        }
+                    </div>
+                ))}
+            </>
+        );
+
+
+
+
+
+
+        /* ********************************hedy Search result ****************************/
+
+
+        const objsSeacrh = this.state.carpoolingsSearch;
+        const DataSearch = ({ objsSeacrh }) => (
+            <>
+
+                <button type="button" onClick={() => this.showAdvancedSearch()} className="btn btn-outline-secondary">Advanced Search</button>
+
+                {this.state.advancedSearch ?
+
+                    <div className="container">
+                        <div className="col-md-3">
+                            <div ></div>
+                        </div>
+                        <div className="col-md-6">
+
+                            <div className="container-fluid p-3 my-3 border well well-lg" style={{ backgroundColor: '#F0FFF0' }}>
+                                <form onSubmit={this.handleSubmit} role="form" className="form-inline">
+                                    <br></br>
+
+                                    <div className="form-group">
+
+                                        <label >Choose an :</label> &nbsp;&nbsp;
+
+
+                <select className="form-control" id="people_parcel_Carpooling" name="people_parcel_Carpooling" value={this.state.people_parcel_Carpooling} onChange={this.handleChange}>
+                                            <option >Option</option>
+                                            <option value="People">People</option>
+                                            <option value="Parcel">Parcel</option>
+
+                                        </select>
+                                    </div>
+
+                                    <br></br>
+                                    <div className="form-group">
+                                        <label >Choose an :</label>&nbsp;&nbsp;
+
+                <select className="form-control" id="offre_demand_Carpooling" name="offre_demand_Carpooling" value={this.state.offre_demand_Carpooling} onChange={this.handleChange}>
+                                            <option >Option</option>
+                                            <option value="Offer">Offer</option>
+                                            <option value="Demand">Demand</option>
+
+                                        </select>
+
+                                    </div>
+                                    <br></br>
+
+                                    <div className="form-group">
+                                        <input className="form-control" name="from" id="from" placeholder="Trage .. from"
+                                            value={this.state.from} onChange={this.handleChange} />
+
+                                    </div>
+                                    <div className="form-group" >
+                                        <input className="form-control" name="to" id="to" placeholder="trage ..to"
+                                            value={this.state.to} onChange={this.handleChange} />
+
+                                    </div>
+                                    <div className="form-group">
+                                        <input className="form-control" name="email" id="email" placeholder="username"
+                                            value={this.state.name} onChange={this.handleChange} />
+
+                                    </div>
+
+                                    <div className="form-group has-feedback">
+                                        <input className="form-control" value={this.state.date} onChange={this.handleChange} type="datetime-local" name="date" />
+                                        <span className="glyphicon glyphicon-user feedback" />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <input type="number" className="form-control" name="disponibility" id="disponibility" placeholder="places u need"
+                                            value={this.state.name} onChange={this.handleChange} />
+
+                                    </div>
+                                    <div className="form-group">
+                                        <input type="number" className="form-control" name="price" id="price" placeholder="price"
+                                            value={this.state.name} onChange={this.handleChange} />
+
+                                    </div>
+                                    <br></br>
+
+                                    <button className="btn btn-warning" type="submit" name="submit" required="required">   Search </button>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    : null
+
+                }
+
+                {objsSeacrh.map((carpooling, index) => (
+
                     <div key={index}>
+
+
+
 
                         <br></br> <br></br>
 
@@ -331,17 +713,38 @@ export class CarppolingList extends Component {
         );
 
 
+
+
+
         if (objs !== null) {
             return (
                 <div className="suggest-list">
+                                    <input type="text" id="myInput" onKeyUp={() => this.myFunction()} placeholder="Search for names.." title="Type in a name"></input>
+
 
                     <DataN objsN={objsN} />
-                    <Data objs={objs} />
+
+                    {this.state.resultatS === false ?
+                        <div id="myDIV">
+                            <Data objs={objs} currentPosts={currentPosts} />
+                        </div>
+                        :
+                        <DataSearch objsSeacrh={objsSeacrh} />
+                    }
+
+
+
+
                     <Pagination
                         postsPerPage={postsPerPage}
                         totalPosts={this.state.carpoolings.length}
                         paginate={paginate}
                     />
+
+
+
+
+
 
                 </div>
 
@@ -550,5 +953,7 @@ export class CarppolingList extends Component {
             )
         }
     }
+
+
 }
 export default CarppolingList

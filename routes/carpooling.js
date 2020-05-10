@@ -37,6 +37,12 @@ router
 .put(controllers.updateComment)
 
 
+router
+.route('/searchByType')
+.post(controllers.searchByType)
+
+
+
 
 router
 .route('/comment/:id/:idComment')
@@ -46,6 +52,11 @@ router
 .route('/notification/:id')
 .get(controllers.getNotification)
 .delete(controllers.deleteNotif)
+
+
+router
+.route('/sendInvite/:id/:idClient')
+.post(controllers.sendInvite)
 
 
 

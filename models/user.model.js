@@ -50,6 +50,11 @@ const userSchema = new Schema({
     type: String,
     enum: ['Admin', 'User']
   },
+  etat: {
+    type: String,
+    enum: ['Waiting', 'Accepted', 'Rejected'],
+    default:'Waiting'
+  },
   password: { type: String, required: false, minlength: 3 },
   linkFB: { type: String },
   address: { type: String },

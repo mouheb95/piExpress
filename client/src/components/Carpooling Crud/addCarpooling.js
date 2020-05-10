@@ -88,8 +88,10 @@ export class AddCarpooling extends React.Component {
 
     componentDidMount() {
         this.state.user = localStorage.getItem("user");
-        this.state.user_id = localStorage.getItem("user").split("\"")[3];
-        this.state.user_email = localStorage.getItem("user").split("\"")[7];
+        if (this.state.user !== null) {
+            this.state.user_id = localStorage.getItem("user").split("\"")[3];
+            this.state.user_email = localStorage.getItem("user").split("\"")[7];
+        }
         console.log(this.state.user)
         console.log(this.state.user_email)
 
@@ -168,6 +170,12 @@ export class AddCarpooling extends React.Component {
         if (this.state.redirectToNewPage) {
             return (
             <Redirect to="/parcelPict"/>
+            )
+          }
+
+          if (localStorage.getItem("user") === null) {
+            return (
+            <Redirect to="/login"/>
             )
           }
         return (

@@ -1,14 +1,19 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
+
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import DatePicker from 'react-date-picker';
 import CurrencyInput from 'react-currency-input';
+import { Map, Marker, Popup, TileLayer, Polyline } from 'react-leaflet';
+
 
 
 
 export class CarpoolingDetails extends React.Component {
     constructor(props) {
         super(props);
+        this.showMap = this.showMap.bind(this)
+
         this.state = {
             doc: null,
             id: '',
@@ -37,7 +42,7 @@ export class CarpoolingDetails extends React.Component {
                 weight: '',
                 dimension: '',
                 quantity: '',
-                photos:''
+                photos: ''
             },
 
             author: {
@@ -46,11 +51,49 @@ export class CarpoolingDetails extends React.Component {
                 email: ''
             },
 
-            pict:''
+            pict: '',
+
+            timer: null,
+            gif: '',
+            loaded: '',
+
+
+
+
+
+
+            lat: 35.828829,
+            lng: 10.640525,
+            zoom: 7,
+
+            from_lat: "35.594604950000004",
+            from_long: "11.010310615238183",
+            id: "132512",
+            to_lat: "35.828829",
+            to_long: "10.640525",
+
+
+
+            nameFrom: '',
+            nameTo: '',
+
+            from: 'sousse',
+            to: 'sfax',
+
+
+            hideMap: false,
         }
+
+
 
     }
 
+
+    reloadGif = () => {
+        setTimeout(() => {
+            this.setState({ pict: this.state.pict })
+        }, 0)
+    }
 
 
     componentDidMount() {
@@ -60,12 +103,98 @@ export class CarpoolingDetails extends React.Component {
         console.log(this.state.user)
         console.log(this.state.user_email)
 
-        this.callApi()
+        /* this.callApi()
+            .then(res => this.setState({ response: res.express }))
+            .catch(err => console.log(err));
+
+        console.log(this.state.doc) */
+
+
+
+        this.from()
             .then(res => this.setState({ response: res.express }))
             .catch(err => console.log(err));
 
 
+
+        this.to()
+            .then(res => this.setState({ response: res.express }))
+            .catch(err => console.log(err));
+
+
+
+
     }
+
+    handleChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
+    };
+
+
+    showMap() {
+
+        this.from()
+            .then(res => this.setState({ response: res.express }))
+            .catch(err => console.log(err));
+
+        this.to()
+            .then(res => this.setState({ response: res.express }))
+            .catch(err => console.log(err));
+
+        this.setState({
+            hideMap: true
+        })
+    }
+
+    from = async () => {
+        this.setState({
+            from: this.state.trage.from
+        })
+
+        console.log(this.state.trage.from)
+        const response = await fetch("https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" + this.state.trage.from);
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+
+        this.setState({
+            from_lat: body[0].lat,
+            from_long: body[0].lon,
+            nameFrom: body[0].display_name,
+
+        })
+        return body;
+    }
+
+    to = async () => {
+        this.setState({
+            to: this.state.trage.to
+        })
+        console.log(this.state.to)
+
+        const response = await fetch("https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" + this.state.trage.to);
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+
+        this.setState({
+            to_lat: body[0].lat,
+            to_long: body[0].lon,
+            nameTo: body[0].display_name,
+
+        })
+
+        return body;
+    }
+
+    componentWillMount() {
+
+        this.callApi()
+            .then(res => this.setState({ response: res.express }))
+            .catch(err => console.log(err));
+        console.log(this.state.doc)
+
+    }
+
+
 
 
     callApi = async () => {
@@ -94,7 +223,7 @@ export class CarpoolingDetails extends React.Component {
                 weight: body.data.parcel.weight,
                 dimension: body.data.parcel.dimension,
                 quantity: body.data.parcel.quantity,
-                photos:body.data.parcel.photos
+                photos: body.data.parcel.photos
 
             },
             author: {
@@ -103,14 +232,52 @@ export class CarpoolingDetails extends React.Component {
                 email: body.data.author.email
             },
             id: body.data._id,
-            pict:body.data.parcel.photos.split("\\")[1]
+
+            pict: body.data.parcel.photos
         })
-        console.log(this.state.pict)
-        
+
+
+        console.log(body.data)
+        if (this.state.pict !== null) {
+
+            this.setState({ pict: this.state.pict.split("\\")[1] })
+        }
+
+        console.log("********" + this.state.pict)
+
+    }
+
+
+
+
+    sendInvite(id) {
+        axios.post(`http://localhost:3000/carpooling/sendInvite/` + id + '/' + this.state.user_id)
+            .then(async res => {
+                //  console.log(res.data.data._id)
+                if (res.status === 200) {
+
+                    console.log(res.data)
+                } else {
+                    console.log(' none ')
+                }
+            })
+
     }
 
 
     render() {
+
+
+
+
+        const position = [this.state.lat, this.state.lng];
+
+        const from_lat = this.state.from_lat
+        const to_lat = this.state.to_lat
+
+        const from_long = this.state.from_long
+        const to_long = this.state.to_long
+
         return (
             <div>
                 <div className="aboutus">
@@ -118,7 +285,7 @@ export class CarpoolingDetails extends React.Component {
                     <div className="container">
                         <h3>{this.state.title}</h3>
                         <hr />
-                        <div className="col-md-7 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
+                        <div className="col-md-5 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
 
                             <h4>Description :</h4>
                             <p>{this.state.description} </p>
@@ -156,7 +323,7 @@ export class CarpoolingDetails extends React.Component {
                             </p>
 
 
-                            {this.state.parcel !== null && this.state.parcel.categorie !== undefined ?
+                            {this.state.parcel !== null && this.state.parcel._id !== '' ?
                                 <div> <h4>Parcel :</h4>
                                     <table style={{ width: "100%", border: '1px solid black' }}>
                                         <tr>
@@ -173,6 +340,8 @@ export class CarpoolingDetails extends React.Component {
                                         </tr>
 
                                     </table>
+
+                                    {/* <button onClick={this.reloadGif}>Replay Animation</button> */}
 
                                     <a href="#">  <img className="img-responsive img-blog" src={`http://localhost:5000/uploads/${this.state.pict}`} width="100%" alt="" /></a>
 
@@ -216,13 +385,75 @@ export class CarpoolingDetails extends React.Component {
                             <h4> Kind ( Offer / Demand)  :   {this.state.offre_demand_Carpooling} </h4>
 
 
+                            <button type="button" onClick={() => this.sendInvite(this.state.id)} className="btn btn-outline-secondary">Send Invite</button>
 
 
                         </div>
-                        <div className="col-md-5 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
+
+
+                        <div className="col-md-7" data-wow-duration="1000ms" data-wow-delay="600ms">
                             <div className="skill">
                                 <h2>Map</h2>
+                                <button type="button" onClick={() => this.showMap()}>Show Map</button>
                                 <p>This is your trage</p>
+                                                  From   :      {this.state.nameFrom}
+                                                   <br></br>
+                                                 To     :      {this.state.nameTo}
+
+
+
+                                <div>
+                                    <br></br>
+                                    <br></br>
+                                    <br></br>
+                                    <br></br>
+                                    <br></br>
+                                    <br></br>
+                                    
+                                    <br></br>
+                                    <br></br>
+                                    <br></br>
+                                    <br></br>
+
+
+
+
+
+
+                                    {this.state.hideMap !== false ?
+
+                                        <div>
+
+
+                                           
+                                            <br></br>
+                                            <br></br>
+
+
+                                            <Map
+                                                style={{ height: "100vh" }}
+                                                center={position}
+                                                zoom={this.state.zoom}
+                                            >
+                                                <TileLayer
+                                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                                                />
+
+                                                <Polyline key={this.state.id} positions={[
+                                                    [from_lat, from_long], [to_lat, to_long],
+                                                ]} color={'red'} />
+
+                                            </Map>
+
+
+                                        </div>
+
+                                        : null
+                                    }
+
+
+                                </div>
 
 
 
