@@ -4,6 +4,8 @@ import axios from 'axios';
 import Pagination from './pagination';
 import Popup from "reactjs-popup";
 import { Redirect } from 'react-router';
+import ChatBot from 'react-simple-chatbot';
+
 
 
 
