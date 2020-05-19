@@ -4,15 +4,57 @@ import ChatBot from 'react-simple-chatbot';
 import Review from './review';
 
 export class SimpleForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      opened: true
+
+    }
+  }
+  componentDidMount() {
+    this.state.user_email = localStorage.getItem("user").split("\"")[7];
+    console.log(this.state.user_email)
+    }
+    toggleFloating = ({ opened }) => {
+      this.setState({ opened }); 
+    }
   render() {
+    const { opened } = this.state;
+
+ 
+    this.state.user_email = localStorage.getItem("user").split("\"")[7];
+    console.log(this.state.user_email)
     return (
+      <div>
+
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
       <ChatBot
       headerTitle="Speech Synthesis"
       speechSynthesis={{ enable: true, lang: 'en' }}
+      floating={true}
+        opened={opened}
+        toggleFloating={this.toggleFloating}
         steps={[
           {
+            id: '0',
+            message: 'hi,'+this.state.user_email+', if you want to search for carpooling, i can help you ',
+            trigger: 'Q',
+          },
+          {
+            id: 'Q',
+            options: [
+              { value: 'Yes', label: 'Yes', trigger: '1' },
+              { value: 'No', label: 'No', trigger: 'end-message2' },
+            ],
+          },
+          {
             id: '1',
-            message: 'hi where r u now ?',
+            message: ' where r u now ?',
             trigger: 'from',
           },
           {
@@ -118,9 +160,16 @@ export class SimpleForm extends Component {
             message: 'Thanks! Your data was submitted successfully!',
             end: true,
           },
+          {
+            id: 'end-message2',
+            message: 'Thanks! ',
+            end: true,
+          },
           
         ]}
+        
       />
+      </div>
     );
   }
 }

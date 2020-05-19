@@ -5,6 +5,7 @@ import Pagination from './pagination';
 import Popup from "reactjs-popup";
 import { Redirect } from 'react-router';
 import ChatBot from 'react-simple-chatbot';
+import Review from './review';
 
 
 
@@ -75,6 +76,8 @@ export class CarppolingList extends Component {
             date: '',
             price: '0.00',
             disponibility: '',
+            opened: true,
+
 
 
         };
@@ -84,6 +87,9 @@ export class CarppolingList extends Component {
 
     }
 
+    toggleFloating = ({ opened }) => {
+        this.setState({ opened }); 
+      }
 
 
     handleChange = event => {
@@ -134,18 +140,18 @@ export class CarppolingList extends Component {
 
     myFunction() {
 
-        var input, filter, div, d , h4, h3, a, i, txtValue;
+        var input, filter, div, d, h4, h3, a, i, txtValue;
         //input = document.getElementById("myInput");
         filter = document.getElementById("myInput").value.toUpperCase();
         div = document.getElementById("myDIV");
 
-       
+
         d = div.querySelectorAll("#da");
-        
+
         for (i = 0; i < d.length; i++) {
             h4 = d[i].getElementsByTagName("h4")[0];
             h3 = d[i].getElementsByTagName("h3")[0];
-          
+
             console.log(h4)
 
 
@@ -280,12 +286,17 @@ export class CarppolingList extends Component {
     }
 
 
-    
+
 
     render() {
 
 
 
+        const { opened } = this.state;
+
+ 
+        this.state.user_email = localStorage.getItem("user").split("\"")[7];
+        console.log(this.state.user_email)
 
         const currentPage = this.state.currentPage;
         const postsPerPage = this.state.postsPerPage;
@@ -359,7 +370,7 @@ export class CarppolingList extends Component {
 
                 {this.state.advancedSearch ?
 
-                    <div  className="container">
+                    <div className="container">
                         <div className="col-md-3">
                             <div ></div>
                         </div>
@@ -738,8 +749,7 @@ carpooling !== null && carpooling.author !== undefined && carpooling.author.emai
         if (objs !== null) {
             return (
                 <div className="suggest-list">
-                                    <input type="text" id="myInput" onKeyUp={() => this.myFunction()} placeholder="Search for names.." title="Type in a name"></input>
-
+                    <input type="text" id="myInput" onKeyUp={() => this.myFunction()} placeholder="Search for names.." title="Type in a name"></input>
 
                     <DataN objsN={objsN} />
 
@@ -751,7 +761,147 @@ carpooling !== null && carpooling.author !== undefined && carpooling.author.emai
                         <DataSearch objsSeacrh={objsSeacrh} />
                     }
 
+                    <div>
 
+                        <br></br>
+                        <br></br>
+                        <ChatBot
+                            headerTitle="Speech Synthesis"
+                            speechSynthesis={{ enable: true, lang: 'en' }}
+                            floating={true}
+                            opened={opened}
+                            toggleFloating={this.toggleFloating}
+                            steps={[
+                                {
+                                    id: '0',
+                                    message: 'hi,' + this.state.user_email + ', if you want to search for carpooling, i can help you ',
+                                    trigger: 'Q',
+                                },
+                                {
+                                    id: 'Q',
+                                    options: [
+                                        { value: 'Yes', label: 'Yes', trigger: '1' },
+                                        { value: 'No', label: 'No', trigger: 'end-message2' },
+                                    ],
+                                },
+                                {
+                                    id: '1',
+                                    message: ' where r u now ?',
+                                    trigger: 'from',
+                                },
+                                {
+                                    id: 'from',
+                                    user: true,
+                                    trigger: '3',
+                                },
+                                {
+                                    id: '3',
+                                    message: 'where u wanna go ?',
+                                    trigger: 'to',
+                                },
+                                {
+                                    id: 'to',
+                                    user: true,
+                                    trigger: '5',
+                                },
+                                {
+                                    id: '5',
+                                    message: 'Offer or Demand ?',
+                                    trigger: 'offre_demand_Carpooling',
+                                },
+                                {
+                                    id: 'offre_demand_Carpooling',
+                                    options: [
+                                        { value: 'Offer', label: 'Offer', trigger: '7' },
+                                        { value: 'Demand', label: 'Demand', trigger: '7' },
+                                    ],
+                                },
+                                {
+                                    id: '7',
+                                    message: 'People or Parcel ?',
+                                    trigger: 'people_parcel_Carpooling',
+                                },
+                                {
+                                    id: 'people_parcel_Carpooling',
+                                    options: [
+                                        { value: 'People', label: 'People', trigger: '9' },
+                                        { value: 'Parcel', label: 'Parcel', trigger: '9' },
+                                    ],
+                                },
+
+                                {
+                                    id: '9',
+                                    message: 'Great! Check out your summary',
+                                    trigger: 'review',
+                                },
+                                {
+                                    id: 'review',
+                                    component: <Review />,
+                                    asMessage: true,
+                                    trigger: 'update',
+                                },
+                                {
+                                    id: 'update',
+                                    message: 'Would you like to update some field?',
+                                    trigger: 'update-question',
+                                },
+                                {
+                                    id: 'update-question',
+                                    options: [
+                                        { value: 'yes', label: 'Yes', trigger: 'update-yes' },
+                                        { value: 'no', label: 'No', trigger: 'end-message' },
+                                    ],
+                                },
+                                {
+                                    id: 'update-yes',
+                                    message: 'What field would you like to update?',
+                                    trigger: 'update-fields',
+                                },
+                                {
+                                    id: 'update-fields',
+                                    options: [
+                                        { value: 'from', label: 'from', trigger: 'update-from' },
+                                        { value: 'to', label: 'to', trigger: 'update-to' },
+                                        { value: 'offre_demand_Carpooling', label: 'offre_demand_Carpooling', trigger: 'update-offre_demand_Carpooling' },
+                                        { value: 'people_parcel_Carpooling', label: 'people_parcel_Carpooling', trigger: 'update-people_parcel_Carpooling' },
+
+                                    ],
+                                },
+                                {
+                                    id: 'update-from',
+                                    update: 'from',
+                                    trigger: '9',
+                                },
+                                {
+                                    id: 'update-to',
+                                    update: 'to',
+                                    trigger: '9',
+                                },
+                                {
+                                    id: 'update-offre_demand_Carpooling',
+                                    update: 'offre_demand_Carpooling',
+                                    trigger: '9',
+                                },
+                                {
+                                    id: 'update-people_parcel_Carpooling',
+                                    update: 'people_parcel_Carpooling',
+                                    trigger: '9',
+                                },
+                                {
+                                    id: 'end-message',
+                                    message: 'Thanks! Your data was submitted successfully!',
+                                    end: true,
+                                },
+                                {
+                                    id: 'end-message2',
+                                    message: 'Thanks! ',
+                                    end: true,
+                                },
+
+                            ]}
+
+                        />
+                    </div>
 
 
                     <Pagination
