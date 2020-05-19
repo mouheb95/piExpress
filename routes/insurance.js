@@ -51,5 +51,8 @@ router
 .delete(controllers1.suppappointment)
 .put(controllers1.updateAppointment)
 
+router
+.route('/allapp/:idus')
+.get(controllers1.getallappointments)
 
 module.exports = router;

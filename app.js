@@ -4,7 +4,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const authenticateJWT = require('./middleware');
+const bodyParser = require('body-parser');
+const pdf = require('html-pdf');
+const cors = require('cors');
 
+const pdfTemplate = require('./documents');
 const multer = require('multer');
 
 
@@ -105,12 +109,12 @@ app.post('/checkToken', authenticateJWT, function(req, res) {
   res.sendStatus(200);
 });
 
-
+/*
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
+*/
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
@@ -121,5 +125,33 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.use(cors());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
+app.post('/create-pdf', (req, res) => {
+    pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
+        if(err) {
+            res.send(Promise.reject());
+        }
+
+        res.send(Promise.resolve());
+    });
+});
+
+app.get('/fetch-pdf', (req, res) => {
+    res.sendFile(`${__dirname}/result.pdf`)
+})
+
+// Serve static assets if in production
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
 module.exports = app;

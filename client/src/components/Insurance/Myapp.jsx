@@ -15,6 +15,7 @@ export default class AddApp extends Component {
     date: '',
     place: '',
     carpooling:'',
+    user_id: null,
 
             appointment: [],
 
@@ -25,8 +26,9 @@ export default class AddApp extends Component {
 
 
     componentDidMount() {
+        this.state.user_id = localStorage.getItem("user").split("\"")[3];
 
-        axios.get('/insurance/appoint/' + this.props.match.params.id)
+        axios.get('/insurance/allapp/'+this.state.user_id)
             .then(response => {
                 this.setState({ appointment: response.data.data,
                                   })
@@ -46,11 +48,13 @@ export default class AddApp extends Component {
         console.log(this.state.user)
         console.log(this.state.user_email)
 
+      
 
 
     }
 
 
+ 
     handleChange = event => {
         this.setState({ [event.target.name]: event.target.value });
     };
@@ -88,48 +92,6 @@ export default class AddApp extends Component {
         const Data = ({ objs }) => (
             <>
 
-<body className="hold-transition register-page">
-                <div className="register-box">
-                    <div className="register-logo">
-                        <a href="fake_link"><b>APP</b>ointment</a>
-                    </div>
-                    <div className="register-box-body">
-                        <p className="login-box-msg">Add new appointment</p>
-                        <form onSubmit={this.handleSubmit}>
-                            <div className="form-group has-feedback">
-                                <input type="datetime-local"  name="date" className="form-control"  value={this.state.date} onChange={this.handleChange} />
-                                <span className="glyphicon glyphicon-user form-control-feedback" />
-                            </div>
-                            <div className="form-group has-feedback">
-                                <input type="text"  name="place" className="form-control" placeholder="Place" value={this.state.place} onChange={this.handleChange} />
-                                <span className="glyphicon glyphicon-user form-control-feedback" />
-                            </div>
-                    
-                            <div className="form-group has-feedback">
-                            <label>
-        User :
-          <select name="user" value={this.state.user} onChange={this.handleChange}>
-            <option value="5ea91ec5ad21753cacfc613f">Rania</option>
-            <option value="5ea91f14ad21753cacfc6140">Achraf</option>
-          </select>
-        </label>
-                                <span className="glyphicon glyphicon-lock form-control-feedback" />
-                            </div>
-                            
-                            <div className="row">
-                                
-                                {/* /.col */}
-                                <div className="col-xs-4">
-                                    <button type="submit" className="btn btn-primary btn-block btn-flat">Add</button>
-                                </div>
-                                {/* /.col */}
-                            </div>
-                        </form>
-                       
-                    </div>
-                    {/* /.form-box */}
-                </div>
-            </body>
                     <section id="blog" className="container">
                         <div className="blog">
                             <div className="row justify-content-md-center">
@@ -142,24 +104,6 @@ export default class AddApp extends Component {
                                     {objs.map((appoint, index) => (
                                         <div key={index}>
 
-{appoint.user=="5e7d117e525cda0f88b6f193" &&(
-        
-                                            <h4 key={appoint.user} > 
-                                            
-                                           Name: Mohamed</h4>
-  )}
-  {appoint.user=="5ea91f14ad21753cacfc6140" &&(
-        
-        <h4 key={appoint.user} > 
-        
-      Name: Achraf</h4>
-)}
-{appoint.user=="5ea91ec5ad21753cacfc613f" &&(
-        
-        <h4 key={appoint.user} > 
-        
-       Name: Rania</h4>
-)}
                                            
                                             <div class="container-fluid p-3 my-3 border well well-lg">
                                         

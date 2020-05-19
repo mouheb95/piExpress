@@ -13,7 +13,7 @@ export default class AddInsurance extends React.Component {
     age: '',
     categorie: '', 
     proposedtopay: '',
-    carpooling:''
+    carpooling: this.props.match.params.id 
     };
     console.log(this.state.isLogin)
         if (this.state.isLogin !== true) { 
@@ -37,17 +37,16 @@ export default class AddInsurance extends React.Component {
     age: this.state.age,
     categorie: this.state.categorie, 
     proposedtopay: this.state.proposedtopay,
-    carpooling: "5e934594d526bd3e5c3716ae" 
+    carpooling: this.state.carpooling
         };
 
         console.log(insurance)
-
-        axios.post(`insurance/ins`, insurance)
+        axios.post(`/insurance/ins`, insurance)
             .then(async res => {
                 if (res.status === 201) {
                     console.log(insurance.carpooling)
                    this.props.history.push("/getins/"+insurance.carpooling)
-                } else {
+                } else { 
                     console.log(' none ')
                 }
             })

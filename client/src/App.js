@@ -8,8 +8,10 @@ import Register from "./components/Register";
 import AddInsurance from "./components/Insurance/AddInsurance";
 import GetInsurance from "./components/Insurance/GetInsurance";
 import EditInsurance from "./components/Insurance/EditInsurance";
+import EditApp from  "./components/Insurance/EditApp";
 import AddApp from "./components/Insurance/AddApp";
 import GetApp from "./components/Insurance/GetApp";
+import Myapp from "./components/Insurance/Myapp";
 import DashBoard from './dashboard/Dashboard';
 import Home from './template/home';
 import withAuth from './tools/withAuth';
@@ -68,11 +70,14 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route path="/claim" component={Claim} />
             <Route path='/all' component={AllClaim} />
-            <Route path='/addins' component={AddInsurance} />
+            <Route path='/addins/:id' component={AddInsurance} />
             <Route path='/getins/:id' component={GetInsurance} />
             <Route path='/editins/:id' component={EditInsurance} />
-            <Route path='/addapp' component={AddApp} />
+            <Route path='/addapp/:id' component={AddApp} />
             <Route path='/getapp/:idap' component={GetApp} />
+            <Route path='/myapp' component={Myapp} />
+            <Route path='/editapp/:idap' component={EditApp} />
+
             <Route path='/claimsList' component={ClaimsList} />
 
 
@@ -97,12 +102,6 @@ class App extends Component {
             <Route path='/simpleForm' component={simpleForm} />
             <Route path='/review' component={review} />
             <Route path='/results' component={Results} />
-
-
-
-
-
-
 
             <Route path='/about' component={About} />
             <Route path='/services' component={Services} />
