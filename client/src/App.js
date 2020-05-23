@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import {BrowserRouter as Router, HashRouter, Route, Switch} from 'react-router-dom';
+import { BrowserRouter as Router, HashRouter, Route, Switch } from 'react-router-dom';
 
 
 import Login from "./components/Login";
@@ -30,7 +30,7 @@ import Map from './components/Carpooling Crud/map'
 import simpleForm from './components/Carpooling Crud/simpleForm'
 import review from './components/Carpooling Crud/review'
 import Results from './components/Carpooling Crud/results'
-
+import Chat from './components/chat/index'
 
 
 
@@ -50,71 +50,72 @@ import { ClaimsList } from './components/Claim/claimsList';
 
 class App extends Component {
   render() {
-    const current_url  = window.location.href ;
+    const current_url = window.location.href;
     let is_dashboard = current_url.split("dashboard")[1];
 
     return (
       <div>
-       
+
 
         <Router>
           {is_dashboard === undefined ? <Navbar /> : null}
-        
-        <div>
-        
-          <Switch>
-            <Route path="/dashboard" component={DashBoard} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/login" component={Login} />
-            <Route path="/claim" component={Claim} />
-            <Route path='/all' component={AllClaim} />
-            <Route path='/addins' component={AddInsurance} />
-            <Route path='/getins/:id' component={GetInsurance} />
-            <Route path='/editins/:id' component={EditInsurance} />
-            <Route path='/addapp' component={AddApp} />
-            <Route path='/getapp/:idap' component={GetApp} />
-            <Route path='/claimsList' component={ClaimsList} />
+
+          <div>
+          <Route exact path="/Chat" component={Chat} />
+            <Switch>
+              <Route path="/dashboard" component={DashBoard} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
+              <Route path="/claim" component={Claim} />
+              <Route path='/all' component={AllClaim} />
+              <Route path='/addins' component={AddInsurance} />
+              <Route path='/getins/:id' component={GetInsurance} />
+              <Route path='/editins/:id' component={EditInsurance} />
+              <Route path='/addapp' component={AddApp} />
+              <Route path='/getapp/:idap' component={GetApp} />
+              <Route path='/claimsList' component={ClaimsList} />
 
 
-            <Route path="/all" component={AllClaim} />
-            <Route path="/test" component={Test} />
-      
-           
-            <Route   path="/onne/:id" component={Onne} />
-           
-            <Route exact path="/posts" component={Posts} />
-
-            
-            <Route exact path='/' component={Home} />
-            <Route path='/addCarpooling' component={AddCarpooling} />
-            <Route path='/carpoolingList' component={CarpoolingList} />
-            <Route path='/editCarpooling/:id' component={EditCarpooling} />
-            <Route path='/addComment/:id' component={AddComment} />
-            <Route path='/listComments/:id' component={ListComments} />
-            <Route path='/carpoolingDetails/:id' component={CarpoolingDetails} />
-            <Route path='/parcelPict/:id' component={ParcelPict} />
-            <Route path='/map' component={Map} />
-            <Route path='/simpleForm' component={simpleForm} />
-            <Route path='/review' component={review} />
-            <Route path='/results' component={Results} />
+              <Route path="/all" component={AllClaim} />
+              <Route path="/test" component={Test} />
 
 
+              <Route path="/onne/:id" component={Onne} />
 
+              <Route exact path="/posts" component={Posts} />
+
+
+              <Route exact path='/' component={Home} />
+              <Route path='/addCarpooling' component={AddCarpooling} />
+              <Route path='/carpoolingList' component={CarpoolingList} />
+              <Route path='/editCarpooling/:id' component={EditCarpooling} />
+              <Route path='/addComment/:id' component={AddComment} />
+              <Route path='/listComments/:id' component={ListComments} />
+              <Route path='/carpoolingDetails/:id' component={CarpoolingDetails} />
+              <Route path='/parcelPict/:id' component={ParcelPict} />
+              <Route path='/map' component={Map} />
+              <Route path='/simpleForm' component={simpleForm} />
+              <Route path='/review' component={review} />
+              <Route path='/results' component={Results} />
 
 
 
 
-            <Route path='/about' component={About} />
-            <Route path='/services' component={Services} />
-            
-            <Route path='/portfolio' component={Portfolio} />
-            <Route path='/blog' component={Blog} />
-            <Route Path='/contact' component={Contact} />
-           
-          
-          </Switch>
+
+
+
+              <Route path='/about' component={About} />
+              <Route path='/services' component={Services} />
+
+              <Route path='/portfolio' component={Portfolio} />
+              <Route path='/blog' component={Blog} />
+              <Route Path='/contact' component={Contact} />
+
+
+            </Switch>
           </div>
         </Router>
+        
       </div>
     );
   }

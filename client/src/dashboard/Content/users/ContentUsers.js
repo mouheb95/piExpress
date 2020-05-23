@@ -69,7 +69,6 @@ export default class Content extends Component {
         {objs.map((user, index) => (
 
           <tr>
-            <td key={index}></td>
             <td key={user.email} >{user.email}</td>
             <td key={user.password} >{user.password}</td>
             <td key={user.firstName} >{user.firstName}</td>
