@@ -2,10 +2,13 @@ import React from 'react';
 //import Moment from 'react-moment';
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
+import { saveAs } from 'file-saver';
+
 export default class GetInsurance extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+          redirect1: false,
           doc: null,
           idins: null,
           buyingprice: null,
@@ -17,7 +20,9 @@ export default class GetInsurance extends React.Component {
       etat :  null,
       show1 : false,
       show2 : true,
-      show3 : false
+      show3 : false,
+      name: "Ali Salah",
+      type: "2 in 1"
         };
             }
             
@@ -41,7 +46,7 @@ export default class GetInsurance extends React.Component {
           if (res.status === 200) {
               console.log('deleted')
 
-            this.props.history.push("/addins")
+            this.props.history.push("/addins/"+this.props.match.params.id)
           } else {
               console.log(' none ')
           }
@@ -81,10 +86,24 @@ export default class GetInsurance extends React.Component {
       }
   })
  }
+ pay = () => {
+  axios.post('/create-pdf', this.state)
+    .then(() => axios.get('/fetch-pdf', { responseType: 'blob' }))
+    .then((res) => {
+      const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+
+      saveAs(pdfBlob, 'Insurance_Pdf.pdf');
+    })
+}
       callApi = async () => {
         const response = await fetch('/insurance/inscar/'+this.props.match.params.id);
         const body = await response.json();
-        if (response.status !== 200) throw Error(body.message);
+        //if (response.status !== 200) throw Error(body.message);
+        if (response.status !== 200){
+          this.setState({
+            redirect1: true
+          })
+        }
         this.setState({
           doc: body.data,
           idins: body.data._id,
@@ -94,8 +113,7 @@ export default class GetInsurance extends React.Component {
           categorie: body.data.categorie,
           proposedtopay: body.data.proposedtopay,
           insuranceprice: body.data.insuranceprice,
-          etat: body.data.etat
-          
+          etat: body.data.etat          
         })
         if(body.data.insuranceprice==null) { 
           this.state.insuranceprice = "waiting";
@@ -118,7 +136,12 @@ export default class GetInsurance extends React.Component {
       
     
       render() {
+        const { redirect1 } = this.state;
 
+        if (redirect1) {
+          return <Redirect to={"/addins/"+this.props.match.params.id} />;
+
+        } else {
         return (
           
           <div >
@@ -172,7 +195,7 @@ export default class GetInsurance extends React.Component {
              )}
       </div></td>                               
       <td><div className="col-xs-4">
-      {this.state.show3==true &&(    <button onClick={this.paiment} className="btn btn-primary btn-block btn-flat">Pay</button>
+      {this.state.show3==true &&(    <button onClick={this.pay} className="btn btn-primary btn-block btn-flat">PDF</button>
                               )}  </div></td>                                      
                                     </tr>
                                   </table>
@@ -190,6 +213,7 @@ export default class GetInsurance extends React.Component {
         );
       }
     }
+  }
     class Box1 extends React.Component{
       render(){
           return(

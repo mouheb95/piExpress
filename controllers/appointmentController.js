@@ -71,21 +71,25 @@ exports.addAppointment = async function (req, res) {
       { appointment: {$elemMatch: {_id: req.params.idap}},author:1});
       if(req.params.idus==doc.author._id){
       const app = { 
-        user:doc.appointment[0].user ,
-        author: doc.author,
+        user:doc.appointment[0].user,
         date: doc.appointment[0].date,
         place: doc.appointment[0].place,
-        code: doc.appointment[0].code1
+        code: doc.appointment[0].code1,
+        author: doc.author._id,
+        carpo: doc._id
+
       };
       res.status(200).json({data:app})
     }
     if(req.params.idus==doc.appointment[0].user){
       const app1 = { 
-        user:doc.appointment[0].user ,
-        author: doc.author,
+        user: doc.author._id,
         date: doc.appointment[0].date,
         place: doc.appointment[0].place,
-        code: doc.appointment[0].code2
+        code: doc.appointment[0].code2,
+        author: doc.author._id,
+        carpo: doc._id
+
       };
      return res.status(200).json({data:app1})
     }
@@ -96,6 +100,64 @@ exports.addAppointment = async function (req, res) {
     }
   }
   
+  exports.getallappointments = async function (req, res) {
+    try { 
+      var date= new Date();
+
+
+/*mydate=new Date('2011-04-11');
+if(date>mydate)
+{
+    alert("greater");
+}
+else
+{
+    alert("smaller")
+} */
+      const docx =  await Carpoolinig.find(
+        {"author._id": req.params.idus});
+    const doc = await Carpoolinig.find(
+      { appointment: {$elemMatch: {user: req.params.idus}}});
+      const doc1 = [];
+      
+      docx.forEach(abcFunction);
+      function abcFunction(vale)
+      {
+        vale.appointment.forEach(lastFunction);
+        function lastFunction(opo)
+        {
+          if(opo.date > date)
+          {
+          doc1.push(opo);
+          }
+        }
+        
+      }
+      doc.forEach(firstFunction);
+      function firstFunction(value)
+      {
+  
+        value.appointment.forEach(secondF);
+        function secondF(val){
+          if(val.user == req.params.idus)
+          {
+            if(val.date > date)
+            {
+            doc1.push(val)
+            }
+          }
+        }
+      
+      }
+    
+      res.status(200).json({data:doc1})
+    
+ 
+    } catch (e) {
+      console.error(e)
+      res.status(400).end()
+    }
+  }
   exports.suppappointment = async function (req, res) {
     
           Carpoolinig.findOneAndUpdate(

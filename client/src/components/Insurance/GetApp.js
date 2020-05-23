@@ -16,6 +16,7 @@ export default class GetInsurance extends React.Component {
           place: null,
           codeaf: null,
           code1:null,
+          carpo:null,
           resu: null,
           show1: false,
           show2: false
@@ -71,6 +72,9 @@ export default class GetInsurance extends React.Component {
           date: body.data.date,
           place: body.data.place,
           codeaf : body.data.code,
+          client : body.data.user,
+          author : body.data.author,
+          carpo: body.data.carpo
         
           
         })
@@ -81,6 +85,18 @@ export default class GetInsurance extends React.Component {
         return body;
     
       }
+      delete() { 
+        axios.delete('/insurance/suponeappoint/'+this.state.carpo+'/'+this.props.match.params.idap)
+        .then(async res => {
+          if (res.status === 200) {
+              console.log('deleted')
+
+            this.props.history.push("/addapp/"+this.state.carpo)
+          } else {
+              console.log(' none ')
+          }
+      })
+     }
       
     
       render() {
@@ -96,15 +112,18 @@ export default class GetInsurance extends React.Component {
           </div>
               <div >
                 <h3 >
-                  My Insurance
+                   My Appointment
                 </h3>
               </div>
+              <div style={{display: 'flex'}} >
+                <div>
               <div >
                   <table style={{border: '1px solid black', margin: '10px', fontSize: '120%', borderSpacing: '10px'}}>
                       <tr>
                         <th>Date  :</th>
                         <th>Place  :</th>
                         <th>Code  :</th>
+                        <th>User  :</th>
                         <th>verif  :</th>
 
                       </tr>
@@ -112,6 +131,14 @@ export default class GetInsurance extends React.Component {
                         <td>{this.state.date}</td>
                         <td>{this.state.place}</td>
                         <td>{this.state.codeaf}</td>
+                        {this.state.client=="5e7d117e525cda0f88b6f193" &&(
+                        <td>Mohamed</td>)}
+                        {this.state.client=="5ea91f14ad21753cacfc6140" &&(
+                        <td>Achraf</td>)}
+                        {this.state.client=="5ea91ec5ad21753cacfc613f" &&(
+                        <td>Rania</td>)}
+                        {this.state.client=="5e7d33c6f0d3523f74d8cb4a" &&(
+                        <td>Ali</td>)}
                         <td><input type="text"  name="code1"  placeholder="partner" value={this.state.code1} onChange={this.handleChange} /></td>
 
                       </tr>
@@ -120,7 +147,12 @@ export default class GetInsurance extends React.Component {
                                   <table>
                                     <tr>
                                       <td><div className="col-xs-4">
-         
+                                      {this.state.author==this.state.user_id &&(
+                                      <button onClick={() => this.delete()} className="btn btn-primary btn-block btn-flat">Delete</button>
+                                      )}
+                                       {this.state.author==this.state.user_id &&(
+                                      <button onClick={() => this.props.history.push("/editapp/"+this.props.match.params.idap)} className="btn btn-primary btn-block btn-flat">Edit</button>
+                                      )}
                                     <button onClick={() => this.verif()} className="btn btn-primary btn-block btn-flat">Verif</button>
          </div></td>
          <td><div>
@@ -131,40 +163,16 @@ export default class GetInsurance extends React.Component {
                                         
                                     </tr>
                                   </table>
+                                  </div>
+                                  <div>
+            <img src="../images/app.png" className="img-responsive" style={{width:'40%', paddingLeft:'100px'}} />
+            </div>
              
             </div>
             
-
+</div>
           </div>
         );
       }
     }
-    /*class Box1 extends React.Component{
-      render(){
-          return(
-            <td> <div className="col-xs-4">
-            <button onClick={() => this.edit(this.state.idins)} className="btn btn-primary btn-block btn-flat">Edit</button>
-        </div></td>            )
-      }
-  }
-  class Box2 extends React.Component{
     
-    render(){
-        return(
-          <td><div className="col-xs-4">
-          <button onClick={() => this.accept(this.state.idins)} className="btn btn-primary btn-block btn-flat">Accept</button>
-          <button onClick={() => this.reject(this.state.idins)} className="btn btn-primary btn-block btn-flat">Reject</button>
-
-      </div></td>
-       
-        )
-    }
-}
-class Box3 extends React.Component{
-  render(){
-      return(
-<td><div className="col-xs-4">
-                                    <button onClick={this.paiment} className="btn btn-primary btn-block btn-flat">Pay</button>
-                                </div></td>      )
-  }
-}*/

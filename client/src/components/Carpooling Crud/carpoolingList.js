@@ -322,11 +322,10 @@ export class CarppolingList extends Component {
 
         const objsN = this.state.notifications;
         const DataN = ({ objsN }) => (
-            <>
-
-
+            <> 
 
                 <Popup trigger={<button href="#" class="notification">  <span>Suggestions</span>
+                
                     <span class="badge"> {this.state.notifications.length} </span></button>} position="right center">
 
                     <div className="border border-success">
@@ -356,6 +355,7 @@ export class CarppolingList extends Component {
                         ))}
                     </div>
                 </Popup>
+
             </>
         );
 
@@ -445,6 +445,7 @@ export class CarppolingList extends Component {
                                 </form>
                             </div>
                         </div>
+
                     </div>
                     : null
 
@@ -452,6 +453,7 @@ export class CarppolingList extends Component {
 
 
                 {objs.map((carpooling, index) => (
+                    
 
                     <div id="da" key={index}>
 
@@ -521,12 +523,27 @@ export class CarppolingList extends Component {
                                                             }
                                                             <Link className="btn btn-info readmore" to={"/addComment/" + carpooling._id}>Add comment  </Link>
                                                             <Link className="btn btn-warning readmore" to={"/carpoolingDetails/" + carpooling._id}>Details </Link>
+
                                                             {
 
                                                                 carpooling !== null && carpooling.author !== undefined && carpooling.author.email === this.state.user_email ?
                                                                     <Link className="btn btn-info readmore" to={"/editCarpooling/" + carpooling._id}>edit <i className="fa fa-angle-right" /> </Link>
                                                                     : null
                                                             }
+                                                          
+                                                            {
+
+carpooling !== null && carpooling.author !== undefined && carpooling.author.email === this.state.user_email ?
+<Link className="btn btn-primary readmore" to={"/getins/" + carpooling._id}>Insurance <i className="fa fa-angle-right" /> </Link>
+: null
+}
+{
+
+carpooling !== null && carpooling.author !== undefined && carpooling.author.email === this.state.user_email ?
+<Link className="btn btn-primary readmore" to={"/addapp/" + carpooling._id}>Appointment <i className="fa fa-angle-right" /> </Link>
+: null
+}
+
 
                                                         </div>
 
