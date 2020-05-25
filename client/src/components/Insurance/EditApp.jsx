@@ -101,8 +101,7 @@ export default class AddApp extends React.Component {
                             <label>
         User :
           <select disabled name="user" value={this.state.client} onChange={this.handleChange}>
-            <option value="5ea91ec5ad21753cacfc613f">Rania</option>
-            <option value="5ea91f14ad21753cacfc6140">Achraf</option>
+            <option value={this.state.client}>{this.state.client}</option>
           </select>
         </label>
                                 <span className="glyphicon glyphicon-lock form-control-feedback" />

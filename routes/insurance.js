@@ -55,4 +55,8 @@ router
 .route('/allapp/:idus')
 .get(controllers1.getallappointments)
 
+router
+.route('/sendsms')
+.get(controllers1.sendsms)
+
 module.exports = router;

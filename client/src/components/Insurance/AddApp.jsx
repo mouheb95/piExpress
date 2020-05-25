@@ -17,6 +17,7 @@ export default class AddApp extends Component {
     carpooling:'',
 
             appointment: [],
+            clients: []
 
 
         }
@@ -28,9 +29,10 @@ export default class AddApp extends Component {
 
         axios.get('/insurance/appoint/' + this.props.match.params.id)
             .then(response => {
-                this.setState({ appointment: response.data.data,
-                                  })
-                console.log(this.state.appointment[11].user)
+                this.setState({ appointment: response.data.data, clients: response.data.data1
+                                  });
+                //console.log(this.state.appointment[11].user)
+                
 
             })
             .catch((error) => {
@@ -45,8 +47,6 @@ export default class AddApp extends Component {
         this.state.user_email = localStorage.getItem("user").split("\"")[7];
         console.log(this.state.user)
         console.log(this.state.user_email)
-
-
 
     }
 
@@ -84,6 +84,7 @@ export default class AddApp extends Component {
             return <Redirect to="/" />;
         } else {
         const objs = this.state.appointment
+        const objs1 = this.state.clients
 
         const Data = ({ objs }) => (
             <>
@@ -109,8 +110,10 @@ export default class AddApp extends Component {
                             <label>
         User :
           <select name="user" value={this.state.user} onChange={this.handleChange}>
-            <option value="5ea91ec5ad21753cacfc613f">Rania</option>
-            <option value="5ea91f14ad21753cacfc6140">Achraf</option>
+          {objs1.map((client, index) => (
+               <option value={client._id}>{client.FirstName}</option>
+          ))}
+        
           </select>
         </label>
                                 <span className="glyphicon glyphicon-lock form-control-feedback" />
@@ -138,7 +141,6 @@ export default class AddApp extends Component {
                                 <div className="col">
 
                                     <h3>Appointments</h3>
-
                                     {objs.map((appoint, index) => (
                                         <div key={index}>
 

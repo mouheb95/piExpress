@@ -131,14 +131,7 @@ export default class GetInsurance extends React.Component {
                         <td>{this.state.date}</td>
                         <td>{this.state.place}</td>
                         <td>{this.state.codeaf}</td>
-                        {this.state.client=="5e7d117e525cda0f88b6f193" &&(
-                        <td>Mohamed</td>)}
-                        {this.state.client=="5ea91f14ad21753cacfc6140" &&(
-                        <td>Achraf</td>)}
-                        {this.state.client=="5ea91ec5ad21753cacfc613f" &&(
-                        <td>Rania</td>)}
-                        {this.state.client=="5e7d33c6f0d3523f74d8cb4a" &&(
-                        <td>Ali</td>)}
+                        <td>{this.state.client}</td>
                         <td><input type="text"  name="code1"  placeholder="partner" value={this.state.code1} onChange={this.handleChange} /></td>
 
                       </tr>
