@@ -533,7 +533,7 @@ export class CarppolingList extends Component {
                                                           
                                                             {
 
-carpooling !== null && carpooling.author !== undefined && carpooling.author.email === this.state.user_email ?
+carpooling !== null && carpooling.people_parcel_Carpooling =='Parcel' && carpooling.author !== undefined && carpooling.author.email === this.state.user_email ?
 <Link className="btn btn-primary readmore" to={"/getins/" + carpooling._id}>Insurance <i className="fa fa-angle-right" /> </Link>
 : null
 }

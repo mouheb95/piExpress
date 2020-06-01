@@ -33,13 +33,13 @@ const scoreSchema = new Schema({
   }
 })
 const userSchema = new Schema({
-  firstname: {
+  FirstName: {
     type: String,
     required: false,
     trim: true,
     minlength: 2
   },
-  lastname: {
+  LastName: {
     type: String,
     required: false,
     trim: true,
@@ -63,7 +63,7 @@ const userSchema = new Schema({
   picture: { type: String },
   isSmoker: { type: Boolean },
   isConnected: { type: Boolean },
-  phone: { type: String, minlength:8, maxlength:8 },
+  phone: { type: String },
   isMotorizedl: { type: Boolean },
   function: { type: String }, // fech ya3mel fi 7yatou 
   claim: [claimSchema],

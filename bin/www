@@ -4,9 +4,11 @@
  * Module dependencies.
  */
 
+var axios = require('axios');
 var app = require('../app');
 var debug = require('debug')('pi:server');
 var http = require('http');
+
 
 /**
  * Get port from environment and store in Express.
@@ -14,6 +16,39 @@ var http = require('http');
 
 var port = normalizePort(process.env.PORT || '5000');
 app.set('port', port);
+
+/**
+ * timer
+ */
+
+function reset(){
+  
+  axios.get('http://localhost:5000/insurance/sendsms')
+  .then(response => {
+    console.log(response.data.data);
+  })
+  .catch((error) => {
+    console.log(error);
+})
+  console.log('Send  mobile message !!');
+}
+
+
+function resetAtMidnight() {
+  var now = new Date();
+  var night = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + 1, // the next day, ...
+      0, 0, 0 // ...at 00:00:00 hours
+  );
+  var msToMidnight = night.getTime() - now.getTime();
+  
+  setTimeout(function() {
+     // reset();              //      <-- This is the function being called at midnight.
+      resetAtMidnight();    //      Then, reset again next midnight.
+  }, 30000);
+}
 
 /**
  * Create HTTP server.
@@ -25,7 +60,11 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port, () => {
+  console.log(`Server up and running on port ${port} !`);
+  resetAtMidnight(); 
+}
+  );
 server.on('error', onError);
 server.on('listening', onListening);
 

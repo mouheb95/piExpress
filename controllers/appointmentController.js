@@ -3,6 +3,10 @@ const User = require('../models/user.model');
 const Carpoolinig = require('../models/carpooling.model')
 const Notification = require('../models/notif.model')
 
+var accountSid = 'ACc4196a17736d783b7fc7d9b6a5784da0'; // Your Account SID from www.twilio.com/console
+var authToken = 'e6125ada17b15d86ce9ad5422c2dbed0';   // Your Auth Token from www.twilio.com/console
+
+var twilio = require('twilio');
 
 const generateRandomCode = (() => {
   const USABLE_CHARACTERS = "abcdefghijklmnopqrstuvwxyz0123456789".split("");
@@ -57,7 +61,7 @@ exports.addAppointment = async function (req, res) {
         return res.status(400).json({ message: "not found " }).end()
       }
   
-      res.status(200).json({ data: doc.appointment })
+      res.status(200).json({ data: doc.appointment, data1: doc.clients })
     } catch (e) {
       console.error(e)
       res.status(400).end()
@@ -70,8 +74,11 @@ exports.addAppointment = async function (req, res) {
       {"appointment._id": req.params.idap}, 
       { appointment: {$elemMatch: {_id: req.params.idap}},author:1});
       if(req.params.idus==doc.author._id){
+        const doc1 = await User.findOne(
+          {"_id": doc.appointment[0].user}
+        );
       const app = { 
-        user:doc.appointment[0].user,
+        user:doc1.FirstName,
         date: doc.appointment[0].date,
         place: doc.appointment[0].place,
         code: doc.appointment[0].code1,
@@ -82,8 +89,9 @@ exports.addAppointment = async function (req, res) {
       res.status(200).json({data:app})
     }
     if(req.params.idus==doc.appointment[0].user){
+      
       const app1 = { 
-        user: doc.author._id,
+        user: doc.author.email,
         date: doc.appointment[0].date,
         place: doc.appointment[0].place,
         code: doc.appointment[0].code2,
@@ -104,16 +112,6 @@ exports.addAppointment = async function (req, res) {
     try { 
       var date= new Date();
 
-
-/*mydate=new Date('2011-04-11');
-if(date>mydate)
-{
-    alert("greater");
-}
-else
-{
-    alert("smaller")
-} */
       const docx =  await Carpoolinig.find(
         {"author._id": req.params.idus});
     const doc = await Carpoolinig.find(
@@ -211,4 +209,41 @@ else
         console.error(e)
         res.status(400).end()
       }
+    }
+
+    exports.sendsms = async function (req, res) {
+      try{
+        const docf = [];
+      
+      var date= new Date().getDate();
+         
+        const doc = await Carpoolinig.find(
+          {});
+          
+          doc.forEach(abcFunction);
+          function abcFunction(vale)
+          {
+            vale.appointment.forEach(lastFunction);
+            function lastFunction(opo)
+            {
+              if(opo.date.getDate() == date)
+              {
+                
+      var client = new twilio(accountSid, authToken);
+      client.messages.create({
+        body: 'You have an app today',
+        to: '+21623571205',  // Text this number
+        from: '+12058607986' // From a valid Twilio number
+    })
+    .then((message) => docf.push(message.sid));
+              }
+            }
+            
+          }
+        res.status(200).json({ data: docf })
+      } catch (e) {
+        console.error(e)
+        res.status(400).end()
+      }
+      
     }
