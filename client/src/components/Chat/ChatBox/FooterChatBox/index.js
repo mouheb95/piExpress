@@ -20,7 +20,7 @@ export default function FooterChatBox({ onSubmit, conversation_id, owner }) {
                           
                         </div>
                     </div>
-                    <button onClick={(e) => submit(e)}> send</button>
+
                     <i onClick={(e) => submit(e)}  className="gx-icon-btn icon icon-sent"  />
 
                 </div>

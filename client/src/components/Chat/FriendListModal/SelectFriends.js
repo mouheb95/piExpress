@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@apollo/react-hooks'
 
 import { Form, Modal, Row, Button, Select, Checkbox } from 'antd'
 import gql from 'graphql-tag'
-import './style.scss'
+import './style.css'
 import { element } from 'prop-types';
 
 const { Option } = Select;
@@ -25,7 +25,7 @@ query conv($user_id: ID!) {
       _id
       content
       owner
-      createdAt(formatString: "MMMM DD, YYYY")
+      createdAt 
     }
   }
 }

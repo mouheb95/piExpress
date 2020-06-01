@@ -1,17 +1,20 @@
 import React from "react";
-import {Avatar} from "antd";
+import { Avatar } from "antd";
 import moment from 'moment';
-const SentMessageCell = ({conversation}) => {
+const SentMessageCell = ({ conversation, authUser }) => {
   return (
     <div className="gx-chat-item gx-flex-row-reverse">
 
-      <Avatar className="gx-size-40 gx-align-self-end" src='https://via.placeholder.com/150x150'
-              alt={conversation.name}/>
+      {authUser.ProfilePicture !== null && authUser.ProfilePicture !== undefined ?
+        <Avatar className="gx-size-40 gx-align-self-end" src={'https://e-businessuploads.s3.eu-west-3.amazonaws.com/ProfilePictures/' + authUser.ProfilePicture} />
+        :
+        <Avatar className="gx-size-40 gx-align-self-end" src={'https://e-businessuploads.s3.eu-west-3.amazonaws.com/ProfilePictures/default-user.png'} />
+      }
 
       <div className="gx-bubble-block">
         <div className="gx-bubble">
           <div className="gx-message">{conversation.content}</div>
-          <div className="gx-time gx-text-muted gx-text-right gx-mt-2"> {moment(conversation.created_at).format("hh:mm")}</div>
+          <div className="gx-time gx-text-muted gx-text-left gx-mt-2"> {conversation.createdAt}</div>
         </div>
       </div>
 

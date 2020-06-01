@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import {Form } from 'antd'
 //import { connect } from "react-redux";
+
+//import { getFriends } from '../../../appRedux/actions/Auth';
 import SelectFriends from './SelectFriends'
 
 
@@ -14,7 +16,7 @@ class index extends Component {
     }
 
     componentDidMount() {
-       // this.props.getFriends(JSON.parse(localStorage.getItem("userid")))
+        //this.props.getFriends(JSON.parse(localStorage.getItem("userid")))
 
     }
     onCancel = (e) => {
@@ -24,6 +26,7 @@ class index extends Component {
 
     render() {
         const { Friends, showModalCreate } = this.props
+        console.log("Friends", Friends)
         if (Friends !== undefined && Friends.length > 0) {
             return (
 
@@ -39,11 +42,12 @@ class index extends Component {
 
     }
 }
-/*
-const mapStateToProps = ({ auth }) => {
+
+/* const mapStateToProps = ({ auth }) => {
     const { Friends } = auth;
     return { Friends }
 };
- const FriendListForm = Form.create({ name: 'FriendList' })(index);
+const FriendListForm = Form.create({ name: 'FriendList' })(index);
 export default connect(mapStateToProps, { getFriends })(FriendListForm); */
+
 export default index

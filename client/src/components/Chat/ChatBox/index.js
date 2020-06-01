@@ -12,10 +12,12 @@ query conv($user_id: ID!) {
   allConversations(user_id: $user_id) {
     _id
     GroupName
+    Creator
     members {
       _id  
       FirstName
       LastName
+      ProfilePicture
     }
     ChatMessage {
       _id
@@ -43,10 +45,10 @@ mutation createMessage($newMessage: InputMessage)
 }
 `
 
-const ChatBox = ({ selectedUser, chat, showDrawer, conversation_id, owner }) => {
+const ChatBox = ({ selectedUser, conversation, chat, showDrawer, conversation_id, owner, addNewConversation, authUser }) => {
     const user_id = JSON.parse(localStorage.getItem("userid"))
     const { data, loading, error } = useQuery(ALL_CONVERSATIONS, {
-      variables: { user_id },
+        variables: { user_id }
     });
     const [CreateAMessage, newMessage] = useMutation(NEW_MESSAGE, {
         update(cache, { data: { addMessage } }) {
@@ -66,37 +68,37 @@ const ChatBox = ({ selectedUser, chat, showDrawer, conversation_id, owner }) => 
             variables: { newMessage: input }
         })
     }
+
     if (loading || error || newMessage.loading) return <div>Loading</div>
     if (chat === null) return <div>Loading</div>
-    if (selectedUser === null) return <div>Loading</div>
-    if (selectedUser.ChatMessage === null) return <div>Loading</div>
-    if (selectedUser.ChatMessage === undefined) return <div>Loading</div>
-console.log("chat", chat[0])
-console.log("selectedUser", selectedUser)
+    if (conversation === null) return <div>Loading</div>
+    if (conversation.ChatMessage === null) return <div>Loading</div>
+    if (conversation.ChatMessage === undefined) return <div>Loading</div>
     let fakeChat = []
-    if (chat[0].ChatMessage !== undefined && chat.ChatMessage !== null) {
-        chat[0].ChatMessage.map((item, index) =>
-            fakeChat.push(item)
-        )
 
-    }
+    chat.map(conv => {
+        if (conv._id === conversation_id) {
+            conv.ChatMessage.map((item, index) =>
+                fakeChat.push(item)
+            )
+        }
+    })
 
 
     return (
         <div className="gx-chat-main">
-            <HeaderChatBox selectedUser={selectedUser} showDrawer={showDrawer} />
+            <HeaderChatBox selectedUsers={selectedUser} showDrawer={showDrawer} />
             <div className="gx-chat-list-scroll" style={{ position: 'relative', overflow: 'hidden', width: '100%', height: '100%' }}>
                 <div style={{ position: 'absolute', top: '0px', left: '0px', right: ' 0px', bottom: '0px', overflow: 'scroll', marginRigth: '-17px', marginBottom: '-17px' }}>
                     <div className="gx-chat-main-content">
 
-                        <Conversation conversationData={fakeChat} selectedUser={selectedUser} />
+                        <Conversation conversationData={fakeChat} authUser={authUser} selectedUser={selectedUser} conversation={conversation} addNewConversation={addNewConversation} />
 
                     </div>
                 </div>
             </div>
-            <FooterChatBox conversation_id={conversation_id} owner={owner} onSubmit={onSubmit} />
+            <FooterChatBox conversation_id={conversation_id} owner={owner} onSubmit={onSubmit}  />
         </div>
-
 
 
 
