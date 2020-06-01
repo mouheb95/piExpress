@@ -17,7 +17,7 @@ Apify.main(async () => {
     const input = await Apify.getValue('INPUT');
 
     const fcbCacheStore = await Apify.openKeyValueStore('fcb-cache');
-    const cookiesStoreKey = "".replace('@', '(at)');
+    const cookiesStoreKey = "mouheb.bzri@gmail.com".replace('@', '(at)');
 
     const browser = await Apify.launchPuppeteer();
     const page = await browser.newPage();
@@ -34,8 +34,8 @@ Apify.main(async () => {
     if (!isLogged) {
         console.log(`Cookies from cache didn't work, try to login..`);
         await page.goto('https://facebook.com');
-        await page.type('#email', "");
-        await page.type('#pass', "");
+        await page.type('#email', "mouheb.bzri@gmail.com");
+        await page.type('#pass', "$"); 
         await page.click('#loginbutton input');
         await page.waitForNavigation();
         isLogged = await loggedCheck(page);

@@ -12,7 +12,7 @@ export default class Posts extends Component {
         this.newPosts = this.newPosts.bind(this)
     }
     newPosts = () => {
-        axios.get("http://localhost:5000/scraping").then(({ data }) => {
+        axios.get("http://localhost:3000/scraping").then(({ data }) => {
             console.log("scraping", data)
             this.setState({
                 posts: data

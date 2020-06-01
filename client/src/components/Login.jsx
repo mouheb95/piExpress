@@ -36,6 +36,7 @@ export default class Login extends React.Component {
         axios.post(`users/login`, user)
             .then(async res => {
                 if (res.status === 200) {
+                    localStorage.setItem("userid", JSON.stringify(res.data.user._id));
                     localStorage.setItem("user", JSON.stringify(res.data.user));
                     if (res.data.user.role === "admin") {
                         localStorage.setItem("role", JSON.stringify(res.data.user.role));

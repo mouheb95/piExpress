@@ -14,7 +14,7 @@ export default class Header extends Component {
       redirect: false,
       user_id: null,
     }
-    this.handleClick = this.handleClick.bind(this);
+    this.logout = this.logout.bind(this);
 
   }
 
@@ -32,7 +32,8 @@ export default class Header extends Component {
     document.body.appendChild(script);
   }
 
-  handleClick() { 
+  logout = (e) => { 
+    e.preventDefault()
       fetch('/users/logout')
       localStorage.clear()
         this.setState({redirect: true})
@@ -44,7 +45,7 @@ export default class Header extends Component {
     if (response.status !== 200) throw Error(body.message);
     this.setState({
       doc: body.data,
-      user: body.data.firstname + " " + body.data.lastname,
+      user: body.data.FirstName + " " + body.data.LastName,
       role: body.data.role,
       createdAt: body.data.createdAt,
     })
@@ -271,7 +272,7 @@ export default class Header extends Component {
                 </li>
                 {/* User Account: style can be found in dropdown.less */}
                 <li className="dropdown user user-menu">
-                  <a href="fake_link" className="dropdown-toggle" data-toggle="dropdown">
+                  <a href="fake_link"  className="dropdown-toggle" data-toggle="dropdown">
                     <img src="dist/img/user2-160x160.jpg" className="user-image" alt="user" /> {/* img here */}
                     <span className="hidden-xs">{this.state.user}</span>
                   </a>
@@ -305,7 +306,7 @@ export default class Header extends Component {
                         <a href="fake_link" className="btn btn-default btn-flat">Profile</a>
                       </div>
                       <div className="pull-right">
-                        <button onClick={this.handleClick}> Sign out  </button>
+                        <button onClick={(e) => this.logout(e)}> Sign out  </button>
                       </div>
                     </li>
                   </ul>
