@@ -122,7 +122,7 @@ export default class EditInsurance extends React.Component {
                                 </div>
                                 {/* /.col */}
                                 <div className="col-xs-4">
-                                <button type="submit" className="btn btn-primary btn-block btn-flat">Add</button>
+                                <button type="submit" disabled={!this.state.buyingprice || !this.state.realprice || !this.state.age || !this.state.categorie || !this.state.proposedtopay} className="btn btn-primary btn-block btn-flat">Add</button>
                                 </div>
                                 {/* /.col */}
                             </div>
