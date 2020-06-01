@@ -108,12 +108,12 @@ export default class AddApp extends Component {
                     
                             <div className="form-group has-feedback">
                             <label>
-        User :
+        Client :
           <select name="user" value={this.state.user} onChange={this.handleChange}>
           {objs1.map((client, index) => (
                <option value={client._id}>{client.FirstName}</option>
           ))}
-        
+        <option value="5151">choose a client</option>
           </select>
         </label>
                                 <span className="glyphicon glyphicon-lock form-control-feedback" />
@@ -123,7 +123,7 @@ export default class AddApp extends Component {
                                 
                                 {/* /.col */}
                                 <div className="col-xs-4">
-                                    <button type="submit" className="btn btn-primary btn-block btn-flat">Add</button>
+                                    <button type="submit" disabled={!this.state.place || !this.state.date || !this.state.user } className="btn btn-primary btn-block btn-flat">Add</button>
                                 </div>
                                 {/* /.col */}
                             </div>

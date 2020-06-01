@@ -13,6 +13,7 @@ export default class AddInsurance extends React.Component {
     age: '',
     categorie: '', 
     proposedtopay: '',
+    checked: '',
     carpooling: this.props.match.params.id 
     };
     console.log(this.state.isLogin)
@@ -100,13 +101,13 @@ export default class AddInsurance extends React.Component {
                                 <div className="col-xs-8">
                                     <div className="checkbox icheck" style={{ paddingLeft: "25px" }}>
                                         <label>
-                                            <input type="checkbox" /> I agree to the <a href="#">Insurance terms</a>
+                                            <input type="checkbox" name="checked" checked={this.state.checked} onChange={this.handleChange}/> I agree to the <a href="#">Insurance terms</a>
                                         </label>
                                     </div>
                                 </div>
                                 {/* /.col */}
                                 <div className="col-xs-4">
-                                    <button type="submit" className="btn btn-primary btn-block btn-flat">Add</button>
+                                    <button type="submit" disabled={!this.state.buyingprice || !this.state.realprice || !this.state.age || !this.state.categorie || !this.state.proposedtopay || !this.state.checked} className="btn btn-primary btn-block btn-flat">Add</button>
                                 </div>
                                 {/* /.col */}
                             </div>

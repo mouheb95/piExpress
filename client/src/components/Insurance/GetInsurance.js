@@ -184,9 +184,9 @@ export default class GetInsurance extends React.Component {
                                     {this.state.show1==true &&(
             <button onClick={() => this.props.history.push("/editins/"+this.state.idins)} className="btn btn-primary btn-block btn-flat">Edit</button>
             )}</div></td>                                       <td><div className="col-xs-4">
-         
+          {this.state.show1==true &&(
                                     <button onClick={() => this.delete(this.state.idins)} className="btn btn-primary btn-block btn-flat">Delete</button>
-         </div></td>
+                                    )}</div></td>
                                 <td><div className="col-xs-4">
                                 {this.state.show2==true &&(
           <button onClick={() => this.accept(this.state.idins)} className="btn btn-primary btn-block btn-flat">Accept</button>
