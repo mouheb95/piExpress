@@ -9,8 +9,12 @@ export default class home extends Component {
             content: ""
         }
         this.handleChange = this.handleChange.bind(this);
+        this.handleClick = this.handleClick.bind(this)
     }
-
+    handleClick = e => {
+        e.preventDefault();
+        window.location.href = '/chat'
+    }
     handleChange = event => {
         const { name, value } = event.target
         this.setState({ [name]: value });
@@ -37,15 +41,15 @@ export default class home extends Component {
                     <div className="container">
                         <div className="breadcrumb">
                             <li><a href="index.html">Home</a></li>
-                            <li>Contact</li>
+                            <li > <a onClick={(e) => this.handleClick(e)} >Chat</a> </li>
                         </div>
                     </div>
                 </div>
                 <br></br>
                 <div>
-                {this.state.isLogin !== true &&(
-                <button onClick={() => this.props.history.push("/myapp")} >My appointments</button>
-                )}
+                    {this.state.isLogin !== true && (
+                        <button onClick={() => this.props.history.push("/myapp")} >My appointments</button>
+                    )}
                 </div>
                 <br></br>
 
@@ -58,7 +62,7 @@ export default class home extends Component {
                     <div className="container">
                         <div className="center">
                             <h2>Add Post</h2>
-                            
+
                             <p>Add a post of request or offer of carpooling </p>
                         </div>
                         <div className="row contact-wrap">

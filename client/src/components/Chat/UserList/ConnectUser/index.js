@@ -1,11 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button } from 'antd'
-import './style.css'
-const search = (value) => {
-    console.log("value")
-}
-const ConnectUser = ({ user, handleNewConversationPopUp }) => {
+import './style.scss'
+
+const ConnectUser = ({ user, handleNewConversationPopUp, setSearch }) => {
 
     return (
         <div className="gx-chat-sidenav-header">
@@ -13,8 +10,8 @@ const ConnectUser = ({ user, handleNewConversationPopUp }) => {
                 <div className="gx-chat-avatar gx-mr-3">
                     <div className="gx-status-pos">
                         <span id="avatar-button" className="ant-avatar gx-size-50 ant-avatar-circle ant-avatar-image">
-                            <Link to={`/completeProfile`}>
-                                {user.ProfilePicture !== undefined && user.ProfilePicture !== null  ?
+                            <Link to={`/EditProfile`}>
+                                {user.ProfilePicture !== undefined && user.ProfilePicture !== null ?
                                     <img src={'https://e-businessuploads.s3.eu-west-3.amazonaws.com/ProfilePictures/' + user.ProfilePicture} />
                                     :
                                     <img src={'https://e-businessuploads.s3.eu-west-3.amazonaws.com/ProfilePictures/default-user.png'} />
@@ -32,13 +29,13 @@ const ConnectUser = ({ user, handleNewConversationPopUp }) => {
                     <div className="gx-module-user-detail">
                         {/* <span className="gx-text-grey gx-link">robert@example.com</span> */}
                     </div></div></div><div className="gx-chat-search-wrapper">
-                    <button className='btn-2 btn-rotation' style={{width:'100%'}} onClick={(e) => {
-                            handleNewConversationPopUp(e);
-                        }}> <span>Nouvelle conversation</span>  </button>
+                <button className='btn-2 btn-rotation' style={{ width: '100%' }} onClick={(e) => {
+                    handleNewConversationPopUp(e);
+                }}> <span>Nouvelle conversation</span>  </button>
                 <div className="gx-search-bar gx-chat-search-bar gx-lt-icon-search-bar-lg">
                     <div className="gx-form-group">
-                        <input className="ant-input" type="search" placeholder="Rechercher un contact" value="" onChange={search} value="" />
-                        
+                        <input className="ant-input" type="search" placeholder="Rechercher un contact" onChange={(e) => setSearch(e.target.value)} />
+
                         <span className="gx-search-icon gx-pointer"><i className="icon icon-search"></i>
                         </span>
                     </div>

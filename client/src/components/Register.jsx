@@ -6,8 +6,8 @@ export default class Register extends React.Component {
     state = {
         email: '',
         password: '',
-        firstname: '',
-        lastname: '',
+        FirstName: '',
+        LastName: '',
         confirmPassword: '',
     }
 
@@ -25,8 +25,8 @@ export default class Register extends React.Component {
         const user = {
             email: this.state.email,
             password: this.state.password,
-            firstname: this.state.firstname,
-            lastname: this.state.lastname,
+            FirstName: this.state.FirstName,
+            LastName: this.state.LastName,
             confirmPassword: this.state.confirmPassword
         };
 
@@ -35,6 +35,7 @@ export default class Register extends React.Component {
         axios.post(`users/register`, user)
             .then(async res => {
                 if (res.status === 201) {
+                    window.location.href = '/login'
                 } else {
                     console.log(' wrong password ')
                 }
@@ -52,11 +53,11 @@ export default class Register extends React.Component {
                         <p className="login-box-msg">Register a new membership</p>
                         <form onSubmit={this.handleSubmit}>
                             <div className="form-group has-feedback">
-                                <input type="text" name="firstname" className="form-control" placeholder="First Name" value={this.state.name} onChange={this.handleChange} />
+                                <input type="text" name="FirstName" className="form-control" placeholder="First Name" value={this.state.name} onChange={this.handleChange} />
                                 <span className="glyphicon glyphicon-user form-control-feedback" />
                             </div>
                             <div className="form-group has-feedback">
-                                <input type="text" name="lastname" className="form-control" placeholder="Last Name" value={this.state.name} onChange={this.handleChange} />
+                                <input type="text" name="LastName" className="form-control" placeholder="Last Name" value={this.state.name} onChange={this.handleChange} />
                                 <span className="glyphicon glyphicon-user form-control-feedback" />
                             </div>
                             <div className="form-group has-feedback">

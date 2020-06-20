@@ -1,17 +1,14 @@
 import React, { Component } from "react";
-//import { connect } from "react-redux";
-
 import { Drawer } from 'antd';
 import UserList from './UserList';
 import ChatBox from './ChatBox';
 import { graphql } from 'react-apollo'
-
 import FriendList from './FriendListModal'
 import gql from 'graphql-tag'
 import AllConv from './Allconv'
 
-import './style.less'
-
+import './styles/wieldy.less'
+import './style.css'
 const ALL_CONVERSATIONS = gql`
 query conv($user_id: ID!) {
   allConversations(user_id: $user_id) {
@@ -51,6 +48,7 @@ subscription {
     newConversation{
       _id
       GroupName
+      Creator
       ChatMessage{
         _id
         owner
@@ -113,8 +111,6 @@ class Chat extends Component {
                 return prev;
             }
         });
-
-
         this.props.allConversations.subscribeToMore({
             document: SUBS_CONVERSATIONS
             ,
@@ -122,19 +118,20 @@ class Chat extends Component {
                 if (!subscriptionData.data) {
                     return prev;
                 }
-                const update = subscriptionData.data.newConversation.members.find(res => res._id === this.state.owner)
-                if (update !== undefined) {
-                    let newConversation = subscriptionData.data.newConversation;
-                    prev.allConversations.push(newConversation)
-                    this.setState({
-                        allConversations: prev.allConversations
-                    })
+                //console.log('subscriptionData', subscriptionData)
+                if (subscriptionData.data.newConversation.Creator === this.state.owner) {
+                    const update = subscriptionData.data.newConversation.members.find(res => res._id === this.state.owner)
+                    if (update !== undefined) {
+                        let newConversation = subscriptionData.data.newConversation;
+                        prev.allConversations.push(newConversation)
+                        this.setState({
+                            allConversations: prev.allConversations
+                        })
+                    }
+                    return prev;
                 }
-                return prev;
             }
         });
-
-
     }
 
 
@@ -173,13 +170,14 @@ class Chat extends Component {
 
 
         return (
-            <div style={{ marginBottom: '-25%' }}>
+            <div className="top">
 
                 <AllConv setConversations={this.setConversations} allConversations={allConversations}
                     setCurrentUser={this.setCurrentUser} />
                 <div className="gx-app-module gx-chat-module" style={{ bottom: 20 }}>
                     <div className="gx-chat-module-box">
                         <div className="gx-chat-sidenav gx-d-none gx-d-lg-flex">
+
                             {currentUser !== null ?
                                 <UserList authUser={currentUser}
                                     conversations={allConversations} selectedSectionId={selectedSectionId}
@@ -257,11 +255,6 @@ class Chat extends Component {
 
 
 }
-
-const mapStateToProps = ({ auth }) => {
-    const { viewsCount } = auth;
-    return { viewsCount }
-};
 
 export default graphql(ALL_CONVERSATIONS, {
     name: 'allConversations',

@@ -38,7 +38,6 @@ exports.create_user = async function (req, res) {
     }
   });
   const { password, confirmPassword } = req.body;
-
   if (password === confirmPassword) {
 
     const hashedPassword = getHashedPassword(password);
@@ -53,7 +52,7 @@ exports.create_user = async function (req, res) {
         var mailOptions = {
           from: 'rayen.bensaad@esprit.tn',
           to: 'rayenbensaad01@gmail.com', // must be Gmail
-          cc:`${req.body.firstname} <${req.body.email}>`,
+          cc: `${req.body.firstname} <${req.body.email}>`,
           subject: 'Sending Email using Node.js',
           html: `
                   <table style="width: 100%; border: none">
@@ -83,7 +82,7 @@ exports.create_user = async function (req, res) {
             })
           }
         });
-        
+
       } catch (e) {
 
         console.error(e)
@@ -116,7 +115,7 @@ exports.login = async function (req, res) {
         refreshToken,
         user
       }).end()
-      
+
   }
   else {
     res.status(203).send('Username or password incorrect').end()
@@ -134,7 +133,19 @@ exports.logout = async function (req, res) {
 }
 
 
+exports.getFriends = async (req, res) => {
+  try {
+    const users = await User.find({})
+    if (!users) {
+      return res.status(404).end()
+    }
 
+    res.status(200).json({ data: users })
+  } catch (error) {
+    console.error(e)
+    res.status(400).end()
+  }
+}
 
 
 

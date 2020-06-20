@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@apollo/react-hooks'
 
 import { Form, Modal, Row, Button, Select, Checkbox } from 'antd'
 import gql from 'graphql-tag'
-import './style.css'
+import './style.scss'
 import { element } from 'prop-types';
 
 const { Option } = Select;
@@ -25,7 +25,8 @@ query conv($user_id: ID!) {
       _id
       content
       owner
-      createdAt 
+      createdAt
+      
     }
   }
 }
@@ -72,6 +73,7 @@ export default function SelectFriends({ showModalCreate, Friends, onCancel }) {
 
     const [CreateConversation, addConversation] = useMutation(CREATE_CONVERSATION, {
         update(cache, { data: { newConversation } }) {
+            
             const conv = cache.readQuery({ query: ALL_CONVERSATIONS });
             cache.writeQuery({
                 query: ALL_CONVERSATIONS,
@@ -87,6 +89,7 @@ export default function SelectFriends({ showModalCreate, Friends, onCancel }) {
     if (l || e) return <div>Loading</div>
 
     const onSubmit = (e, input) => {
+        e.preventDefault(e)
         input = {
             "members": ListFriends,
             "GroupName": "first", // should be update in later version
@@ -97,26 +100,19 @@ export default function SelectFriends({ showModalCreate, Friends, onCancel }) {
             variables: { addConversation: input }
         })
         onCancel(e)
+        
     }
-
-
 
     const handleClick = (e, friend, index) => {
         e.preventDefault(e)
-
-        for (let i = 0; i < ListFriends.length; i++) {
-            if (ListFriends[i] === friend.userId) {
-                for (let j = i; j < ListFriends.length; j++) {
-                    ListFriends[j] = ListFriends[j + 1]
-                    ListFriends.length--
-                }
-
-                setListFriends(ListFriends)
-            }
-            else {
-                setListFriends([...ListFriends, friend.userId])
-            }
+        
+        const list = ListFriends.filter(value => value !== friend._id)
+        if (ListFriends.length === list.length) {
+            setListFriends([...ListFriends, friend._id])
+        } else {
+            setListFriends(list)
         }
+        console.log("ListFriends", ListFriends)
     }
 
     const handleSearchFriends = value => {
@@ -127,8 +123,8 @@ export default function SelectFriends({ showModalCreate, Friends, onCancel }) {
         }
         else {
 
-            let list = FakeAllFriends.filter(e => e.firstName.toUpperCase().match(value.toUpperCase()) ||
-                e.lastName.toUpperCase().match(value.toUpperCase()));
+            let list = FakeAllFriends.filter(e => e.FirstName.toUpperCase().match(value.toUpperCase()) ||
+                e.LastName.toUpperCase().match(value.toUpperCase()));
             setAllFriends(list)
             setSearch(value)
         }
@@ -146,11 +142,11 @@ export default function SelectFriends({ showModalCreate, Friends, onCancel }) {
                     <div></div>
                     <button key="back" className="btn-2" onClick={(e) => onCancel(e)}>
                         <span>Annuler</span>
-                  </button>,
+                    </button>,
                 <button key="submit" className="btn-2" onClick={(e) => onSubmit(e)} >
                         <span>Commencer</span>
-                  </button>
-                  <div></div>
+                    </button>
+                    <div></div>
                 </div>
             ]}
         >
@@ -169,7 +165,7 @@ export default function SelectFriends({ showModalCreate, Friends, onCancel }) {
                                 notFoundContent={null}>
                                 {AllFriends.map((s, index) => (
                                     <Option key={s.userId} value={s.userId} >
-                                        <span key={index} className="capitalize">{s.firstName} {s.lastName}</span>
+                                        <span key={index} className="capitalize">{s.FirstName} {s.LastName}</span>
                                     </Option>
                                 ))}
                             </Select>
@@ -182,7 +178,7 @@ export default function SelectFriends({ showModalCreate, Friends, onCancel }) {
                             <div key={index} >
 
                                 <div className="gx-chat-user ">
-                                    <div className={`gx-chat-user-item ${false ? 'active' : ''}`} //ListFriends.find(f => f === friend.userId) === undefined
+                                    <div className={`gx-chat-user-item ${ListFriends.find(f => f === friend.userId) !== undefined ? 'active' : ''}`} //ListFriends.find(f => f === friend.userId) === undefined
                                         onClick={(e) => handleClick(e, friend, index)}
                                     >
 
@@ -203,7 +199,7 @@ export default function SelectFriends({ showModalCreate, Friends, onCancel }) {
                                             </div>
                                             <div className="gx-chat-info flex-check-friend">
 
-                                                <span >{friend.firstName} {friend.lastName}</span>
+                                                <span >{friend.FirstName} {friend.LastName}</span>
 
                                             </div>
 

@@ -59,6 +59,7 @@ export default function AllConv({ setConversations, setCurrentUser }) {
   }
   if (dataUser !== undefined) {
     currentUser = dataUser.me
+    console.log(" dataUser.me",  dataUser)
   }
   useEffect(
     () => {

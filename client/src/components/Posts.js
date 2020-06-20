@@ -10,6 +10,7 @@ export default class Posts extends Component {
             isHidden: false
         }
         this.newPosts = this.newPosts.bind(this)
+        this.handleReply = this.handleReply.bind(this)
     }
     newPosts = () => {
         axios.get("http://localhost:3000/scraping").then(({ data }) => {
@@ -32,8 +33,12 @@ export default class Posts extends Component {
       
 
     })*/
-    }
 
+
+    }
+    handleReply = e => {
+
+    }
     render() {
 
 
@@ -47,7 +52,7 @@ export default class Posts extends Component {
                         <p key={user} >{user}</p>
                         <div className="flex">
                             <input type="text" className="suggest-input" />
-                            <button style={{ color: "black" }} className="suggest-button">Replay</button>
+                            <button onClick={(e) => this.handleReply()} style={{ color: "black" }} className="suggest-button">Replay</button>
                         </div>
                     </div>
                 ))}
