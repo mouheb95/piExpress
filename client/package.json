@@ -23,7 +23,7 @@
     "less-loader": "^4.1.0",
     "less-vars-to-js": "^1.2.1",
     "material-ui": "^0.20.2",
-    "moment": "^2.25.1",
+    "moment": "^2.29.4",
     "node-sass": "^4.14.1",
     "react": "^16.4.1",
     "react-apollo": "^3.1.5",
